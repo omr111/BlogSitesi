@@ -1,0 +1,13 @@
+﻿@model IEnumerable<BlogSitesi.Models.Etiket>
+@using BlogSitesi.Models
+
+<div class="widget blog-tags">
+    <h5>Blog tags</h5>
+    <ul>
+        @foreach (Etiket e in Model)
+        {
+            <li><a href="/Etiket/Index/@e.id" class="btn btn-default">@e.Adi (@e.Makales.Count)</a></li>
+        }
+
+    </ul>
+</div>

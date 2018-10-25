@@ -1,0 +1,52 @@
+﻿
+@{
+    ViewBag.Title = "YazarOl";
+}
+
+@using (Html.BeginForm())
+{
+    <table>
+    
+        <tr>
+            <td>Kullanıcı Adı</td>
+            <td><input type="text" name="Nick" value="" class="form-control" required /></td>
+        </tr>      
+        <tr>
+            <td>Adı</td>
+            <td><input type="text" name="Ad" value="" required class="form-control" /></td>
+        </tr>
+        <tr>
+            <td>Soyadı</td>
+            <td><input type="text" name="Soyad" value="" required class="form-control" /></td>
+        </tr>
+        <tr>
+            <td>Email</td>
+            <td><input type="email" name="mail" value="" required class="form-control" /></td>
+        </tr>
+        <tr>
+            <td>Aciklama</td>
+            <td><textarea cols="30" rows="10" name="Hakkinda" placeholder="Kendinizi Tanıtınız..."></textarea></td>
+        </tr>
+        <tr>
+            <td></td>
+            <td><input type="submit" name="btnKayıtOl" value="Kayıt Ol" class="form-control" /></td>
+        </tr>
+       
+    </table>
+}
+<tr>
+    <td></td>
+    <td class="form-control" >
+        <div id="sekilver">@ViewBag.kayitYok</div>
+    </td>
+</tr>
+@section css{
+    <style>
+        #sekilver{
+           font-family:Tahoma;
+           font-size:15px;
+           margin:20px;
+            color: burlywood;
+        }
+    </style>
+    }

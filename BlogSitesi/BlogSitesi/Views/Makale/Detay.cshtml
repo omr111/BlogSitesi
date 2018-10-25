@@ -1,0 +1,142 @@
+﻿
+@{
+    ViewBag.Title = "Detay";
+}
+@helper TarihTut(DateTime yorumTarihi)
+{
+        TimeSpan sure = DateTime.Now - yorumTarihi;
+        if(sure.Milliseconds<0)
+        {
+            <div class="time-ago"></div>
+        }
+        else if(sure.Minutes<1)
+        {
+            <div class="time-ago">Şimdi</div>
+        }
+        else if(sure.Hours<1)
+        {
+            <div class="time-ago">@sure.Minutes Dakika Önce </div>
+        }
+        else if (sure.Hours<1)
+        {
+            <div class="time-ago">@sure.Hours Saat Önce</div>
+        }
+        else if (sure.Hours > 24)
+        {
+            <div class="time-ago">@yorumTarihi.ToString("dd.MM.yyyy") Tarinde</div>
+        }
+    }
+@model  BlogSitesi.Models.Makale
+@{
+    ViewBag.Title = ViewBag.Baslik;
+}
+@using BlogSitesi.Models
+
+                   <div class="posts">
+    <article class="blog-post">
+        <header>
+            <h2>
+                <a href="/Makale/Detay/@Model.id">@Model.Baslik</a>
+            </h2>
+            <ul class="info">
+                <li><a href="/Kategori/Index/@Model.KategoriID">{ @Model.Kategori.Adi }</a></li>
+                <li><a href="/Makale/TariheGoreListe?yil=@Model.YayinTarihi.Year&ay=@Model.YayinTarihi.Month">{ @Model.YayinTarihi.ToString("MMMM yyyy")}</a></li>
+                <li><a href="/Yazar/Index/@Model.YazarID">{ @Model.Kullanici.Adi }</a></li>
+                <li>{<a href="#Yorum"> Comments: @Model.Yorums.Count.ToString()</a> }</li>
+                <li>{<a href="Javascript:void(0)"> Views: @Model.Goruntulenme</a> }</li>
+                <li>{<a class="begen" data-makaleid="@Model.id" href="Javascript:void(0)"> Likes: @Model.Begeni</a> }</li>
+            </ul>
+        </header>
+        <div class="text-editor">
+
+            <figure>
+                <img src="@Model.Resim.BuyukResimYol" alt="#" />
+            </figure>
+            <p>@Model.icerik</p>
+
+
+            <div class="author-wrap">
+                <div class="author">
+                    <figure>
+
+                        <a href="/Yazar/Index/@Model.YazarID">
+                            <img src="@Model.Resim.KucukResimYol" alt="#" />
+                        </a>
+                    </figure>
+                    <div class="name">@Model.Kullanici.Adi @Model.Kullanici.Soyadi</div>
+                    <div class="description">
+                        @Model.Kullanici.Hakkinda
+                    </div>
+                </div>
+            </div>
+
+        </div>
+    </article>
+    <div class="comments">
+        <h3>
+            @Model.Yorums.Count() Yorum.
+        </h3>
+        <ul>
+@foreach (Yorum y in Model.Yorums)
+            {
+            <li class="comment">
+                <div class="user">
+                    <figure>
+                        <a href="#">
+                            <img src="@y.Kullanici.Resim.KucukResimYol" alt="" />
+                        </a>
+                    </figure>
+                    <div class="name text-center">
+                        <a href="">@y.Kullanici.Nick</a>
+                    </div>
+                </div>
+                <div class="comment-box">
+                    <div class="info">
+                        @TarihTut(@y.EklemeTarihi)
+                    </div>
+                    <div class="text">
+                     @y.icerik
+                    </div>
+                    
+                </div>
+            </li>
+            
+                
+}         
+        </ul>
+      
+    </div>
+      @if (ViewBag.kullanici == null)
+      {
+          
+              <span> Yorum Yapmak İçin Lütfen Giriş Yapınız.</span>   
+           
+      }
+      else { 
+    <div class="write-comment">
+        <h3>Yorum Yaz.</h3>
+        <div class="user">
+            <figure>
+                <a href="#">
+                    <img src="@ViewBag.kullanici.Resim.KucukResimYol" alt="" />
+                </a>
+            </figure>
+            <div class="name text-center">
+                <a href="#">@ViewBag.kullanici.Nick</a>
+            </div>
+        </div>
+        <div class="textarea-wrap">
+            <form action="/Makale/YorumYaz" method="post">
+                <input type="hidden" name="MakaleID" value="@Model.id" />
+                <input type="hidden" name="YorumYapanID" value="@ViewBag.kullanici.id" />
+                <textarea name="icerik" placeholder="Yorum Yazın..." ></textarea>
+                <button type="submit" class="send">Gönder</button>
+            </form>
+        </div>
+        <hr>
+    </div>
+      }
+</div>
+                
+
+

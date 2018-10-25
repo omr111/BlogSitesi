@@ -1,0 +1,13 @@
+﻿@model IEnumerable<BlogSitesi.Models.Kategori>
+@using BlogSitesi.Models
+
+    <div class="widget categories">
+        <h5>Categories</h5>
+        <ul>
+            @foreach (Kategori kat in Model)
+            {
+                <li><a href="/Kategori/Index/@kat.id">@kat.Adi (@kat.Makales.Count)</a></li>
+            }
+        </ul>
+    </div>
+

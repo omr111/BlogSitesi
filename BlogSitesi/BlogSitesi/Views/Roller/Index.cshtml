@@ -1,0 +1,26 @@
+﻿
+@{
+    ViewBag.Title = "Rol Ata";
+}
+@using BlogSitesi.Models
+@model List<string>
+<h2>Rol Listesi...</h2>
+  
+@using (Html.BeginForm())
+{
+
+    <select class="form-control" name="RolName">
+       @foreach (string rol in Model)
+        {
+            <option>@rol</option>
+        } 
+    </select>
+       <select class="form-control" name="Nick">
+       @foreach (Kullanici kul in ViewBag.kullanici)
+        {
+            <option value="@kul.Nick">@kul.Nick</option>
+        } 
+    </select>
+   
+    <input class="form-control" type="submit" name="name" value="Rol Ata" />
+}

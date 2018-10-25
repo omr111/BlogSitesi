@@ -1,0 +1,81 @@
+﻿
+@{
+    ViewBag.Title = "YazarinMakaleleri";
+}
+@using BlogSitesi.Models
+@model List<Makale>
+
+<div class="row">
+    <div class="col-md-12">
+        <div class="block">
+            <div class="block-heading">
+                <div class="main-text h2">
+                    Makale Listesi
+                </div>
+               
+            </div>
+            <div class="block-content-outer">
+                <div class="block-content-inner">
+                    <table class="table table-striped table-hover">
+                        <thead>
+                            <tr>
+
+
+                                <th>Makale Başlık</th>
+                                <th>Ekleme Tarihi</th>
+                                <th>Detay</th>
+                                <th>Güncelle</th>
+                                <th>Sil</th>
+                           
+                            </tr>
+                        </thead>
+                        <tbody>
+                            @foreach (Makale m in Model)
+                            {
+
+                                <tr>
+                                    <td>@m.Baslik</td>
+                                    <td>@m.YayinTarihi</td>
+                                  
+                                    <td>
+                                        <button class="btn btn-info " data-toggle="modal" data-target=".rollerCagirModal" data-uyeadi="@m.id">
+
+                                            Detay
+                                        </button>
+                                    </td>
+                                    <td>
+                                        <button class="btn btn-primary " data-toggle="modal" data-target=".rollerCagirModal" data-uyeadi="@m.id">
+
+                                            Güncelle
+                                        </button>
+                                    </td>
+              
+
+
+                                    <!--Normalde bir silme butonuna tıklandığında silmek için oluşturduğumuz view silme
+                                        sayfasının linkini id ile birlikte gönderiyorduk
+                                        falat ajax ile yazdığımızda yeni bir view sayfası oluşturmamıza gerek yok
+                                        mevcut kategori sayfasında tüm işlemleri yapacağız
+                                        bu yüzden de href'e hiç bir yere gitmemesi için # koyduk
+                                        Daha sonra bu butona daha sonra kullanmak üzere bir ktgsil class'ı oluşturduk
+                                        en son olarak her html etiketinin sahip olduğu data- özelliğini kullanarak
+                                        tıklandığı ürünün id'sini aldık bu data- Csharp'ta Tag üzelliğine denk gelmekte-->
+                                    <td>
+                                        <button class="btn btn-danger kulname" data-toggle="modal" data-target="#small-modal" data-kulname="@m.id">
+
+                                            Sil
+                                        </button>
+                                    </td>
+
+
+                                </tr>
+
+                            }
+
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
