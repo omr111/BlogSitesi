@@ -2,14 +2,16 @@
 @{
     ViewBag.Title = "Detay";
 }
+@using BlogSitesi.Models
+@model  BlogSitesi.Models.Makale
+@{
+    ViewBag.Title = ViewBag.Baslik;
+}
+
 @helper TarihTut(DateTime yorumTarihi)
 {
         TimeSpan sure = DateTime.Now - yorumTarihi;
-        if(sure.Milliseconds<0)
-        {
-            <div class="time-ago"></div>
-        }
-        else if(sure.Minutes<1)
+        if(sure.Minutes<1)
         {
             <div class="time-ago">Şimdi</div>
         }
@@ -26,11 +28,7 @@
             <div class="time-ago">@yorumTarihi.ToString("dd.MM.yyyy") Tarinde</div>
         }
     }
-@model  BlogSitesi.Models.Makale
-@{
-    ViewBag.Title = ViewBag.Baslik;
-}
-@using BlogSitesi.Models
+
 
                    <div class="posts">
     <article class="blog-post">
