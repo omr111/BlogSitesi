@@ -4,7 +4,6 @@ C:\Users\ömer\Desktop\BlogSitesi\BlogSitesi\BlogSitesi\bin\BlogSitesi.pdb
 C:\Users\ömer\Desktop\BlogSitesi\BlogSitesi\BlogSitesi\bin\EntityFramework.dll
 C:\Users\ömer\Desktop\BlogSitesi\BlogSitesi\BlogSitesi\bin\EntityFramework.SqlServer.dll
 C:\Users\ömer\Desktop\BlogSitesi\BlogSitesi\BlogSitesi\bin\System.Web.Helpers.dll
-C:\Users\ömer\Desktop\BlogSitesi\BlogSitesi\BlogSitesi\bin\System.Web.Mvc.dll
 C:\Users\ömer\Desktop\BlogSitesi\BlogSitesi\BlogSitesi\bin\System.Web.Razor.dll
 C:\Users\ömer\Desktop\BlogSitesi\BlogSitesi\BlogSitesi\bin\System.Web.Webpages.Deployment.dll
 C:\Users\ömer\Desktop\BlogSitesi\BlogSitesi\BlogSitesi\bin\System.Web.Webpages.dll
@@ -16,9 +15,8 @@ C:\Users\ömer\Desktop\BlogSitesi\BlogSitesi\BlogSitesi\bin\System.Web.Webpages.
 C:\Users\ömer\Desktop\BlogSitesi\BlogSitesi\BlogSitesi\bin\System.Web.Webpages.Deployment.xml
 C:\Users\ömer\Desktop\BlogSitesi\BlogSitesi\BlogSitesi\bin\System.Web.Webpages.Razor.xml
 C:\Users\ömer\Desktop\BlogSitesi\BlogSitesi\BlogSitesi\bin\System.Web.Helpers.xml
-C:\Users\ömer\Desktop\BlogSitesi\BlogSitesi\BlogSitesi\bin\System.Web.Mvc.xml
 C:\Users\ömer\Desktop\BlogSitesi\BlogSitesi\BlogSitesi\obj\Debug\BlogSitesi.dll
 C:\Users\ömer\Desktop\BlogSitesi\BlogSitesi\BlogSitesi\obj\Debug\BlogSitesi.pdb
-C:\Users\ömer\Desktop\BlogSitesi\BlogSitesi\BlogSitesi\obj\Debug\BlogSitesi.csprojResolveAssemblyReference.cache
 C:\Users\ömer\Desktop\BlogSitesi\BlogSitesi\BlogSitesi\bin\Elmah.dll
 C:\Users\ömer\Desktop\BlogSitesi\BlogSitesi\BlogSitesi\bin\Elmah.Mvc.dll
+C:\Users\ömer\Desktop\BlogSitesi\BlogSitesi\BlogSitesi\obj\Debug\BlogSitesi.csprojResolveAssemblyReference.cache

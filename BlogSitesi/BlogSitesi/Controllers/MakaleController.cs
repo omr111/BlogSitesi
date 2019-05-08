@@ -55,27 +55,27 @@ namespace BlogSitesi.Controllers
             return RedirectToAction("Detay", new { id = yorum.MakaleID });
 
         }
-        public string Begen(int id)
-        {
-            var makale = ctx.Makales.FirstOrDefault(x => x.id == id);
+        //public string Begen(int id)
+        //{
+        //  //  var makale = ctx.Makales.FirstOrDefault(x => x.id == id);
 
-            var kullaniciName =User.Identity.Name;
+        //  //  var kullaniciName =User.Identity.Name;
               
-            var kID = ctx.Kullanicis.FirstOrDefault(x => x.Nick == kullaniciName);
+        //  //  var kID = ctx.Kullanicis.FirstOrDefault(x => x.Nick == kullaniciName);
         
             
             
-          // var varMi = ctx.KullaniciBegenis.FirstOrDefault(x => x.Makale.id == id && x.KullaniciID == kID.id);
-               //if (varMi == null)
-               //{
-           makale.Kullanicis.Add(kID);
-                   makale.Begeni++;
-               //}
-               //else
-               //    makale.Begeni--;
-            ctx.SaveChanges();
-            return makale.Begeni.ToString();
-        }
+        //  //// var varMi = ctx.KullaniciBegenis.FirstOrDefault(x => x.Makale.id == id && x.KullaniciID == kID.id);
+        //  //     //if (varMi == null)
+        //  //     //{
+        //  // makale.Kullanicis.Add(kID);
+        //  //         makale.Begeni++;
+        //  //     //}
+        //  //     //else
+        //  //     //    makale.Begeni--;
+        //  //  ctx.SaveChanges();
+        //    //return makale.Begeni.ToString();
+        //}
         public ActionResult MakaleYaz()
         {
             ViewBag.kategori = ctx.Kategoris.ToList();
@@ -100,7 +100,7 @@ namespace BlogSitesi.Controllers
                     Etiket etk = ctx.Etikets.FirstOrDefault(x => x.Adi.ToLower() == etiket.ToLower().Trim());
                     if (etk==null)
                     {
-etk = new Etiket();
+                       etk = new Etiket();
                         etk.Adi = etiket;
                         ctx.SaveChanges();
                     }
