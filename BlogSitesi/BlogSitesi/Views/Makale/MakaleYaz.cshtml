@@ -40,7 +40,7 @@
         </tr>
         <tr>
             <td><label>İçerik</label></td>
-            <td><textarea class="form-control" rows="20" cols="80" name="icerik" placeholder="Makalenizi Giriniz..."></textarea></td>
+            <td><textarea id="ckEditor"  class="form-control" rows="20" cols="80" name="icerik" placeholder="Makalenizi Giriniz..."></textarea></td>
         </tr>
 
         <tr>
@@ -57,7 +57,17 @@
     </div>
 </div>
 
+@section js{
+    <script type="text/javascript">
+        var editor = CKEDITOR.instances['ckEditor'];
+        if (editor) {
+            editor.destroy(true);
 
+        }
+        CKEDITOR.replace('ckEditor', { entermode: CKEDITOR.ENTER_BR });
+        
+    </script>
+}
 
 
 

@@ -7,6 +7,7 @@ using System.Web.Mvc;
 using BlogSitesi.App_Classes;
 using System.IO;
 using System.Drawing;
+using System.Web.UI;
 
 namespace BlogSitesi.Controllers
 {
@@ -76,11 +77,14 @@ namespace BlogSitesi.Controllers
         //  //  ctx.SaveChanges();
         //    //return makale.Begeni.ToString();
         //}
+        [ValidateInput(false)]
         public ActionResult MakaleYaz()
         {
             ViewBag.kategori = ctx.Kategoris.ToList();
             return View();
+
         }
+        [ValidateInput(false)]
         [HttpPost]
         public ActionResult MakaleYaz(Makale m,HttpPostedFileBase Resim,string etiketler)
         {

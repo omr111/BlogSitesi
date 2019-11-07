@@ -13,11 +13,11 @@
 {
     if (metin.Length > 300)
     {
-        @metin.Substring(0, 300)
+        @Html.Raw(metin.Substring(0, 300))
     }
     else
     {
-        @metin
+        @Html.Raw(metin)
     }
 }
 
@@ -48,7 +48,9 @@
                     </a>
                 </figure>
                 <div class="text">
-                    <p>@metinKisalt(m.icerik)</p>
+                    
+                        @metinKisalt(m.icerik);
+                    
                 </div>
                 <a href="/Makale/Detay/@m.id" class="btn btn-default">Read more</a>
             </div>
