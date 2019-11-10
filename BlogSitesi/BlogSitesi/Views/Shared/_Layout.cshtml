@@ -42,51 +42,72 @@
                         <ul class="nav navbar-nav navbar-right">
                             <li>
                                 <a href="/Home/Index/" id="navbarDrop2">Home</a>
-                               
+
                             </li>
-                            
-                            <li><a href="about-us.html">Portfolio</a></li>
-                           
-                            <li><a href="about-us.html">About</a></li>
+
+                            <li>
+                                <a href="about-us.html">Portfolio</a>
+                            </li>
+
+                            <li>
+                                <a href="about-us.html">About</a>
+                            </li>
                             @if (User.IsInRole("Moderator") || User.IsInRole("Admin") || User.IsInRole("Yazar"))
-                            { 
+                            {
+                               
                             }
                             else
                             {
-                                <li><a href="/Kullanici/YazarOl/">Yazar Ol</a></li>
+                                <li>
+                                    <a href="/Kullanici/YazarOl/">Yazar Ol</a>
+                                </li>
                             }
-                        @if(User.IsInRole("Yazar")||User.IsInRole("Moderator")||User.IsInRole("Admin"))
-                        { 
+
+                            @if (Session["Kullanici"] != null) { 
+                            if(User.IsInRole("Yazar")||User.IsInRole("Moderator")||User.IsInRole("Admin"))
+                            {
                             <li class="dropdown">
                                 <a href="blog.html" id="navbarDrop3" class="dropdown-toggle" data-toggle="dropdown">Yazar Yönetim</a>
                                 <ul class="dropdown-menu" role="menu" aria-labelledby="navbarDrop3">
-                                 
-                                    <li><a href="/Yazar/YazarinMakaleleri/"@User.Identity.Name>Makalelerim</a></li>
+
+                                    <li><a href="/Yazar/YazarinMakaleleri/" @User.Identity.Name>Makalelerim</a></li>
                                     <li><a href="/Makale/MakaleYaz/">Makale Ekle</a></li>
                                     <li><a href="blog-single.html">Takipçilerim</a></li>
-                                    
+
                                 </ul>
                             </li>
-                        }
-                        @if (User.IsInRole("Admin"))
-                        {<li class="dropdown">
+                            }
+                            }
+                            @if (User.IsInRole("Admin"))
+                        {
+                            <li class="dropdown">
                                 <a href="#" id="navbarDrop1" class="dropdown-toggle" data-toggle="dropdown">Admin Panel</a>
                                 <ul class="dropdown-menu" role="menu" aria-labelledby="navbarDrop1">
                                     <li><a href="/Admin/KullaniciListesi/">Kullanıcı Listesi</a></li>
                                     <li><a href="/Admin/YazarListesi/">Yazar Listesi</a></li>
                                     <li><a href="/Admin/TumMakale/">Tüm Makaleler</a></li>
-                                    
+                                    <li><a href="/Admin/yazarIstek">Yazarlık İstekleri</a></li>
+
                                 </ul>
                             </li>
-                            
+
                         }
-                            @if(Request.IsAuthenticated==true)
+                            @if(Request.IsAuthenticated==true&& Session["Kullanici"]!=null)
                                 {
-                            <li><a href="/Kullanici/CikisYap">Logout</a></li>
+                                <li>
+                                    <a href="/Kullanici/CikisYap">Çıkış Yap</a>
+                                </li>
+
                                 }
                             else
                             {
-                                <li><a href="/Kullanici/GirisYap">LogIn</a></li>
+                                <li>
+                                    <a href="/Kullanici/GirisYap">Giriş Yap</a>
+                                </li>
+                                <li>
+                                    <a href="/Kullanici/KayitOl">Kayıt Ol</a>
+                                </li>
+
                             }
                         </ul>
                     </div>
@@ -282,9 +303,11 @@
     <div class="go-top">
         <i class="fa fa-angle-up"></i>
     </div>
-    <script type="text/javascript" src="/Content/js/vendor/jquery-1.10.1.min.js"></script>
-
-    <script type="text/javascript" src="/Content/js/vendor/jquery-1.11.1.min.js"></script>
+   
+    <script src="~/Scripts/jquery-3.4.1.min.js"></script>
+    <script src="~/Scripts/jquery.unobtrusive-ajax.min.js"></script>
+@*<script type="text/javascript" src="/Content/js/vendor/jquery-1.11.1.min.js"></script>
+<script type="text/javascript" src="/Content/js/vendor/jquery-1.10.1.min.js"></script>*@
     <script src="http://ajax.googleapis.com/ajax/libs/jqueryui/1.9.2/jquery-ui.min.js"></script>
     <script src="/Content/js/vendor/bootstrap.min.js"></script>
     <script src="/Content/js/vendor/jquery.isotope.min.js"></script>

@@ -7,6 +7,7 @@ namespace BlogSitesi.Models
     {
         public Kullanici()
         {
+            this.KullaniciResims = new List<KullaniciResim>();
             this.Makales = new List<Makale>();
             this.Resims = new List<Resim>();
             this.SiteTakips = new List<SiteTakip>();
@@ -29,6 +30,7 @@ namespace BlogSitesi.Models
         public string parola { get; set; }
         public virtual aspnet_Users aspnet_Users { get; set; }
         public virtual Resim Resim { get; set; }
+        public virtual ICollection<KullaniciResim> KullaniciResims { get; set; }
         public virtual ICollection<Makale> Makales { get; set; }
         public virtual ICollection<Resim> Resims { get; set; }
         public virtual ICollection<SiteTakip> SiteTakips { get; set; }

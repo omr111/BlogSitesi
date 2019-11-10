@@ -1,0 +1,93 @@
+﻿@{
+    ViewBag.Title = "MakaleDuzenle";
+
+}
+
+@using System.Web.Razor
+@model BlogSitesi.Models.Makale
+
+<h2>Yeni Makale Oluştur</h2>
+<div class="tabs-top col-md-11">
+    <ul class="nav nav-tabs">
+        <li class="active alert-success"><a href="#top-tab1" data-toggle="tab">Metin Makale</a></li>
+        <li class="alert-success"><a href="#top-tab2" data-toggle="tab">Resim Galerisi</a></li>
+
+    </ul>
+    <div class="tab-content">
+        <div class="active" id="top-tab1">
+            @using (Html.BeginForm("MakaleDuzenle", "Makale", FormMethod.Post, new { enctype = "multipart/form-data" }))
+            {
+
+                <table>
+                    <tr>
+                        <td><label>Başlık</label></td>
+                        <td><input class="form-control" type="text" name="Baslik" value="@Model.Baslik" placeholder="Başlık giriniz." /></td>
+                    </tr>
+                    <tr>
+                        <td><label>Kategori</label></td>
+                        <td>
+                            <select class="form-control" name="KategoriID">
+                                @foreach (BlogSitesi.Models.Kategori kat in ViewBag.kategori)
+                                {
+                                    <option value="@kat.id">@kat.Adi</option>
+                                }
+                            </select>
+                        </td>
+                    </tr>
+                    <tr>
+                        
+                        <td><label>Etiketler</label></td>
+                        <td><input id="etiketler" class="form-control" type="text" name="etiketler" value="@ViewBag.etiketler" placeholder="Etiket giriniz." /></td>
+                    </tr>
+                    <tr>
+                        <td><label>Resim</label></td>
+                        <td class="img">
+                            <img src="@ViewBag.kapakResim"/>
+                        </td>
+                    </tr>
+                    <tr>
+                        <td><label>Yeni Resim</label></td>
+                        <td >
+                            <input type="file" name="Resim" class="form-control" />
+                        </td>
+                    </tr>
+                    <tr>
+                        <td><label>İçerik</label></td>
+                        <td><textarea id="ckEditor" class="form-control" rows="20" cols="80" name="icerik" placeholder="Makalenizi Giriniz...">@Html.Raw(Model.icerik)</textarea></td>
+                    </tr>
+
+                    <tr>
+                        <td></td>
+                        <td><input type="submit" class="btn alert-success form-control" name="btnEkle" value="Yayınla" /></td>
+                </table>
+
+            }
+        </div>
+        <div class="tab-pane  " id="top-tab2">
+            resim galeri
+        </div>
+
+    </div>
+</div>
+
+
+
+
+<script src="~/Scripts/jquery-3.4.1.js"></script>
+<script src="~/Scripts/jquery.unobtrusive-ajax.js"></script>
+<script src="~/ckeditor/ckeditor.js"></script>
+<script>
+    var editor = CKEDITOR.instances['ckEditor'];
+    if (editor) {
+        editor.destroy(true);
+
+    }
+    CKEDITOR.replace('ckEditor', { entermode: CKEDITOR.ENTER_BR });
+
+
+</script>
+
+<
+
+
+

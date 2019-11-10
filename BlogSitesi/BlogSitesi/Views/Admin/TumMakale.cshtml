@@ -43,20 +43,30 @@
                                     <td>
                                         @m.YayinTarihi
                                     </td>
+                                    <td>
+                                        <a href="/Makale/Detay/@m.id" class="btn btn-info " data-toggle="modal" data-target=".rollerCagirModal" data-uyeadi="@m.id">
 
+                                            Detay
+                                        </a>
+                                    </td>
+                                  
+                                    <td>
+                                        <a href="/Makale/MakaleDuzenle/@m.id" class="btn btn-success" data-target=".rollerCagirModal"> Güncelle</a>
+                          
+                                    </td>
+
+                                    <td>
+                                        <button class="btn btn-warning kulname" data-toggle="modal" data-target="#small-modal" data-kulname="@m.id">
+
+                                            Kilitle
+                                        </button>
+                                    </td>
                                     <td>
                                         <button class="btn btn-danger kulname" data-toggle="modal" data-target="#small-modal" data-kulname="@m.id">
 
                                             Sil
                                         </button>
                                     </td>
-                                    <td>
-                                        <button class="btn btn-primary kulname" data-toggle="modal" data-target="#small-modal" data-kulname="@m.id">
-
-                                            Kilitle
-                                        </button>
-                                    </td>
-
 
                                 </tr>
 

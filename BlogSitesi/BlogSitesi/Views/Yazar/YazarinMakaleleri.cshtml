@@ -38,16 +38,14 @@
                                     <td>@m.YayinTarihi</td>
                                   
                                     <td>
-                                        <button class="btn btn-info " data-toggle="modal" data-target=".rollerCagirModal" data-uyeadi="@m.id">
+                                        <a href="/Makale/Detay/@m.id" class="btn btn-info " data-toggle="modal" data-target=".rollerCagirModal" data-uyeadi="@m.id">
 
                                             Detay
-                                        </button>
+                                        </a>
                                     </td>
                                     <td>
-                                        <button class="btn btn-primary " data-toggle="modal" data-target=".rollerCagirModal" data-uyeadi="@m.id">
-
-                                            Güncelle
-                                        </button>
+                                        <a href="/Makale/MakaleDuzenle/@m.id" class="btn btn-success" data-target=".rollerCagirModal"> Güncelle</a>
+                          
                                     </td>
               
 
@@ -71,7 +69,7 @@
                                 </tr>
 
                             }
-
+                            
                         </tbody>
                     </table>
                 </div>

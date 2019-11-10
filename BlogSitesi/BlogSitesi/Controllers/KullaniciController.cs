@@ -1,10 +1,14 @@
 ﻿using BlogSitesi.Models;
 using System;
 using System.Collections.Generic;
+using System.Data.Entity;
+using System.Data.Entity.Migrations;
+using System.Drawing;
 using System.Linq;
 using System.Web;
 using System.Web.Mvc;
 using System.Web.Security;
+using BlogSitesi.App_Classes;
 
 namespace BlogSitesi.Controllers
 {
@@ -54,6 +58,23 @@ namespace BlogSitesi.Controllers
             FormsAuthentication.SignOut();
             return RedirectToAction("Index","Home");
         }
+
+        public static int KullaniciResimKaydet(HttpPostedFileBase file, HttpContextBase ctx)
+        {
+            BlogContext context=new BlogContext();
+            string extention=file.ContentType.Split('/')[1];
+            string fileName = "f_" + Guid.NewGuid() + "." + extention;
+            Image orjImage=Image.FromStream(file.InputStream);
+            Bitmap paintBitmap=new Bitmap(orjImage,Setttings.KullaniciResim.Width,Setttings.KullaniciResim.Height);
+            paintBitmap.Save(ctx.Server.MapPath("~/Content/kullaniciResim/"+fileName));
+            KullaniciResim kullaniciResim=new KullaniciResim();
+            Kullanici kul = (Kullanici) ctx.Session["Kullanici"];
+            kullaniciResim.kullaniciId = kul.id;
+            kullaniciResim.resimPath = "/Content/kullaniciResim/" + fileName;
+            context.KullaniciResims.Add(kullaniciResim);
+            context.SaveChanges();
+            return kullaniciResim.id;
+        }
         public ActionResult KayitOl()
         {
             return View();
@@ -67,18 +88,22 @@ namespace BlogSitesi.Controllers
                 k.id = (Guid)user.ProviderUserKey;
                 k.KayitTarihi = DateTime.Now;
                 Session["Kullanici"] = k;
-                k.ResimID = MakaleController.ResimKaydet(Resim, HttpContext);
                 k.YazarMi = false;
-                Roles.AddUserToRole(k.Nick, "Uye");
                 ctx.Kullanicis.Add(k);
                 ctx.SaveChanges();
+                Roles.AddUserToRole(k.Nick, "Uye");
+
+                k.ResimID = KullaniciResimKaydet(Resim, HttpContext);
+               ctx.Entry(k).State=EntityState.Modified;
+               ctx.SaveChanges();
 
                 FormsAuthentication.RedirectFromLoginPage(k.Adi, true);
                 Session["Kullanici"] = k;
             return RedirectToAction("Index","Home");
 	    }
-	    catch (Exception)
-	    {
+	    catch (Exception ex)
+        {
+            string msg=ex.Message;
 		ViewBag.nickVar = "Kullanıcı İsmi Zaten Kullanılmaktadır.";
 	    }
            return View();   

@@ -8,8 +8,10 @@ using System.Web.Security;
 
 namespace BlogSitesi.Controllers
 {
+    
     public class AdminController : Controller
     {
+     
         BlogContext ctx = new BlogContext();
         //
         // GET: /Admin/
@@ -17,6 +19,7 @@ namespace BlogSitesi.Controllers
         {
             return View();
         }
+        [Authorize(Roles = "Admin")]
         public ActionResult KullaniciListesi()
         {
             List<Kullanici> kullanici = ctx.Kullanicis.Where(x=>x.YazarMi==false).ToList();

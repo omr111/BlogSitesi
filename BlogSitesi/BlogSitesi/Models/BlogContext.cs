@@ -29,6 +29,7 @@ namespace BlogSitesi.Models
         public DbSet<Etiket> Etikets { get; set; }
         public DbSet<Kategori> Kategoris { get; set; }
         public DbSet<Kullanici> Kullanicis { get; set; }
+        public DbSet<KullaniciResim> KullaniciResims { get; set; }
         public DbSet<Makale> Makales { get; set; }
         public DbSet<MakaleTip> MakaleTips { get; set; }
         public DbSet<Mesajlar> Mesajlars { get; set; }
@@ -63,6 +64,7 @@ namespace BlogSitesi.Models
             modelBuilder.Configurations.Add(new EtiketMap());
             modelBuilder.Configurations.Add(new KategoriMap());
             modelBuilder.Configurations.Add(new KullaniciMap());
+            modelBuilder.Configurations.Add(new KullaniciResimMap());
             modelBuilder.Configurations.Add(new MakaleMap());
             modelBuilder.Configurations.Add(new MakaleTipMap());
             modelBuilder.Configurations.Add(new MesajlarMap());

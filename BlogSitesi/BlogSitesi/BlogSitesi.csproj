@@ -415,7 +415,20 @@
     <Content Include="Content\BuyukResimaaaaa-0b4f9878-285e-47b7-b894-778d91be45bd.png" />
     <Content Include="Content\BuyukResimaaaaa-72a509e6-8751-4cab-9825-b5a8c8ca194a.png" />
     <Content Include="Content\BuyukResimaaaaa-73a89715-e57c-4486-8eaa-33e7a8098341.png" />
+    <Content Include="Content\BuyukResim\Chrysanthemum-04bc1040-f4cf-44cd-8156-e62b272322c3.jpg" />
     <Content Include="Content\BuyukResim\col1-portfolio06.jpg" />
+    <Content Include="Content\BuyukResim\Hydrangeas-93ece2f6-eab6-4c4c-93d7-52513085245b.jpg" />
+    <Content Include="Content\BuyukResim\istock-481677580-a96e89be-70d7-485a-bdb2-0fcf64f062c4.jpg" />
+    <Content Include="Content\BuyukResim\Jellyfish-694c40b3-9a3a-472d-b4a2-8f5ea408d66d.jpg" />
+    <Content Include="Content\BuyukResim\Koala-26b7ee23-f271-4610-9066-99f88e7e8415.jpg" />
+    <Content Include="Content\BuyukResim\Koala-76007791-0499-4dde-af65-114ddfcd3b70.jpg" />
+    <Content Include="Content\BuyukResim\Koala-e4e7df88-bced-4c31-943c-83c1b9fe8a34.jpg" />
+    <Content Include="Content\BuyukResim\Lighthouse-1146735f-05a0-4058-a7eb-f5c401125661.jpg" />
+    <Content Include="Content\BuyukResim\Lighthouse-ef5bb2d1-8c33-446e-91f4-1f35ed3b0728.jpg" />
+    <Content Include="Content\BuyukResim\mesane-7cc30d7e-7ac3-48ea-9d6f-95d9b158b072.jpg" />
+    <Content Include="Content\BuyukResim\Penguins-a51be5de-55e8-402a-94ac-1a690a920eef.jpg" />
+    <Content Include="Content\BuyukResim\Penguins-ffb867f8-5de9-4c08-b193-b37aec9d0ffd.jpg" />
+    <Content Include="Content\BuyukResim\ssl-79f3d9d7-9dc5-47c8-9b19-f25ba35e73a2.jpg" />
     <Content Include="Content\contact.html" />
     <Content Include="Content\content\article01.jpg" />
     <Content Include="Content\content\article02.jpg" />
@@ -585,10 +598,16 @@
     <Content Include="ckeditor\samples\toolbarconfigurator\font\fontello.woff" />
     <Content Include="ckeditor\samples\toolbarconfigurator\lib\codemirror\LICENSE" />
     <Content Include="ckeditor\skins\moono-lisa\readme.md" />
-    <None Include="Scripts\jquery-1.10.2.intellisense.js" />
-    <Content Include="Scripts\jquery-1.10.2.js" />
-    <Content Include="Scripts\jquery-1.10.2.min.js" />
+    <None Include="Scripts\jquery-3.4.1.intellisense.js" />
+    <Content Include="Scripts\jquery-3.4.1.js" />
+    <Content Include="Scripts\jquery-3.4.1.min.js" />
+    <Content Include="Scripts\jquery-3.4.1.slim.js" />
+    <Content Include="Scripts\jquery-3.4.1.slim.min.js" />
+    <Content Include="Scripts\jquery-3.4.1.slim.min.map" />
+    <Content Include="Scripts\jquery-3.4.1.min.map" />
     <None Include="Scripts\jquery.validate-vsdoc.js" />
+    <Content Include="Scripts\jquery.unobtrusive-ajax.js" />
+    <Content Include="Scripts\jquery.unobtrusive-ajax.min.js" />
     <Content Include="Scripts\jquery.validate.js" />
     <Content Include="Scripts\jquery.validate.min.js" />
     <Content Include="Scripts\jquery.validate.unobtrusive.js" />
@@ -596,7 +615,6 @@
     <Content Include="Web.config">
       <SubType>Designer</SubType>
     </Content>
-    <Content Include="Scripts\jquery-1.10.2.min.map" />
     <Content Include="Views\Shared\_Layout.cshtml" />
     <Content Include="Views\Shared\_MakaleListele.cshtml" />
     <Content Include="Views\_ViewStart.cshtml" />
@@ -640,6 +658,7 @@
     <Compile Include="Models\Etiket.cs" />
     <Compile Include="Models\Kategori.cs" />
     <Compile Include="Models\Kullanici.cs" />
+    <Compile Include="Models\KullaniciResim.cs" />
     <Compile Include="Models\Makale.cs" />
     <Compile Include="Models\MakaleTip.cs" />
     <Compile Include="Models\Mapping\aspnet_ApplicationsMap.cs" />
@@ -655,6 +674,7 @@
     <Compile Include="Models\Mapping\EtiketMap.cs" />
     <Compile Include="Models\Mapping\KategoriMap.cs" />
     <Compile Include="Models\Mapping\KullaniciMap.cs" />
+    <Compile Include="Models\Mapping\KullaniciResimMap.cs" />
     <Compile Include="Models\Mapping\MakaleMap.cs" />
     <Compile Include="Models\Mapping\MakaleTipMap.cs" />
     <Compile Include="Models\Mapping\MesajlarMap.cs" />
@@ -706,6 +726,7 @@
     <Content Include="Views\Admin\yazarIstek.cshtml" />
     <Content Include="Views\Admin\YazarListesi.cshtml" />
     <Content Include="Views\Admin\TumMakale.cshtml" />
+    <Content Include="Views\Makale\MakaleDuzenle.cshtml" />
     <None Include="Web.Debug.config">
       <DependentUpon>Web.config</DependentUpon>
     </None>
@@ -715,6 +736,7 @@
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />
+    <Folder Include="Content\kullaniciResim\" />
     <Folder Include="Content\OrtaResim\" />
   </ItemGroup>
   <PropertyGroup>

@@ -88,6 +88,7 @@ namespace BlogSitesi.Controllers
         [HttpPost]
         public ActionResult MakaleYaz(Makale m,HttpPostedFileBase Resim,string etiketler)
         {
+            
             if (m != null) { 
             Kullanici aktif = Session["Kullanici"] as Kullanici;
             m.YayinTarihi = DateTime.Now;
@@ -115,6 +116,36 @@ namespace BlogSitesi.Controllers
             return RedirectToAction("Index","Home");
         }
 
+        public ActionResult MakaleDuzenle(int id)
+        {
+            BlogContext ctx =new BlogContext();
+            Makale makale=ctx.Makales.FirstOrDefault(x => x.id == id);
+            ViewBag.kategori=ctx.Kategoris.ToList();
+            string etiketAdi = "";
+            foreach (var etiket in makale.Etikets)
+            {
+                etiketAdi += etiket.Adi + ",";
+            }
+
+            string kapakResimUrl = ctx.Resims.FirstOrDefault(x => x.id ==makale.KapakResimID ).BuyukResimYol;
+            if (!string.IsNullOrEmpty(kapakResimUrl))
+            {
+                ViewBag.kapakResim = kapakResimUrl;
+            }
+
+            var devide=kapakResimUrl.Split('/');
+            var fileName = devide[devide.Length - 1];
+            if (System.IO.File.Exists(Server.MapPath("/Content/BuyukResim/aaaaa-d66bf95f-70ad-4d67-9189-bdf49154d73e.png")))
+            {
+              System.IO.File.Delete(Server.MapPath("/Content/BuyukResim/aaaaa-d66bf95f-70ad-4d67-9189-bdf49154d73e.png"));
+
+            }
+           
+            int count = etiketAdi.Length - 1;
+           var virgulSil=etiketAdi.Remove((int)count, 1);
+           ViewBag.etiketler = virgulSil;
+            return View("MakaleDuzenle", makale);
+        }
        public static int ResimKaydet(HttpPostedFileBase Resim,HttpContextBase ctx)
         {
             BlogContext context = new BlogContext();
@@ -131,6 +162,7 @@ namespace BlogSitesi.Controllers
             Bitmap kucukResim = new Bitmap(orjResim, kucukEn, kucukBoy);
             Bitmap ortaResim = new Bitmap(orjResim, ortaEn, ortaBoy);
             Bitmap buyukResim = new Bitmap(orjResim, buyukEn, buyuBoy);
+            
             kucukResim.Save(ctx.Server.MapPath("~/Content/KucukResim/"+newName));
             ortaResim.Save(ctx.Server.MapPath("~/Content/OrtaResim/" + newName));
             buyukResim.Save(ctx.Server.MapPath("~/Content/BuyukResim/" + newName));
@@ -145,6 +177,7 @@ namespace BlogSitesi.Controllers
            dbResim.EklemeTarihi = DateTime.Now;
            dbResim.EkleyenID = k.id;
            context.Resims.Add(dbResim);
+           
            context.SaveChanges();
            return dbResim.id;
         }
