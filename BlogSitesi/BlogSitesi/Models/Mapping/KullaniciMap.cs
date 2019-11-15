@@ -30,11 +30,11 @@ namespace BlogSitesi.Models.Mapping
                 .IsRequired()
                 .HasMaxLength(50);
 
-            this.Property(t => t.KullaniciAdi)
-                .HasMaxLength(50);
-
             this.Property(t => t.parola)
                 .HasMaxLength(50);
+
+            this.Property(t => t.kullaniciResimPath)
+                .HasMaxLength(100);
 
             // Table & Column Mappings
             this.ToTable("Kullanici");
@@ -46,26 +46,13 @@ namespace BlogSitesi.Models.Mapping
             this.Property(t => t.KayitTarihi).HasColumnName("KayitTarihi");
             this.Property(t => t.Nick).HasColumnName("Nick");
             this.Property(t => t.YazarMi).HasColumnName("YazarMi");
-            this.Property(t => t.ResimID).HasColumnName("ResimID");
             this.Property(t => t.Aktif).HasColumnName("Aktif");
-            this.Property(t => t.KullaniciAdi).HasColumnName("KullaniciAdi");
             this.Property(t => t.parola).HasColumnName("parola");
+            this.Property(t => t.kullaniciResimPath).HasColumnName("kullaniciResimPath");
 
             // Relationships
-            this.HasMany(t => t.Makales1)
-                .WithMany(t => t.Kullanicis)
-                .Map(m =>
-                    {
-                        m.ToTable("KullaniciBegeni");
-                        m.MapLeftKey("KullaniciID");
-                        m.MapRightKey("MakaleID");
-                    });
-
             this.HasRequired(t => t.aspnet_Users)
                 .WithOptional(t => t.Kullanici);
-            this.HasOptional(t => t.Resim)
-                .WithMany(t => t.Kullanicis)
-                .HasForeignKey(d => d.ResimID);
 
         }
     }

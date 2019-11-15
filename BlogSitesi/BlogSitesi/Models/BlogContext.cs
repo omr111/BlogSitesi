@@ -26,11 +26,13 @@ namespace BlogSitesi.Models
         public DbSet<aspnet_SchemaVersions> aspnet_SchemaVersions { get; set; }
         public DbSet<aspnet_Users> aspnet_Users { get; set; }
         public DbSet<aspnet_WebEvent_Events> aspnet_WebEvent_Events { get; set; }
+        public DbSet<Banner> Banners { get; set; }
         public DbSet<Etiket> Etikets { get; set; }
         public DbSet<Kategori> Kategoris { get; set; }
         public DbSet<Kullanici> Kullanicis { get; set; }
-        public DbSet<KullaniciResim> KullaniciResims { get; set; }
+        public DbSet<KullaniciBegeni> KullaniciBegenis { get; set; }
         public DbSet<Makale> Makales { get; set; }
+        public DbSet<MakaleEtiket> MakaleEtikets { get; set; }
         public DbSet<MakaleTip> MakaleTips { get; set; }
         public DbSet<Mesajlar> Mesajlars { get; set; }
         public DbSet<Resim> Resims { get; set; }
@@ -61,11 +63,13 @@ namespace BlogSitesi.Models
             modelBuilder.Configurations.Add(new aspnet_SchemaVersionsMap());
             modelBuilder.Configurations.Add(new aspnet_UsersMap());
             modelBuilder.Configurations.Add(new aspnet_WebEvent_EventsMap());
+            modelBuilder.Configurations.Add(new BannerMap());
             modelBuilder.Configurations.Add(new EtiketMap());
             modelBuilder.Configurations.Add(new KategoriMap());
             modelBuilder.Configurations.Add(new KullaniciMap());
-            modelBuilder.Configurations.Add(new KullaniciResimMap());
+            modelBuilder.Configurations.Add(new KullaniciBegeniMap());
             modelBuilder.Configurations.Add(new MakaleMap());
+            modelBuilder.Configurations.Add(new MakaleEtiketMap());
             modelBuilder.Configurations.Add(new MakaleTipMap());
             modelBuilder.Configurations.Add(new MesajlarMap());
             modelBuilder.Configurations.Add(new ResimMap());

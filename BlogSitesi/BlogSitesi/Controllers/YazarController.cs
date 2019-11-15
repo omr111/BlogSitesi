@@ -27,7 +27,10 @@ namespace BlogSitesi.Controllers
             var aktifKullanici=User.Identity.Name;
             var kulid = ctx.Kullanicis.FirstOrDefault(x => x.Nick == aktifKullanici).id;
             List<Makale> YazarMakaleleri = ctx.Makales.Where(x => x.YazarID == kulid).ToList();
+            ViewBag.kullaniciId = kulid;
             return View(YazarMakaleleri);
         }
+
+       
 	}
 }

@@ -7,9 +7,9 @@ namespace BlogSitesi.Models
     {
         public Makale()
         {
+            this.KullaniciBegenis = new List<KullaniciBegeni>();
+            this.MakaleEtikets = new List<MakaleEtiket>();
             this.Yorums = new List<Yorum>();
-            this.Kullanicis = new List<Kullanici>();
-            this.Etikets = new List<Etiket>();
             this.Resims = new List<Resim>();
         }
 
@@ -22,15 +22,14 @@ namespace BlogSitesi.Models
         public System.Guid YazarID { get; set; }
         public int KapakResimID { get; set; }
         public int Goruntulenme { get; set; }
-        public int Begeni { get; set; }
         public bool Aktif { get; set; }
         public virtual Kategori Kategori { get; set; }
         public virtual Kullanici Kullanici { get; set; }
+        public virtual ICollection<KullaniciBegeni> KullaniciBegenis { get; set; }
         public virtual MakaleTip MakaleTip { get; set; }
         public virtual Resim Resim { get; set; }
+        public virtual ICollection<MakaleEtiket> MakaleEtikets { get; set; }
         public virtual ICollection<Yorum> Yorums { get; set; }
-        public virtual ICollection<Kullanici> Kullanicis { get; set; }
-        public virtual ICollection<Etiket> Etikets { get; set; }
         public virtual ICollection<Resim> Resims { get; set; }
     }
 }

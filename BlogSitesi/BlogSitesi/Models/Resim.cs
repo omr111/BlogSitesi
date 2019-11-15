@@ -7,7 +7,6 @@ namespace BlogSitesi.Models
     {
         public Resim()
         {
-            this.Kullanicis = new List<Kullanici>();
             this.Makales = new List<Makale>();
             this.Makales1 = new List<Makale>();
         }
@@ -21,7 +20,6 @@ namespace BlogSitesi.Models
         public Nullable<System.DateTime> EklemeTarihi { get; set; }
         public Nullable<int> Goruntulenme { get; set; }
         public Nullable<int> Begeni { get; set; }
-        public virtual ICollection<Kullanici> Kullanicis { get; set; }
         public virtual Kullanici Kullanici { get; set; }
         public virtual ICollection<Makale> Makales { get; set; }
         public virtual ICollection<Makale> Makales1 { get; set; }

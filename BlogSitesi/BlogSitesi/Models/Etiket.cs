@@ -7,11 +7,11 @@ namespace BlogSitesi.Models
     {
         public Etiket()
         {
-            this.Makales = new List<Makale>();
+            this.MakaleEtikets = new List<MakaleEtiket>();
         }
 
         public int id { get; set; }
         public string Adi { get; set; }
-        public virtual ICollection<Makale> Makales { get; set; }
+        public virtual ICollection<MakaleEtiket> MakaleEtikets { get; set; }
     }
 }

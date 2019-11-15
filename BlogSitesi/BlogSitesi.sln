@@ -1,7 +1,7 @@
 ﻿
 Microsoft Visual Studio Solution File, Format Version 12.00
 # Visual Studio 2013
-VisualStudioVersion = 12.0.21005.1
+VisualStudioVersion = 12.0.40629.0
 MinimumVisualStudioVersion = 10.0.40219.1
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "BlogSitesi", "BlogSitesi\BlogSitesi.csproj", "{1144DCB3-B9F1-4B53-BDF5-0A3D28610571}"
 EndProject
@@ -13,8 +13,8 @@ Global
 	GlobalSection(ProjectConfigurationPlatforms) = postSolution
 		{1144DCB3-B9F1-4B53-BDF5-0A3D28610571}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
 		{1144DCB3-B9F1-4B53-BDF5-0A3D28610571}.Debug|Any CPU.Build.0 = Debug|Any CPU
-		{1144DCB3-B9F1-4B53-BDF5-0A3D28610571}.Release|Any CPU.ActiveCfg = Release|Any CPU
-		{1144DCB3-B9F1-4B53-BDF5-0A3D28610571}.Release|Any CPU.Build.0 = Release|Any CPU
+		{1144DCB3-B9F1-4B53-BDF5-0A3D28610571}.Release|Any CPU.ActiveCfg = Debug|Any CPU
+		{1144DCB3-B9F1-4B53-BDF5-0A3D28610571}.Release|Any CPU.Build.0 = Debug|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE

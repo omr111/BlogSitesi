@@ -2,7 +2,7 @@
     ViewBag.Title = "Yazar-Listesi";
 }
 @using BlogSitesi.Models
-@model List<Kullanici>
+@model List<aspnet_Users>
 
 <div class="row">
     <div class="col-md-12">
@@ -24,30 +24,35 @@
                                 <th>Soyad</th>
                                 <th>Nick</th>
                                 <th>Kayıt Tarihi</th>
+                                
                                 <th>Engelle</th>
 
                             </tr>
                         </thead>
                         <tbody>
-                            @foreach (Kullanici m in Model)
+                            @foreach (aspnet_Users kullanici in Model)
                             {
 
                                 <tr>
-                                    <td>@m.Adi</td>
-                                    <td>@m.Soyadi</td>
+                                    <td>@kullanici.Kullanici.Adi</td>
+                                    <td>@kullanici.Kullanici.Soyadi</td>
 
                                     <td>
-                                        @m.Nick
+                                        @kullanici.UserName
                                     </td>
                                     <td>
-                                        @m.KayitTarihi
+                                        @kullanici.Kullanici.KayitTarihi
                                     </td>
-
+                                    
                                     <td>
-                                        <button class="btn btn-danger kulname" data-toggle="modal" data-target="#small-modal" data-kulname="@m.id">
-
-                                            Engelle
-                                        </button>
+                                        @if (kullanici.Kullanici.Aktif)
+                                        {
+                                            <a href="/Admin/yazarEngelle/@kullanici.Kullanici.id" class="btn btn-success">Engelle</a>
+                                        }
+                                        else
+                                        {
+                                            <a href="/Admin/yazarEngelle/@kullanici.Kullanici.id" class="btn btn-danger">Engelli</a>
+                                        }
                                     </td>
 
 

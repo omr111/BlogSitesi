@@ -19,18 +19,6 @@ namespace BlogSitesi.Models.Mapping
             this.ToTable("Etiket");
             this.Property(t => t.id).HasColumnName("id");
             this.Property(t => t.Adi).HasColumnName("Adi");
-
-            // Relationships
-            this.HasMany(t => t.Makales)
-                .WithMany(t => t.Etikets)
-                .Map(m =>
-                    {
-                        m.ToTable("MakaleEtiket");
-                        m.MapLeftKey("EtiketID");
-                        m.MapRightKey("MakaleID");
-                    });
-
-
         }
     }
 }

@@ -17,7 +17,7 @@ namespace BlogSitesi.Controllers
         BlogContext ctx = new BlogContext();
         //
         // GET: /Kullanici/
-    [Authorize(Roles="Moderator")]
+   
         public ActionResult Index()
         {
             
@@ -58,23 +58,7 @@ namespace BlogSitesi.Controllers
             FormsAuthentication.SignOut();
             return RedirectToAction("Index","Home");
         }
-
-        public static int KullaniciResimKaydet(HttpPostedFileBase file, HttpContextBase ctx)
-        {
-            BlogContext context=new BlogContext();
-            string extention=file.ContentType.Split('/')[1];
-            string fileName = "f_" + Guid.NewGuid() + "." + extention;
-            Image orjImage=Image.FromStream(file.InputStream);
-            Bitmap paintBitmap=new Bitmap(orjImage,Setttings.KullaniciResim.Width,Setttings.KullaniciResim.Height);
-            paintBitmap.Save(ctx.Server.MapPath("~/Content/kullaniciResim/"+fileName));
-            KullaniciResim kullaniciResim=new KullaniciResim();
-            Kullanici kul = (Kullanici) ctx.Session["Kullanici"];
-            kullaniciResim.kullaniciId = kul.id;
-            kullaniciResim.resimPath = "/Content/kullaniciResim/" + fileName;
-            context.KullaniciResims.Add(kullaniciResim);
-            context.SaveChanges();
-            return kullaniciResim.id;
-        }
+    
         public ActionResult KayitOl()
         {
             return View();
@@ -82,32 +66,50 @@ namespace BlogSitesi.Controllers
         [HttpPost]
         public ActionResult KayitOl(Kullanici k,HttpPostedFileBase Resim,string parola)
         {
-           try 
-	{	        
-		    MembershipUser user = Membership.CreateUser(k.Nick, parola, k.Mail);
-                k.id = (Guid)user.ProviderUserKey;
-                k.KayitTarihi = DateTime.Now;
-                Session["Kullanici"] = k;
-                k.YazarMi = false;
-                ctx.Kullanicis.Add(k);
-                ctx.SaveChanges();
-                Roles.AddUserToRole(k.Nick, "Uye");
+            try
+            {
+                if (ctx.Kullanicis.Any(x=>x.Nick==k.Nick)==false)
+                {
+                    MembershipUser user = Membership.CreateUser(k.Nick, parola, k.Mail);
+                    k.id = (Guid)user.ProviderUserKey;
+                    k.KayitTarihi = DateTime.Now;
+                    Session["Kullanici"] = k;
+                    k.YazarMi = false;
+                    ctx.Kullanicis.Add(k);
+                    ctx.SaveChanges();
+                    Roles.AddUserToRole(k.Nick, "Uye");
 
-                k.ResimID = KullaniciResimKaydet(Resim, HttpContext);
-               ctx.Entry(k).State=EntityState.Modified;
-               ctx.SaveChanges();
+                    //resim kaydet
+                    string extention = Resim.ContentType.Split('/')[1];
+                    string fileName = "f_" + Guid.NewGuid() + "." + extention;
+                    Image orjImage = Image.FromStream(Resim.InputStream);
+                    Bitmap paintBitmap=new Bitmap(orjImage,Setttings.KullaniciResim.Width,Setttings.KullaniciResim.Height);
+                    paintBitmap.Save(Server.MapPath("~/Content/kullaniciResim/"+fileName));
+                    Kullanici kullanici = ctx.Kullanicis.FirstOrDefault(x => x.id == k.id);
+                    kullanici.kullaniciResimPath = "/Content/kullaniciResim/" + fileName;
+                    ctx.Entry(kullanici).State = EntityState.Modified;
+                    ctx.SaveChanges();
+                    //resim kaydet bitti.
+                    FormsAuthentication.RedirectFromLoginPage(k.Adi, true);
+                    Session["Kullanici"] = k;
+                    return RedirectToAction("GirisYap","Kullanici");
+                }
+                else
+                {
+                    ViewBag.nickVar = "Kullanıcı İsmi Zaten Kullanılmaktadır.";
+                    return View();
+                }
 
-                FormsAuthentication.RedirectFromLoginPage(k.Adi, true);
-                Session["Kullanici"] = k;
-            return RedirectToAction("Index","Home");
-	    }
-	    catch (Exception ex)
-        {
-            string msg=ex.Message;
-		ViewBag.nickVar = "Kullanıcı İsmi Zaten Kullanılmaktadır.";
-	    }
-           return View();   
-        }
+            }
+	
+	        catch (Exception ex)
+            {
+                
+		            ViewBag.nickVar = ex.Message;
+                    return View();  
+	        }
+                
+      }
        
         [HttpPost]
       public string uyeRolleri(string Nick)
@@ -151,5 +153,7 @@ namespace BlogSitesi.Controllers
             }
             return View();
         }
-	}
+
+       
+    }
 }

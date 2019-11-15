@@ -22,6 +22,12 @@ namespace BlogSitesi.Controllers
         public ActionResult Index(string Nick,string RolName)
         {
             Roles.AddUserToRole(Nick,RolName);
+            if (RolName!="Uye")
+            {
+                Kullanici kullanici = ctx.Kullanicis.FirstOrDefault(x => x.Nick == Nick);
+                kullanici.YazarMi = true;
+                ctx.SaveChanges();
+            }
             return RedirectToAction("Index");
         }
         public ActionResult Ekle()

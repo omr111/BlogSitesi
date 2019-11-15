@@ -29,7 +29,6 @@ namespace BlogSitesi.Models.Mapping
             this.Property(t => t.YazarID).HasColumnName("YazarID");
             this.Property(t => t.KapakResimID).HasColumnName("KapakResimID");
             this.Property(t => t.Goruntulenme).HasColumnName("Goruntulenme");
-            this.Property(t => t.Begeni).HasColumnName("Begeni");
             this.Property(t => t.Aktif).HasColumnName("Aktif");
 
             // Relationships

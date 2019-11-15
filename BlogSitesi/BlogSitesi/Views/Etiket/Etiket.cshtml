@@ -6,7 +6,7 @@
     <ul>
         @foreach (Etiket e in Model)
         {
-            <li><a href="/Etiket/Index/@e.id" class="btn btn-default">@e.Adi (@e.Makales.Count)</a></li>
+            <li><a href="/Etiket/Index/@e.id" class="btn btn-default">@e.Adi (@e.MakaleEtikets.Where(x=>x.EtiketID==e.id).Count())</a></li>
         }
 
     </ul>

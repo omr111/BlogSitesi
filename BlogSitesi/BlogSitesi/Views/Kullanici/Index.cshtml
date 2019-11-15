@@ -47,14 +47,14 @@
     <div class="col-md-12">
         <div class="block">
             <div class="block-heading">
-                <div class="main-text h2">
+                <div class="main-text h2" style="margin-top: 20px;">
                     Kullanıcı Listesi
                 </div>
                 <div class="block-controls">
 
                     <span aria-hidden="true" class="icon icon-arrow-down icon-size-medium block-control-collapse"></span>
-                    <span><a href="/Kullanicilar/RolAta" class="btn btn-primary rounded" role="button">Rol Ekle</a></span>
-                    <span><a href="/Kullanicilar/Ekle" class="btn btn-success rounded" role="button">Kullanıcı Ekle</a></span>
+                    <span><a href="/roller/index" class="btn btn-primary" role="button">Rol Ata</a></span>
+                
 
                 </div>
             </div>
@@ -70,7 +70,7 @@
                                 <th>Kayıt Tarihi</th>
                                 <th>Nick</th>
                                 <th>Rolleri</th>
-                                <th>Sil</th>
+                                <th>Engelle</th>
                                
                             </tr>
                         </thead>
@@ -83,7 +83,7 @@
                                     <td>@kul.KayitTarihi</td>
                                     <td>@kul.Nick</td>
                                     <td>
-                                        <button class="btn btn-primary rolleri"  data-toggle="modal" data-target=".rollerCagirModal" data-uyeadi="@kul.Nick">
+                                        <button class="btn btn-success rolleri"  data-toggle="modal" data-target=".rollerCagirModal" data-uyeadi="@kul.Nick">
 
                                             Roller
                                         </button>
@@ -99,14 +99,19 @@
                                         Daha sonra bu butona daha sonra kullanmak üzere bir ktgsil class'ı oluşturduk
                                         en son olarak her html etiketinin sahip olduğu data- özelliğini kullanarak
                                         tıklandığı ürünün id'sini aldık bu data- Csharp'ta Tag üzelliğine denk gelmekte-->
+                                  
                                     <td>
-                                        <button class="btn btn-danger kulname" data-toggle="modal" data-target="#small-modal" name="Nick" data-kulname="@kul.Nick">
+                                        @if (kul.Aktif)
+                                        {
+                                            <a href="/Admin/kullaniciEngelle/@kul.id" class="btn btn-warning kulname">  Engelle</a>
+                                        }
+                                        else
+                                        {
+                                            <a href="/Admin/kullaniciEngelle/@kul.id" class="btn btn-danger kulname">  Engelli</a>
+                                        }
 
-                                            Sil
-                                        </button>
                                     </td>
-
-
+                                 
                                 </tr>
 
                             }

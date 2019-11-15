@@ -29,6 +29,7 @@
     <DefineConstants>DEBUG;TRACE</DefineConstants>
     <ErrorReport>prompt</ErrorReport>
     <WarningLevel>4</WarningLevel>
+    <LangVersion>default</LangVersion>
   </PropertyGroup>
   <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Release|AnyCPU' ">
     <DebugType>pdbonly</DebugType>
@@ -407,6 +408,20 @@
     <Content Include="ckeditor\skins\moono-lisa\images\spinner.gif" />
     <Content Include="ckeditor\styles.js" />
     <Content Include="ckeditor\vendor\promise.js" />
+    <Content Include="common-css\ionicons.css" />
+    <Content Include="common-css\layerslider.css" />
+    <Content Include="common-css\responsive.css" />
+    <Content Include="common-css\Singlestyles.css" />
+    <Content Include="common-css\styles.css" />
+    <Content Include="common-css\swiper.css" />
+    <Content Include="common-js\embed.videos.min.js" />
+    <Content Include="common-js\jquery-3.1.1.min.js" />
+    <Content Include="common-js\jquery.circliful.min.js" />
+    <Content Include="common-js\jquery.countdown.min.js" />
+    <Content Include="common-js\layerslider.js" />
+    <Content Include="common-js\scripts.js" />
+    <Content Include="common-js\swiper.js" />
+    <Content Include="common-js\tether.min.js" />
     <Content Include="Content\404.html" />
     <Content Include="Content\about-us.html" />
     <Content Include="Content\blog-single.html" />
@@ -599,6 +614,11 @@
     <Content Include="ckeditor\samples\toolbarconfigurator\lib\codemirror\LICENSE" />
     <Content Include="ckeditor\skins\moono-lisa\readme.md" />
     <None Include="Scripts\jquery-3.4.1.intellisense.js" />
+    <Content Include="images\author-1-200x200.jpg" />
+    <Content Include="images\signature-image.png" />
+    <Content Include="images\slider-1-1600x800.jpg" />
+    <Content Include="images\slider-2-1600x800.jpg" />
+    <Content Include="images\slider-3-1600x800.jpg" />
     <Content Include="Scripts\jquery-3.4.1.js" />
     <Content Include="Scripts\jquery-3.4.1.min.js" />
     <Content Include="Scripts\jquery-3.4.1.slim.js" />
@@ -654,12 +674,14 @@
     <Compile Include="Models\aspnet_SchemaVersions.cs" />
     <Compile Include="Models\aspnet_Users.cs" />
     <Compile Include="Models\aspnet_WebEvent_Events.cs" />
+    <Compile Include="Models\Banner.cs" />
     <Compile Include="Models\BlogContext.cs" />
     <Compile Include="Models\Etiket.cs" />
     <Compile Include="Models\Kategori.cs" />
     <Compile Include="Models\Kullanici.cs" />
-    <Compile Include="Models\KullaniciResim.cs" />
+    <Compile Include="Models\KullaniciBegeni.cs" />
     <Compile Include="Models\Makale.cs" />
+    <Compile Include="Models\MakaleEtiket.cs" />
     <Compile Include="Models\MakaleTip.cs" />
     <Compile Include="Models\Mapping\aspnet_ApplicationsMap.cs" />
     <Compile Include="Models\Mapping\aspnet_MembershipMap.cs" />
@@ -671,10 +693,12 @@
     <Compile Include="Models\Mapping\aspnet_SchemaVersionsMap.cs" />
     <Compile Include="Models\Mapping\aspnet_UsersMap.cs" />
     <Compile Include="Models\Mapping\aspnet_WebEvent_EventsMap.cs" />
+    <Compile Include="Models\Mapping\BannerMap.cs" />
     <Compile Include="Models\Mapping\EtiketMap.cs" />
     <Compile Include="Models\Mapping\KategoriMap.cs" />
+    <Compile Include="Models\Mapping\KullaniciBegeniMap.cs" />
     <Compile Include="Models\Mapping\KullaniciMap.cs" />
-    <Compile Include="Models\Mapping\KullaniciResimMap.cs" />
+    <Compile Include="Models\Mapping\MakaleEtiketMap.cs" />
     <Compile Include="Models\Mapping\MakaleMap.cs" />
     <Compile Include="Models\Mapping\MakaleTipMap.cs" />
     <Compile Include="Models\Mapping\MesajlarMap.cs" />
@@ -721,7 +745,6 @@
     <Content Include="Views\Roller\Ekle.cshtml" />
     <Content Include="Views\Kullanici\Index.cshtml" />
     <Content Include="Views\Yazar\YazarinMakaleleri.cshtml" />
-    <Content Include="Views\Admin\KullaniciListesi.cshtml" />
     <Content Include="Views\Kullanici\YazarOl.cshtml" />
     <Content Include="Views\Admin\yazarIstek.cshtml" />
     <Content Include="Views\Admin\YazarListesi.cshtml" />

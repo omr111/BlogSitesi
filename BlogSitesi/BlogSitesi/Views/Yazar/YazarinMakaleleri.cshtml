@@ -5,7 +5,7 @@
 @using BlogSitesi.Models
 @model List<Makale>
 
-<div class="row">
+<div class="row" style="margin-top: 30px !important">
     <div class="col-md-12">
         <div class="block">
             <div class="block-heading">
@@ -37,15 +37,13 @@
                                     <td>@m.Baslik</td>
                                     <td>@m.YayinTarihi</td>
                                   
-                                    <td>
-                                        <a href="/Makale/Detay/@m.id" class="btn btn-info " data-toggle="modal" data-target=".rollerCagirModal" data-uyeadi="@m.id">
-
-                                            Detay
-                                        </a>
+                                <td>
+                                    <a href="~/Makale/Detay/@m.id" class="btn btn-info ">Detay</a>
+                                       
                                     </td>
                                     <td>
-                                        <a href="/Makale/MakaleDuzenle/@m.id" class="btn btn-success" data-target=".rollerCagirModal"> Güncelle</a>
-                          
+                                        <a href="/Makale/MakaleDuzenle/@m.id" class="btn btn-success"> Güncelle</a>
+                                      
                                     </td>
               
 
@@ -59,10 +57,10 @@
                                         en son olarak her html etiketinin sahip olduğu data- özelliğini kullanarak
                                         tıklandığı ürünün id'sini aldık bu data- Csharp'ta Tag üzelliğine denk gelmekte-->
                                     <td>
-                                        <button class="btn btn-danger kulname" data-toggle="modal" data-target="#small-modal" data-kulname="@m.id">
+                                        <a href="/Makale/MakaleSil/@m.id" class="btn btn-danger kulname" data-toggle="modal" data-target="#small-modal" data-kulname="@m.id">
 
                                             Sil
-                                        </button>
+                                        </a>
                                     </td>
 
 

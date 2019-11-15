@@ -1,8 +1,53 @@
 ﻿@{
-    ViewBag.Title = "KullaniciListesi";
+    ViewBag.Title = "Tüm Makaleler";
 }
 @using BlogSitesi.Models
 @model List<Makale>
+
+
+<div class="modal fade small-modal" id="small-modal" tabindex="-1" role="dialog" aria-labelledby="small-modal-label" aria-hidden="true">
+    <div class="modal-dialog">
+        <div class="modal-content" data-border-top="multi">
+            <div class="modal-header">
+                <button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
+                <h4 class="modal-title" id="small-modal-label">Makale Silme Ekranı</h4>
+            </div>
+            <div class="modal-body">
+                <p class="uyari1"></p>
+                <p class="pHata"></p>
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-default" data-dismiss="modal">Kapat</button>
+               
+                <button class="btn btn-danger btnMakaleSilOnay" >Sil</button>
+            </div>
+        </div><!-- /.modal-content -->
+    </div><!-- /.modal-dialog -->
+</div>
+<div class="modal fade small-modal rollerCagirModal" id="small-modal" tabindex="-1" role="dialog" aria-labelledby="small-modal-label" aria-hidden="true">
+    <div class="modal-dialog">
+        <div class="modal-content" data-border-top="multi">
+            <div class="modal-header">
+                <button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
+                <h4 class="modal-title" id="small-modal-label">Kullanıcı Rolleri</h4>
+            </div>
+            <div class="modal-body">
+                <p class="uyari"></p>
+                <p class="pHata"></p>
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
+
+
+            </div>
+        </div><!-- /.modal-content -->
+    </div><!-- /.modal-dialog -->
+</div>
+
+
+
+
+
 
 <div class="row">
     <div class="col-md-12">
@@ -44,28 +89,32 @@
                                         @m.YayinTarihi
                                     </td>
                                     <td>
-                                        <a href="/Makale/Detay/@m.id" class="btn btn-info " data-toggle="modal" data-target=".rollerCagirModal" data-uyeadi="@m.id">
+                                        <a href="/Makale/Detay/@m.id" class="btn btn-info makaleAdi " data-makaleadi="@m.Baslik">
 
                                             Detay
                                         </a>
                                     </td>
                                   
                                     <td>
-                                        <a href="/Makale/MakaleDuzenle/@m.id" class="btn btn-success" data-target=".rollerCagirModal"> Güncelle</a>
+                                        <a href="/Makale/MakaleDuzenle/@m.id" class="btn btn-success"> Güncelle</a>
                           
                                     </td>
 
                                     <td>
-                                        <button class="btn btn-warning kulname" data-toggle="modal" data-target="#small-modal" data-kulname="@m.id">
+                                        <button class="btn btn-warning kulname" data-toggle="modal" data-target="#small-modal" data-makale="@m.id">
 
                                             Kilitle
                                         </button>
                                     </td>
                                     <td>
-                                        <button class="btn btn-danger kulname" data-toggle="modal" data-target="#small-modal" data-kulname="@m.id">
+                                        <button class="btn btn-danger btnMakaleSil" data-toggle="modal" data-target="#small-modal"data-makaleadi="@m.Baslik" data-makale="@m.id">Sil</button>
+                                       
+                                                       
+                                              
+                                        @*<a href="/Makale/MakaleSil/@m.id" class="btn btn-danger kulname" data-toggle="modal" data-target="#small-modal" data-kulname="@m.id">
 
                                             Sil
-                                        </button>
+                                        </a>*@
                                     </td>
 
                                 </tr>
@@ -79,3 +128,39 @@
         </div>
     </div>
 </div>
+@*<script src="~/Scripts/jquery-3.4.1.js"></script>
+<script src="~/Scripts/jquery.unobtrusive-ajax.js"></script>*@
+@section js{
+    <script>
+        
+      
+        var makale;
+        $(".btnMakaleSil").click(function () {
+            var id = $(this).data("makale");
+            makale = $(".btnMakaleSilOnay").name = id;
+           
+            var baslik = $(this).data("makaleadi");
+           
+            $(".uyari1").html(baslik + " </br></br> Başlıklı Makaleyi Silmek İstediğinizden Emin misiniz ?");
+        });
+        $(".btnMakaleSilOnay").click(function () {
+           
+            $.ajax({
+                url: "/Makale/MakaleSil/",
+                data: { id: makale },
+                type: "POST",
+                success: function (result) {
+                    debugger
+                    if (result.isOK == 1) {
+                       
+                        $(".mesaj").html(result.message);
+                        document.location = "/Admin/TumMakale";
+                    } else
+                        $(".hata").html(result.message);
+
+                }
+
+            });
+        });
+    </script>
+}
