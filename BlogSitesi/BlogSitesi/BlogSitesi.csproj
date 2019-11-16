@@ -1,5 +1,6 @@
 ﻿<?xml version="1.0" encoding="utf-8"?>
 <Project ToolsVersion="12.0" DefaultTargets="Build" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <Import Project="$(MSBuildExtensionsPath32)\Microsoft\VisualStudio\v$(VisualStudioVersion)\TypeScript\Microsoft.TypeScript.Default.props" Condition="Exists('$(MSBuildExtensionsPath32)\Microsoft\VisualStudio\v$(VisualStudioVersion)\TypeScript\Microsoft.TypeScript.Default.props')" />
   <Import Project="$(MSBuildExtensionsPath)\$(MSBuildToolsVersion)\Microsoft.Common.props" Condition="Exists('$(MSBuildExtensionsPath)\$(MSBuildToolsVersion)\Microsoft.Common.props')" />
   <PropertyGroup>
     <Configuration Condition=" '$(Configuration)' == '' ">Debug</Configuration>
@@ -20,6 +21,7 @@
     <IISExpressWindowsAuthentication />
     <IISExpressUseClassicPipelineMode />
     <TargetFrameworkProfile />
+    <TypeScriptToolsVersion>1.0</TypeScriptToolsVersion>
   </PropertyGroup>
   <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|AnyCPU' ">
     <DebugSymbols>true</DebugSymbols>
@@ -558,6 +560,8 @@
     <Content Include="Content\index02.html" />
     <Content Include="Content\index03.html" />
     <Content Include="Content\js\main.js" />
+    <Content Include="Content\css\table.css" />
+    <Content Include="Content\js\table.js" />
     <Content Include="Content\js\vendor\bootstrap.min.js" />
     <Content Include="Content\js\vendor\jquery-1.10.1.min.js" />
     <Content Include="Content\js\vendor\jquery-1.11.1.min.js" />
@@ -570,6 +574,11 @@
     <Content Include="Content\js\vendor\jquery.mousewheel.js" />
     <Content Include="Content\js\vendor\jquery.raty.min.js" />
     <Content Include="Content\js\vendor\jquery.selectBoxIt.min.js" />
+    <Content Include="Content\js\vendor\logIn\css\icon-font.min.css" />
+    <Content Include="Content\js\vendor\logIn\css\main.css" />
+    <Content Include="Content\js\vendor\logIn\css\util.css" />
+    <Content Include="Content\js\vendor\logIn\image\bg-01.jpg" />
+    <Content Include="Content\js\vendor\logIn\image\icons\favicon.ico" />
     <Content Include="Content\js\vendor\modernizr-2.6.2-respond-1.1.0.min.js" />
     <Content Include="Content\KucukResim\user03.png" />
     <Content Include="Content\portfolio-1col.html" />
@@ -636,7 +645,6 @@
       <SubType>Designer</SubType>
     </Content>
     <Content Include="Views\Shared\_Layout.cshtml" />
-    <Content Include="Views\Shared\_MakaleListele.cshtml" />
     <Content Include="Views\_ViewStart.cshtml" />
     <Content Include="Views\Home\Index.cshtml" />
     <Content Include="Views\Kategori\Index.cshtml" />
@@ -738,7 +746,6 @@
   <ItemGroup>
     <Content Include="Views\web.config" />
     <Content Include="packages.config" />
-    <Content Include="Views\Kullanici\GirisYap.cshtml" />
     <Content Include="Views\Makale\MakaleYaz.cshtml" />
     <Content Include="Views\Kullanici\KayitOl.cshtml" />
     <Content Include="Views\Roller\Index.cshtml" />
@@ -750,6 +757,8 @@
     <Content Include="Views\Admin\YazarListesi.cshtml" />
     <Content Include="Views\Admin\TumMakale.cshtml" />
     <Content Include="Views\Makale\MakaleDuzenle.cshtml" />
+    <Content Include="Views\Kullanici\login.cshtml" />
+    <Content Include="Views\Shared\_MakaleListele.cshtml" />
     <None Include="Web.Debug.config">
       <DependentUpon>Web.config</DependentUpon>
     </None>
@@ -767,6 +776,7 @@
     <VSToolsPath Condition="'$(VSToolsPath)' == ''">$(MSBuildExtensionsPath32)\Microsoft\VisualStudio\v$(VisualStudioVersion)</VSToolsPath>
   </PropertyGroup>
   <Import Project="$(MSBuildBinPath)\Microsoft.CSharp.targets" />
+  <Import Project="$(MSBuildExtensionsPath32)\Microsoft\VisualStudio\v$(VisualStudioVersion)\TypeScript\Microsoft.TypeScript.targets" Condition="Exists('$(MSBuildExtensionsPath32)\Microsoft\VisualStudio\v$(VisualStudioVersion)\TypeScript\Microsoft.TypeScript.targets')" />
   <Import Project="$(VSToolsPath)\WebApplications\Microsoft.WebApplication.targets" Condition="'$(VSToolsPath)' != ''" />
   <Import Project="$(MSBuildExtensionsPath32)\Microsoft\VisualStudio\v10.0\WebApplications\Microsoft.WebApplication.targets" Condition="false" />
   <ProjectExtensions>

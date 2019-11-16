@@ -22,7 +22,7 @@
 }
 
 
- <div class="posts">
+<div class="posts">
     @foreach (BlogSitesi.Models.Makale m in Model)
     {
 
@@ -49,7 +49,7 @@
                 </figure>
                 <div class="text">
                     
-                        @metinKisalt(m.icerik);
+                    @metinKisalt(m.icerik);
                     
                 </div>
                 <a href="/Makale/Detay/@m.id" class="btn btn-default">Read more</a>
@@ -62,7 +62,3 @@
         <a href="#">Load More</a>
     </div>
 </div>
-
-   
-
-   

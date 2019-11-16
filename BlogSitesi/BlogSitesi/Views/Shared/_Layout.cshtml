@@ -23,11 +23,11 @@
     <link rel="stylesheet" href="/common-css/layerslider.css" />
     <link rel="stylesheet" href="/common-css/swiper.css" />
     <link href="/common-css/styles.css" rel="stylesheet" />
-
-    @RenderSection("sliderCss",false);
+    <link href="~/Content/css/table.css" rel="stylesheet" />
+    @RenderSection("sliderCss",false)
 
     <script src="/Content/js/vendor/modernizr-2.6.2-respond-1.1.0.min.js"></script>
-    @RenderSection("css", false);
+    @RenderSection("css", false)
 </head>
 <body>
 
@@ -57,9 +57,7 @@
 
                         </li>
 
-                        <li>
-                            <a href="about-us.html">Portfolio</a>
-                        </li>
+                        
 
                         <li>
                             <a href="about-us.html">About</a>
@@ -118,7 +116,7 @@
                         else
                         {
                             <li>
-                                <a href="/Kullanici/GirisYap">Giriş Yap</a>
+                                <a href="/Kullanici/login">Giriş Yap</a>
                             </li>
                             <li>
                                 <a href="/Kullanici/KayitOl">Kayıt Ol</a>
@@ -372,6 +370,7 @@
 <script src="/common-js/layerslider.js"></script>
 <script src="/common-js/scripts.js"></script>
 <script src="/common-js/swiper.js"></script>
+    <script src="~/Content/js/table.js"></script>
 @RenderSection("js", false);
 <script>
     $(document).ready(function() {

@@ -8,7 +8,9 @@ using System.Linq;
 using System.Web;
 using System.Web.Mvc;
 using System.Web.Security;
+using System.Web.UI.WebControls;
 using BlogSitesi.App_Classes;
+using Image = System.Drawing.Image;
 
 namespace BlogSitesi.Controllers
 {
@@ -25,34 +27,7 @@ namespace BlogSitesi.Controllers
 
             return View(kul);
         }                                                               
-        public ActionResult GirisYap()
-        {
-            return View();
-
-        }
-        [HttpPost]
-        public ActionResult GirisYap(string KullaniciAdi,string parola)
-        {
-            
-          
-            if (Membership.ValidateUser(KullaniciAdi,parola))
-            {
-             
-                FormsAuthentication.RedirectFromLoginPage(KullaniciAdi,true);
-                Guid GuidId = (Guid)Membership.GetUser(KullaniciAdi).ProviderUserKey;
-                Session["Kullanici"] = ctx.Kullanicis.FirstOrDefault(x => x.id == GuidId);
-               return RedirectToAction("Index", "Home");
-          
-            }
-            else
-            {
-                ViewBag.Mesaj="Kullanıcı Adı veya Parola Yanlış !";
-            return RedirectToAction("GirisYap");
-            }
-            
-
-        }
-    
+       
         public ActionResult CikisYap()
         {
             FormsAuthentication.SignOut();
@@ -154,6 +129,27 @@ namespace BlogSitesi.Controllers
             return View();
         }
 
-       
+        public ActionResult login()
+        {
+            return View();
+        }
+       [HttpPost]
+        public ActionResult login(string KullaniciAdi, string parola)
+        {
+            if (Membership.ValidateUser(KullaniciAdi,parola))
+            {
+             
+                FormsAuthentication.RedirectFromLoginPage(KullaniciAdi,true);
+                Guid GuidId = (Guid)Membership.GetUser(KullaniciAdi).ProviderUserKey;
+                Session["Kullanici"] = ctx.Kullanicis.FirstOrDefault(x => x.id == GuidId);
+                return RedirectToAction("Index", "Home");
+          
+            }
+            else
+            {
+                ViewBag.Mesaj = "Kullanıcı Adı veya Parola Yanlış !";
+                return RedirectToAction("login");
+            }
+        }
     }
 }
