@@ -1,4 +1,4 @@
-using System.ComponentModel.DataAnnotations.Schema;
+using System.ComponentModel.DataAnnotations;
 using System.Data.Entity.ModelConfiguration;
 
 namespace BlogSitesi.Models.Mapping
@@ -8,7 +8,7 @@ namespace BlogSitesi.Models.Mapping
         public MesajlarMap()
         {
             // Primary Key
-            this.HasKey(t => new { t.Gonderen, t.Alan, t.Mesaj });
+            this.HasKey(t => t.id);
 
             // Properties
             this.Property(t => t.Mesaj)
@@ -17,11 +17,21 @@ namespace BlogSitesi.Models.Mapping
 
             // Table & Column Mappings
             this.ToTable("Mesajlar");
-            this.Property(t => t.Gonderen).HasColumnName("Gonderen");
-            this.Property(t => t.Alan).HasColumnName("Alan");
+            this.Property(t => t.id).HasColumnName("id");
+            this.Property(t => t.GonderenId).HasColumnName("GonderenId");
+            this.Property(t => t.AlanId).HasColumnName("AlanId");
             this.Property(t => t.Mesaj).HasColumnName("Mesaj");
             this.Property(t => t.Tarih).HasColumnName("Tarih");
             this.Property(t => t.Goruldu).HasColumnName("Goruldu");
+
+            // Relationships
+            this.HasRequired(t => t.Kullanici)
+                .WithMany(t => t.Mesajlars)
+                .HasForeignKey(d => d.GonderenId);
+            this.HasRequired(t => t.Kullanici1)
+                .WithMany(t => t.Mesajlars1)
+                .HasForeignKey(d => d.AlanId);
+
         }
     }
 }

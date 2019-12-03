@@ -1,4 +1,4 @@
-using System.ComponentModel.DataAnnotations.Schema;
+using System.ComponentModel.DataAnnotations;
 using System.Data.Entity.ModelConfiguration;
 
 namespace BlogSitesi.Models.Mapping
@@ -36,6 +36,9 @@ namespace BlogSitesi.Models.Mapping
             this.Property(t => t.kullaniciResimPath)
                 .HasMaxLength(100);
 
+            this.Property(t => t.resimAltText)
+                .HasMaxLength(50);
+
             // Table & Column Mappings
             this.ToTable("Kullanici");
             this.Property(t => t.id).HasColumnName("id");
@@ -49,6 +52,7 @@ namespace BlogSitesi.Models.Mapping
             this.Property(t => t.Aktif).HasColumnName("Aktif");
             this.Property(t => t.parola).HasColumnName("parola");
             this.Property(t => t.kullaniciResimPath).HasColumnName("kullaniciResimPath");
+            this.Property(t => t.resimAltText).HasColumnName("resimAltText");
 
             // Relationships
             this.HasRequired(t => t.aspnet_Users)

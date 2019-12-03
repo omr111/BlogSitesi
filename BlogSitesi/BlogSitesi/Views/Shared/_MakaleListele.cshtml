@@ -44,7 +44,14 @@
             <div class="content">
                 <figure>
                     <a href="/Makale/Detay/@m.id">
-                        <img src="@m.Resim.BuyukResimYol" alt="" />
+                        @if (!string.IsNullOrEmpty(m.BuyukResimYol))
+                        {
+                            <img src="@m.BuyukResimYol" alt="@m.resimAlt" />
+                        }
+                        else
+                        {
+                            <img src="" alt="" />
+                        }
                     </a>
                 </figure>
                 <div class="text">

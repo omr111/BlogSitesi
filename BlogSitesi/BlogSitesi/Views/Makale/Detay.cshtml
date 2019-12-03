@@ -47,9 +47,9 @@
         <div class="text-editor">
           
             <figure>
-                @if (!string.IsNullOrEmpty(@Model.Resim.BuyukResimYol) || @Model.Resim.BuyukResimYol != null)
+                @if (!string.IsNullOrEmpty(@Model.BuyukResimYol) || @Model.BuyukResimYol != null)
                 {
-                    <img src="@Model.Resim.BuyukResimYol" alt="#" />
+                    <img src="@Model.BuyukResimYol" alt="@Model.resimAlt" />
                 }
                 else
                 {
@@ -66,12 +66,12 @@
                         <a href="/Yazar/Index/@Model.YazarID">
                             @if (!string.IsNullOrEmpty(@Model.Kullanici.kullaniciResimPath) || @Model.Kullanici.kullaniciResimPath != null)
                             {
-                                <img src="@Model.Kullanici.kullaniciResimPath" alt="#" />
+                                <img src="@Model.Kullanici.kullaniciResimPath" alt="@Model.Kullanici.resimAltText" />
                             }
                             else
                             {
 
-                                <img src="/Content/content/user03.png" alt="makale" />
+                                <img src="/Content/content/user03.png" alt="Blog-Site" />
                             }
                             
                         </a>
@@ -98,12 +98,12 @@
                             <a href="#">
                                 @if (!string.IsNullOrEmpty(y.Kullanici.kullaniciResimPath) || y.Kullanici.kullaniciResimPath != null)
                                 {
-                                    <img src="@y.Kullanici.kullaniciResimPath" alt="author" />
+                                    <img src="@y.Kullanici.kullaniciResimPath" alt="@y.Kullanici.resimAltText" />
                                 }
                                 else
                                 {
                             
-                                    <img src="~/Content/content/user03.png" />
+                                    <img src="~/Content/content/user03.png" alt="blog-site"/>
                                 }
                             </a>
                         </figure>

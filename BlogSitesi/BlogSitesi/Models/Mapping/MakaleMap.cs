@@ -1,4 +1,4 @@
-using System.ComponentModel.DataAnnotations.Schema;
+using System.ComponentModel.DataAnnotations;
 using System.Data.Entity.ModelConfiguration;
 
 namespace BlogSitesi.Models.Mapping
@@ -18,6 +18,15 @@ namespace BlogSitesi.Models.Mapping
             this.Property(t => t.icerik)
                 .IsRequired();
 
+            this.Property(t => t.BuyukResimYol)
+                .HasMaxLength(150);
+
+            this.Property(t => t.kucukResimYol)
+                .HasMaxLength(150);
+
+            this.Property(t => t.resimAlt)
+                .HasMaxLength(50);
+
             // Table & Column Mappings
             this.ToTable("Makale");
             this.Property(t => t.id).HasColumnName("id");
@@ -27,20 +36,13 @@ namespace BlogSitesi.Models.Mapping
             this.Property(t => t.KategoriID).HasColumnName("KategoriID");
             this.Property(t => t.MakaleTipID).HasColumnName("MakaleTipID");
             this.Property(t => t.YazarID).HasColumnName("YazarID");
-            this.Property(t => t.KapakResimID).HasColumnName("KapakResimID");
             this.Property(t => t.Goruntulenme).HasColumnName("Goruntulenme");
             this.Property(t => t.Aktif).HasColumnName("Aktif");
+            this.Property(t => t.BuyukResimYol).HasColumnName("BuyukResimYol");
+            this.Property(t => t.kucukResimYol).HasColumnName("kucukResimYol");
+            this.Property(t => t.resimAlt).HasColumnName("resimAlt");
 
             // Relationships
-            this.HasMany(t => t.Resims)
-                .WithMany(t => t.Makales1)
-                .Map(m =>
-                    {
-                        m.ToTable("MakaleResim");
-                        m.MapLeftKey("MakaleID");
-                        m.MapRightKey("ResimID");
-                    });
-
             this.HasRequired(t => t.Kategori)
                 .WithMany(t => t.Makales)
                 .HasForeignKey(d => d.KategoriID);
@@ -50,9 +52,6 @@ namespace BlogSitesi.Models.Mapping
             this.HasOptional(t => t.MakaleTip)
                 .WithMany(t => t.Makales)
                 .HasForeignKey(d => d.MakaleTipID);
-            this.HasRequired(t => t.Resim)
-                .WithMany(t => t.Makales)
-                .HasForeignKey(d => d.KapakResimID);
 
         }
     }

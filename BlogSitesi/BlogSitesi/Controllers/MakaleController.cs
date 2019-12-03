@@ -11,6 +11,7 @@ using System.Drawing;
 using System.Web.Helpers;
 using System.Web.UI;
 using System.Xml.Schema;
+using BlogSitesi.myModels;
 
 namespace BlogSitesi.Controllers
 {
@@ -106,7 +107,10 @@ namespace BlogSitesi.Controllers
                         m.YazarID = aktif.id;
                     if (Resim!=null)
                     {
-                        m.KapakResimID = ResimKaydet(Resim,HttpContext);
+                        resimKaydet kaydet=ResimKaydet(Resim,HttpContext);
+                        m.BuyukResimYol= kaydet.buyukResimYol;
+                         m.kucukResimYol=  kaydet.kucukResimYol;
+                         m.resimAlt = kaydet.resimAltText;
                     }
                     else
                     {
@@ -160,20 +164,20 @@ namespace BlogSitesi.Controllers
                         etiketAdi += etiket.Etiket.Adi + ",";
                     }
             }
-            
 
-            string kapakResimUrl = ctx.Resims.FirstOrDefault(x => x.id ==makale.KapakResimID ).BuyukResimYol;
-            if (!string.IsNullOrEmpty(kapakResimUrl))
-            {
-                ViewBag.kapakResim = kapakResimUrl;
-            }
-            else
-            {
-                ViewBag.kapakResim = '#';
-            }
 
-            var devide=kapakResimUrl.Split('/');
-            var fileName = devide[devide.Length - 1];
+            //string kapakResimUrl = makale.BuyukResimYol;
+            //if (!string.IsNullOrEmpty(kapakResimUrl))
+            //{
+            //    ViewBag.kapakResim = kapakResimUrl;
+            //}
+            //else
+            //{
+            //    ViewBag.kapakResim = '#';
+            //}
+
+            //var devide=kapakResimUrl.Split('/');
+            //var fileName = devide[devide.Length - 1];
             
            
             int count = etiketAdi.Length - 1;
@@ -189,34 +193,37 @@ namespace BlogSitesi.Controllers
             try
             {
                
-                Makale m = ctx.Makales.FirstOrDefault(x => x.id == makale.id);
+                Makale makaleUpdated = ctx.Makales.FirstOrDefault(x => x.id == makale.id);
                 if (Resim != null)
                 {
                     
-                    Resim makaleResim = ctx.Resims.FirstOrDefault(x => x.id == m.KapakResimID);
                    
-                        if (System.IO.File.Exists(Server.MapPath("/Content/BuyukResim/" + makaleResim.BuyukResimYol)))
+                   //todo yanlış olabilir kontrol et!
+                        if (System.IO.File.Exists(Server.MapPath( makaleUpdated.BuyukResimYol)))
                         {
-                            System.IO.File.Delete(Server.MapPath("/Content/BuyukResim/" + makaleResim.BuyukResimYol));
+                            System.IO.File.Delete(Server.MapPath(makaleUpdated.BuyukResimYol));
 
                         }
-                        if (System.IO.File.Exists(Server.MapPath("/Content/BuyukResim/" + makaleResim.KucukResimYol)))
+                        if (System.IO.File.Exists(Server.MapPath(makaleUpdated.kucukResimYol)))
                         {
-                            System.IO.File.Delete(Server.MapPath("/Content/BuyukResim/" + makaleResim.BuyukResimYol));
+                            System.IO.File.Delete(Server.MapPath(makaleUpdated.kucukResimYol));
                         }
 
-                        ctx.Entry(makaleResim).State = EntityState.Deleted;
-                        ctx.SaveChanges();
-                    m.KapakResimID = ResimKaydet(Resim, HttpContext);
+                        
+                    resimKaydet kaydet = ResimKaydet(Resim, HttpContext);
+                    makaleUpdated.BuyukResimYol = kaydet.buyukResimYol;
+                    makaleUpdated.kucukResimYol = kaydet.kucukResimYol;
+                    makaleUpdated.resimAlt = kaydet.resimAltText;
                 }
-                m.Baslik = makale.Baslik;
+                makaleUpdated.Baslik = makale.Baslik;
                 
-                m.icerik = makale.icerik;
-                ctx.Entry(m).State = EntityState.Modified;
+                makaleUpdated.icerik = makale.icerik;
+                
+                ctx.Entry(makaleUpdated).State = EntityState.Modified;
                 //todo hata kontrolü yapılacak.
                 ctx.SaveChanges();
                 string[] tags = etiketler.Split(',');
-                List < MakaleEtiket > makaleEtikets = ctx.MakaleEtikets.Where(x => x.MakaleID == m.id).ToList();
+                List < MakaleEtiket > makaleEtikets = ctx.MakaleEtikets.Where(x => x.MakaleID == makaleUpdated.id).ToList();
                 foreach (var etiket  in makaleEtikets)
                 {
                     ctx.Entry(etiket).State = EntityState.Deleted;
@@ -239,7 +246,7 @@ namespace BlogSitesi.Controllers
                    
                         MakaleEtiket makaleyeEtiketEkle = new MakaleEtiket();
                         makaleyeEtiketEkle.EtiketID = searchEtiket.id;
-                        makaleyeEtiketEkle.MakaleID = m.id;
+                        makaleyeEtiketEkle.MakaleID = makaleUpdated.id;
                         ctx.MakaleEtikets.Add(makaleyeEtiketEkle);
                         ctx.SaveChanges();
                     
@@ -260,7 +267,7 @@ namespace BlogSitesi.Controllers
                 return RedirectToAction("MakaleDuzenle");
             }
         }
-       public static int ResimKaydet(HttpPostedFileBase Resim,HttpContextBase ctx)
+       public static resimKaydet ResimKaydet(HttpPostedFileBase Resim,HttpContextBase ctx)
         {
             BlogContext context = new BlogContext();
             
@@ -269,7 +276,15 @@ namespace BlogSitesi.Controllers
         
             int buyukEn = Setttings.BuyukResimYol.Width;
             int buyuBoy = Setttings.BuyukResimYol.Height;
-            string newName = Path.GetFileNameWithoutExtension(Resim.FileName)+"-"+Guid.NewGuid()+ Path.GetExtension(Resim.FileName);
+            string newName = "";
+            if (Resim.FileName.Length>10)
+            {
+                newName = Path.GetFileNameWithoutExtension(Resim.FileName.Substring(0, 10)) + "-" + Guid.NewGuid() + Path.GetExtension(Resim.FileName);
+            }
+            else
+            {
+                 newName = Path.GetFileNameWithoutExtension(Resim.FileName) + "-" + Guid.NewGuid() + Path.GetExtension(Resim.FileName);
+            }
             Image orjResim = Image.FromStream(Resim.InputStream);
          
             Bitmap kucukResim = new Bitmap(orjResim, kucukEn, kucukBoy);
@@ -278,47 +293,44 @@ namespace BlogSitesi.Controllers
             kucukResim.Save(ctx.Server.MapPath("~/Content/KucukResim/"+newName));
         
             buyukResim.Save(ctx.Server.MapPath("~/Content/BuyukResim/" + newName));
-           Kullanici k = (Kullanici)ctx.Session["Kullanici"];
-          Resim dbResim= new Models.Resim();
-          //resmin alt'ı olarak kullanacağım filename'i
-           dbResim.Adi=Resim.FileName;
+          
+         
 
-           dbResim.KucukResimYol="/Content/KucukResim/"+newName;
-           dbResim.BuyukResimYol = "/Content/BuyukResim/" + newName;
-
-           //dbResim.EklemeTarihi = Convert.ToDateTime(DateTime.Now.ToString("d"));
-           dbResim.EkleyenID = k.id;
-           context.Resims.Add(dbResim);
-           
-           context.SaveChanges();
-           return dbResim.id;
+         resimKaydet kaydet =new resimKaydet();
+         kaydet.buyukResimYol="/Content/BuyukResim/" + newName;
+         kaydet.kucukResimYol = "/Content/KucukResim/" + newName;
+         if (Resim.FileName.Length>50)
+         {
+             kaydet.resimAltText = Resim.FileName.Substring(0,49);
+         }
+         else
+         {
+             kaydet.resimAltText = Resim.FileName;
+         }
+          
+           return kaydet;
         }
         [HttpPost]
        public JsonResult MakaleSil(int id)
        {
            try
            {
-               
-                   Resim makaleResim = ctx.Resims.FirstOrDefault(x => x.id == id);
+               Makale makale = ctx.Makales.FirstOrDefault(x => x.id == id);
 
-                   if (makaleResim!=null)
+               if (makale != null)
                    {
-                       if (System.IO.File.Exists(Server.MapPath("/Content/BuyukResim/" + makaleResim.BuyukResimYol)))
+                       if (System.IO.File.Exists(Server.MapPath(makale.BuyukResimYol)))
                        {
-                           System.IO.File.Delete(Server.MapPath("/Content/BuyukResim/" + makaleResim.BuyukResimYol));
+                           System.IO.File.Delete(Server.MapPath(makale.BuyukResimYol));
                    
                        }
-                       if (System.IO.File.Exists(Server.MapPath("/Content/BuyukResim/" + makaleResim.KucukResimYol)))
+                       if (System.IO.File.Exists(Server.MapPath(makale.kucukResimYol)))
                        {
-                           System.IO.File.Delete(Server.MapPath("/Content/BuyukResim/" + makaleResim.BuyukResimYol));
+                           System.IO.File.Delete(Server.MapPath(makale.kucukResimYol));
                        }
                    }
 
-                   if (makaleResim!=null)
-                   {
-                        ctx.Entry(makaleResim).State = EntityState.Deleted;
-                        ctx.SaveChanges();
-                   }
+                 
 
                   List<MakaleEtiket> etikets= ctx.MakaleEtikets.Where(x => x.MakaleID==id).ToList();
                   if (etikets.Count>0)
@@ -353,7 +365,7 @@ namespace BlogSitesi.Controllers
 
                       ctx.SaveChanges();
                   }
-                   Makale makale = ctx.Makales.FirstOrDefault(x => x.id == id);
+                  
                    ctx.Entry(makale).State = EntityState.Deleted;
                    int result = ctx.SaveChanges();
                    if (result>0)

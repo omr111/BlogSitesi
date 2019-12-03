@@ -12,7 +12,7 @@
 <div class="tabs-top col-md-11">
     <ul class="nav nav-tabs">
         <li class="active alert-success"><a href="#top-tab1" data-toggle="tab">Metin Makale</a></li>
-        <li class="alert-success"><a href="#top-tab2" data-toggle="tab">Resim Galerisi</a></li>
+
 
     </ul>
     <div class="tab-content">
@@ -42,7 +42,7 @@
                     <tr>
                         <td><label>Resim</label></td>
                         <td class="img">
-                            <img src="@ViewBag.kapakResim" />
+                            <img src="@Model.BuyukResimYol" />
                         </td>
                     </tr>
                     <tr>
@@ -54,6 +54,7 @@
                     <tr>
                         <td><label>İçerik</label></td>
                         <td><textarea id="ckEditor" class="form-control" rows="20" cols="80" name="icerik" placeholder="Makalenizi Giriniz...">@Html.Raw(Model.icerik)</textarea></td>
+                     
                     </tr>
                     <tr>
                         <td></td>
@@ -89,12 +90,9 @@
 
 @section js{
     <script type="text/javascript">
-        var editor = CKEDITOR.instances['ckEditor'];
-        if (editor) {
-            editor.destroy(true);
 
-        }
-        CKEDITOR.replace('ckEditor', { entermode: CKEDITOR.ENTER_BR });
+        var editor = CKEDITOR.replace('ckEditor');
+        CKFinder.setupCKEditor(editor);
         //$(".updateMakale").click(function () {
             
         //    var baslik = $("#baslik").val();

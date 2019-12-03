@@ -15,7 +15,14 @@
                         <li>
                             <figure>
                                 <a href="/Makale/Detay/@m.id">
-                                    <img src="@m.Resim.KucukResimYol" alt="" />
+                                    @if (!string.IsNullOrEmpty(m.kucukResimYol))
+                                    {
+                                        <img src="@m.kucukResimYol" alt="@m.resimAlt" />
+                                    }
+                                    else
+                                    {
+                                        <img src="" alt="" />
+                                    }
                                 </a>
                             </figure>
                             <div class="text">
@@ -33,7 +40,14 @@
                         <li>
                             <figure>
                                 <a href="/Makale/Detay/@ma.id">
-                                    <img src="@ma.Resim.KucukResimYol" alt="" />
+                                    @if (!string.IsNullOrEmpty(ma.kucukResimYol))
+                                    {
+                                        <img src="@ma.kucukResimYol" alt="@ma.resimAlt" />
+                                    }
+                                    else
+                                    {
+                                        <img src="" alt="" />
+                                    }
                                 </a>
                             </figure>
                             <div class="text">

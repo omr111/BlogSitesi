@@ -58,14 +58,25 @@
 </div>
 
 @section js{
-    <script type="text/javascript">
-        var editor = CKEDITOR.instances['ckEditor'];
-        if (editor) {
-            editor.destroy(true);
 
-        }
-        CKEDITOR.replace('ckEditor', { entermode: CKEDITOR.ENTER_BR });
-        
+    
+    <script type="text/javascript">
+       
+   
+        var editor = CKEDITOR.instances['editor1'];
+        if (editor) { editor.destroy(true); }
+        CKEDITOR.replace('ckEditor', {
+            enterMode: CKEDITOR.ENTER_BR,
+        });
+        CKFinder.setupCKEditor(null, '@Url.Content("~/ckfinder/")');
+
+        //var editor = CKEDITOR.instances['ckEditor'];
+        //if (editor) {
+
+        //    editor.destroy(true);
+        //    CKFinder.setupCKEditor(editor);
+        //}
+        //CKEDITOR.replace('ckEditor', { entermode: CKEDITOR.ENTER_BR });
     </script>
 }
 
