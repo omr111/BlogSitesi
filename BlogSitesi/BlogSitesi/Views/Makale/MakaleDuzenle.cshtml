@@ -8,7 +8,7 @@
 @using System.Web.Razor
 @model BlogSitesi.Models.Makale
 
-<h2>Yeni Makale Oluştur</h2>
+<h2>Makale Düzenle</h2>
 <div class="tabs-top col-md-11">
     <ul class="nav nav-tabs">
         <li class="active alert-success"><a href="#top-tab1" data-toggle="tab">Metin Makale</a></li>
@@ -53,7 +53,7 @@
                     </tr>
                     <tr>
                         <td><label>İçerik</label></td>
-                        <td><textarea id="ckEditor" class="form-control" rows="20" cols="80" name="icerik" placeholder="Makalenizi Giriniz...">@Html.Raw(Model.icerik)</textarea></td>
+                        <td><textarea id="ckEditor" class="form-control" rows="20" cols="80" name="icerik" style="overflow: scroll;" placeholder="Makalenizi Giriniz...">@Html.Raw(Model.icerik)</textarea></td>
                      
                     </tr>
                     <tr>
@@ -91,66 +91,18 @@
 @section js{
     <script type="text/javascript">
 
-        var editor = CKEDITOR.replace('ckEditor');
-        CKFinder.setupCKEditor(editor);
-        //$(".updateMakale").click(function () {
-            
-        //    var baslik = $("#baslik").val();
+        var editor = CKEDITOR.instances["editor1"];
+        if (editor) {
+            editor.destroy(true);
 
-        //    var kategoriID = $("#KategoriID").val();
-        //    var icerik = $("#ckEditor").val();
-        //    var al = $(".dataAl").data("model");
-
-            //var totalFiles = document.getElementById("Resim").files.length;
-            //var formData = new FormData();
-            //for (var i = 0; i < totalFiles; i++) {
-            //    var file = document.getElementById("Resim").files[i];
-            //    formData.append("Resim", file);
-            //}
-        //    var etiket = $("#etiketler").val();
-
-        //    var photo = document.getElementById("Resim");
-        //    var file = photo.files[0];
-        //    var formData = new FormData();
-        //    formData.append("file-0", file);
-        //    $.ajax({
-        //                url: "/Makale/MakaleDuzenle/" + al,
-        //                type: "POST",
-        //                data: { KategoriID: kategoriID, icerik: icerik, Baslik: baslik, etiketler: etiket, Resim: formData },
-        //                dataType: "json",
-        //                encode: true,
-        //                cache: false,
-        //                contentType: false,
-        //                processData: false,
-        //                error: function (result) { alert("hata") },
-        //                success: function (result) {
-        //                    alert(formData);
-        //                    console.log(result);
-                           
-        //                    var tag ="* "+'<tr> <td style="color:#ed9d68";font-size:20px;">' + result.message + '</td></tr>';
-                           
-        //                    $(".errorMessages").append(tag);
-
-        //                }
-        //            });
-        //});
-
-        //$(".updateMakale").click(function () {
-        //    var al = $(".dataAl").data("model");
-        //    $.ajax({
-        //        url: "/Makale/MakaleDuzenle/" + al,
-        //     type:"POST",
-        //        content_type: "application-json",
-        //        error: function (result) { alert("hata") },
-        //        success: function (result) {
-
-        //            console.log(result);
-        //            alert(result.message);
-        //            $(".errorMessages").append("<h3>" + result.message + "</h3>");
-
-        //        }
-        //    });
-        //});
+        }
+        
+        CKEDITOR.replace('ckEditor',
+            {
+                entermode: CKEDITOR.ENTER_BR
+            });
+        CKFinder.setupCKEditor(null, '@Url.Content("~/ckfinder/")');
+     
     </script>
 }
 

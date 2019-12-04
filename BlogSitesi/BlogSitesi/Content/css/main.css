@@ -333,7 +333,6 @@ body.sticky-nav .main-header {
   float: left;
   width: 100%;
   margin-bottom: 140px;
-  box-shadow: 010px 40px rgba(0,0,0,.5) !important;
 }
 .main-container > .container {
   background: #ffffff;
@@ -342,9 +341,7 @@ body.sticky-nav .main-header {
   -moz-border-radius: 3px;
   -moz-background-clip: padding;
   border-radius: 3px;
- width: 95%;
   background-clip: padding-box;
-    box-shadow: 010px 40px rgba(26,188,156,.1) !important;
 }
 .main-container.simple .wrapper {
   float: left;
@@ -368,7 +365,7 @@ body.sticky-nav .main-header {
 .main-container.boxed .box {
   float: left;
   width: 100%;
-  background: #ffffff;box-shadow: 010px 40px rgba(26,188,156,.1) !important;
+  background: #ffffff;
   -webkit-border-radius: 3px;
   -webkit-background-clip: padding-box;
   -moz-border-radius: 3px;
@@ -4213,15 +4210,13 @@ body.sticky-nav .main-header {
   border: none;
   border-top: solid 1px #E8EEF0;
 }
-    .selectboxit-container .selectboxit-options a {
-        height: 40px;
-        width: 100%;
-        -ms-text-overflow: ellipsis;
-        -o-text-overflow: ellipsis;
-        text-overflow: ellipsis;
-        overflow: hidden;
-        white-space: nowrap;
-    }
+.selectboxit-container .selectboxit-options a {
+  height: 40px;
+  width: 100%;
+  text-overflow: ellipsis;
+  overflow: hidden;
+  white-space: nowrap;
+}
 .selectboxit-container .selectboxit-options span {
   height: 40px;
   line-height: 40px;
@@ -4240,20 +4235,18 @@ body.sticky-nav .main-header {
 .selectboxit-container .selectboxit-option-icon-container {
   display: none;
 }
-    .selectboxit-container .selectboxit-text {
-        text-indent: 0px;
-        padding: 0 65px 0 20px;
-        width: 100%;
-        -ms-text-overflow: ellipsis;
-        -o-text-overflow: ellipsis;
-        text-overflow: ellipsis;
-        overflow: hidden;
-        white-space: nowrap;
-        -webkit-box-sizing: border-box;
-        -moz-box-sizing: border-box;
-        box-sizing: border-box;
-        text-align: left;
-    }
+.selectboxit-container .selectboxit-text {
+  text-indent: 0px;
+  padding: 0 65px 0 20px;
+  width: 100%;
+  text-overflow: ellipsis;
+  overflow: hidden;
+  white-space: nowrap;
+  -webkit-box-sizing: border-box;
+  -moz-box-sizing: border-box;
+  box-sizing: border-box;
+  text-align: left;
+}
 .selectboxit-container .selectboxit {
   width: 100%;
 }

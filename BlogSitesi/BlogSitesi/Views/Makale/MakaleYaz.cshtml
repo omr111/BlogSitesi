@@ -40,7 +40,7 @@
         </tr>
         <tr>
             <td><label>İçerik</label></td>
-            <td><textarea id="ckEditor"  class="form-control" rows="20" cols="80" name="icerik" placeholder="Makalenizi Giriniz..."></textarea></td>
+            <td><textarea id="ckEditor" class="form-control" style="overflow: scroll;" rows="20" cols="80" name="icerik" placeholder="Makalenizi Giriniz..."></textarea></td>
         </tr>
 
         <tr>
@@ -63,20 +63,15 @@
     <script type="text/javascript">
        
    
-        var editor = CKEDITOR.instances['editor1'];
-        if (editor) { editor.destroy(true); }
-        CKEDITOR.replace('ckEditor', {
-            enterMode: CKEDITOR.ENTER_BR,
-        });
+        var editor = CKEDITOR.instances["editor1"];
+        if (editor) {
+            editor.destroy(true);
+
+        }
+
+        CKEDITOR.replace('ckEditor', { entermode: CKEDITOR.ENTER_BR });
         CKFinder.setupCKEditor(null, '@Url.Content("~/ckfinder/")');
 
-        //var editor = CKEDITOR.instances['ckEditor'];
-        //if (editor) {
-
-        //    editor.destroy(true);
-        //    CKFinder.setupCKEditor(editor);
-        //}
-        //CKEDITOR.replace('ckEditor', { entermode: CKEDITOR.ENTER_BR });
     </script>
 }
 

@@ -35,6 +35,7 @@ namespace BlogSitesi.Models
         public DbSet<MakaleEtiket> MakaleEtikets { get; set; }
         public DbSet<MakaleTip> MakaleTips { get; set; }
         public DbSet<Mesajlar> Mesajlars { get; set; }
+        public DbSet<SirketBilgileri> SirketBilgileris { get; set; }
         public DbSet<SiteTakip> SiteTakips { get; set; }
         public DbSet<sysdiagram> sysdiagrams { get; set; }
         public DbSet<YazarlikBasvurusu> YazarlikBasvurusus { get; set; }
@@ -71,6 +72,7 @@ namespace BlogSitesi.Models
             modelBuilder.Configurations.Add(new MakaleEtiketMap());
             modelBuilder.Configurations.Add(new MakaleTipMap());
             modelBuilder.Configurations.Add(new MesajlarMap());
+            modelBuilder.Configurations.Add(new SirketBilgileriMap());
             modelBuilder.Configurations.Add(new SiteTakipMap());
             modelBuilder.Configurations.Add(new sysdiagramMap());
             modelBuilder.Configurations.Add(new YazarlikBasvurusuMap());

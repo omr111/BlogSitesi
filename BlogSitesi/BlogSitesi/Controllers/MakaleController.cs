@@ -91,7 +91,7 @@ namespace BlogSitesi.Controllers
             return View();
 
         }
-
+        //returnleri kontrol et. validation hatalarına göre return yapılacak
         [ValidateInput(false)]
         [HttpPost]
         public ActionResult MakaleYaz(Makale m,HttpPostedFileBase Resim,string etiketler)
@@ -139,13 +139,13 @@ namespace BlogSitesi.Controllers
                         ctx.SaveChanges();
                     }
                 }
+                return RedirectToAction("Index", "Home");
             }
             catch (Exception e)
             {
-                Console.WriteLine(e);
-                throw;
+                return RedirectToAction("Index", "Home");
             }
-            return RedirectToAction("Index","Home");
+           
         }
        
         [ValidateInput(false)]

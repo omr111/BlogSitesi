@@ -12,16 +12,17 @@ namespace BlogSitesi.Controllers
         BlogContext ctx = new BlogContext();
         //
         // GET: /Etiket/
-        public ActionResult Index(int id)
+        public ActionResult Index()
         {
-            return View(id);
+            return View();
         }
         public PartialViewResult Etiket()
         {
-            List<Etiket> etiketler = ctx.Etikets.Take(20).ToList();
+            List<Etiket> etiketler = ctx.Etikets.OrderByDescending(x => x.MakaleEtikets.Count).Take(20).ToList();
             return PartialView(etiketler);
     
         }
+     
         public ActionResult EtiketeGoreMakaleGetir(int id)
         {
             

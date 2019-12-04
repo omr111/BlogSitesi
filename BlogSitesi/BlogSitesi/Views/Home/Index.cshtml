@@ -1,38 +1,72 @@
-﻿
+﻿@using BlogSitesi.Models
+@model List<BlogSitesi.Models.Banner>
 @{
     ViewBag.Title = "Home-Index";
 }
 
 @section siteSlider{
-    <div class="main-slider" style="margin-top: 0;margin-bottom: 15px;">
-        <div id="slider">
+    <!-- main-slider -->
+   
+        <div class="main-slider" style="margin-top: 0;margin-bottom: 15px;">
+            <div id="slider">
+            @foreach (Banner banner in Model)
+            {
+                <div class="ls-slide" data-ls="bgsize:cover; bgposition:50% 50%; duration:4000; transition2d:104; kenburnsscale:1.00;">
+                    <img src="@banner.bannerPicPath" class="ls-bg" alt="@banner.buttonName" />
 
-            <div class="ls-slide" data-ls="bgsize:cover; bgposition:50% 50%; duration:4000; transition2d:104; kenburnsscale:1.00;">
-                <img src="~/images/slider-1-1600x800.jpg" class="ls-bg" alt="" />
+                    <div class="slider-content ls-l" style="top:60%; left:30%;" data-ls="offsetyin:100%; offsetxout:-50%; durationin:800; delayin:100; durationout:400; parallaxlevel:0;">
+                        
+                        <h3 class="title" style="font-family: mochary"><b>@banner.textArea</b></h3>
+                   
+                    </div>
 
-                <div class="slider-content ls-l" style="top:60%; left:30%;" data-ls="offsetyin:100%; offsetxout:-50%; durationin:800; delayin:100; durationout:400; parallaxlevel:0;">
-                    <a class="btn" href="#">DEVELOPER</a>
-                    <h3 class="title"><b>Developer, Love, Live</b></h3>
-                    <h6>29 October, 2017</h6>
-                </div>
+                </div><!-- ls-slide -->
 
-            </div><!-- ls-slide -->
-
-            <div class="ls-slide" data-ls="bgsize:cover; bgposition:50% 50%; duration:4000; transition2d:104; kenburnsscale:1.00;">
-                <img src="~/images/slider-2-1600x800.jpg" class="ls-bg" alt="" />
-
-                <div class="slider-content ls-l" style="top:60%; left:30%;" data-ls="offsetyin:100%; offsetxout:-50%; durationin:800; delayin:100; durationout:400; parallaxlevel:0;">
-                    <a class="btn" href="#">TRAVEL</a>
-                    <h3 class="title"><b>Travel, Love, Live</b></h3>
-                    <h6>29 October, 2017</h6>
-                </div>
-
-            </div><!-- ls-slide -->
-
-        </div><!-- slider -->
-    </div><!-- main-slider -->
+            }
+            </div><!-- slider -->
+        </div>
+   
 }
+<div class="posts">
+    @{
+        Html.RenderAction("MakaleListele");
+    }
+    <div class="load-more" >
+        <a class="loadMore" href="javascript:void(0)">Load More</a>
+    </div>
+</div>
+<script type="text/javascript" src="~/Content/js/vendor/jquery-1.11.1.min.js"></script>
+<script src="/Scripts/jquery.unobtrusive-ajax.min.js"></script>
+<script type="text/javascript">
+    var pageNo=1;
+    var isDataFinish = true;
+    $(".loadMore").click(function () {
 
-@{
-    Html.RenderAction("MakaleListele");
-}
+        if (isDataFinish) {
+            $.ajax({
+                url: "/Home/MakaleListele",
+                data: { page: pageNo },
+                type: "Get",
+                success: function (data) {
+
+                        $(".load-more").before(data);
+                        pageNo++;
+                    
+
+                        if ($.trim(data != '')) {
+                        isDataFinish = false;
+                      
+                        $(".loadMore").remove();
+                       
+                        }
+
+
+
+                },
+                error: function () { alert("Sayfa Yükleme Sırasında Hata Oluştur Tekrar Deneyiniz.") }
+
+            })
+        }
+      
+    })
+</script>

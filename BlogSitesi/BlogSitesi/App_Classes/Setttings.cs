@@ -9,6 +9,29 @@ namespace BlogSitesi.App_Classes
 {
     public class Setttings
     {
+        public static Size BannerSize
+        {
+            get
+            {
+                Size sonuc = new Size();
+                sonuc.Width = Convert.ToInt32(ConfigurationManager.AppSettings["bannerW"]);
+                sonuc.Height = Convert.ToInt32(ConfigurationManager.AppSettings["bannerH"]);
+                return sonuc;
+            }
+
+        }
+
+        public static Size LogoSize
+        {
+            get
+            {
+                Size sonuc = new Size();
+                sonuc.Width = Convert.ToInt32(ConfigurationManager.AppSettings["logoW"]);
+                sonuc.Height = Convert.ToInt32(ConfigurationManager.AppSettings["logoH"]);
+                return sonuc;
+            }
+
+        }
         public static Size KucukResimYol
         {
             get

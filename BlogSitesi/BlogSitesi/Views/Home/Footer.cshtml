@@ -1,0 +1,107 @@
+﻿@model BlogSitesi.myModels.footerModel
+<footer class="main-footer">
+    <div class="footer-newsletter">
+        <div class="container">
+            <div class="row">
+                <div class="col-sm-12 center">
+                    <h2 style="text-align: center;font-family: mochary"><strong>@Model.SirketBilgileri.siteAdi</strong></h2>
+                   
+                </div>
+           
+            </div>
+        </div>
+    </div>
+    <div class="footer-social">
+        <div class="container">
+            <div class="row">
+                <div class="col-sm-12 text-center">
+                    <ul class="social-icons">
+                        <li><a href="@Model.SirketBilgileri.facebookUrl"><i class="fa fa-facebook"></i></a></li>
+                        <li><a href="@Model.SirketBilgileri.twitterUrl"><i class="fa fa-twitter"></i></a></li>
+                        <li><a href="@Model.SirketBilgileri.googleUrl"><i class="fa fa-google-plus"></i></a></li>
+                        <li><a href="@Model.SirketBilgileri.pinperestUrl"><i class="fa fa-instagram"></i></a></li>
+                 
+                    </ul>
+                </div>
+            </div>
+        </div>
+    </div>
+    <div class="footer-widgets">
+        <div class="container">
+            <div class="row">
+                <div class="col-sm-3">
+                    <div class="footer-widget">
+                        <a style="margin-bottom: 20px;"href="/Home/Index" class="footer-logo"><img src="@Model.SirketBilgileri.logoPath" alt="Logo" /></a>
+                        
+                        <address>
+                            <label> Adres: </label>
+
+                            @Model.SirketBilgileri.adres
+                        </address>
+                        <div class="copyright"><h6 style="text-align: center">©@DateTime.Now.Year Tüm Hakları Saklıdır. <br /> </h6>  <strong style="font-size: 10px;">Bilgisayar Mühendisi : Ömer ÇETİNKAYA | 0531 365 13 56</strong></div>
+
+                    </div>
+                </div>
+                <div class="col-sm-3">
+                    <div class="footer-widget">
+                        <h2>Popüler Postlar</h2>
+                        <ul class="popular-post">
+
+                            @foreach (var makale in Model.populerMakaleler)
+                            {
+                                string name = Model.SirketBilgileri.siteAdi;
+                                <li>
+                                    <figure>
+                                        <a href="/Makale/Detay/@makale.id">
+                                            <img width="55" height="42" src="@makale.kucukResimYol" alt="@makale.resimAlt" />
+                                        </a>
+                                    </figure>
+                                    <div class="text">
+                                        @if (name.Length > 20)
+                                        {
+                                            <a href="/Makale/Detay/@makale.id">@makale.Baslik.Substring(0, 20)</a>
+                                        }
+                                        else
+                                        {
+                                            <a href="/Makale/Detay/@makale.id">@makale.Baslik</a>
+                                        }
+
+                                    </div>
+                                </li>
+                            }
+
+
+
+
+                        </ul>
+                    </div>
+                </div>
+                <div class="col-sm-3">
+                    <div class="footer-widget">
+                        <h2>Twitter</h2>
+                        <figure>
+                            <a href="@Model.SirketBilgileri.twitterUrl">
+                                <i style="font-size: 20px" class="fa fa-twitter">Twitter'dan Takip Edin</i>
+                            </a>
+                        </figure>
+                        <div class="text-widget">
+                            <p>Bizleri Twitter'dan da Takip Ederek Güncel Makalelerimiz Haberdar Olabilirsiniz.</p>
+                        </div>
+                    </div>
+                </div>
+        
+                    <div class="col-sm-3">
+                        <div class="footer-widget">
+                            <h2>Biz Kimiz ?</h2>
+                            <div class="text">
+                                <p>@Html.Raw(@Model.SirketBilgileri.hakkimizda)</p>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+</footer>
+<div class="go-top">
+    <i class="fa fa-angle-up"></i>
+</div>

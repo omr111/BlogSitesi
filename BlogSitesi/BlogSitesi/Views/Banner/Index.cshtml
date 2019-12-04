@@ -1,0 +1,201 @@
+﻿
+@{
+    ViewBag.Title = "Index";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+@using BlogSitesi.Models
+@model List<BlogSitesi.Models.Banner>
+@if (Session["bannerEklenemedi"] != null)
+{
+    string mesaj = (string)Session["bannerEklenemedi"];
+    if (mesaj == "Banner Başarıyla Eklendi")
+    {
+
+        <div class="col-sm-12">
+
+            <div class="alert  alert-success alert-dismissible fade show" role="alert">
+                <span class="badge badge-pill badge-success">Başarılı</span> @mesaj
+                <button type="button" class="close" data-dismiss="alert" aria-label="Close">
+                    <span aria-hidden="true">&times;</span>
+                </button>
+            </div>
+        </div>
+        Session["bannerEklenemedi"] = null;
+    }
+    else
+    {
+        <div class="col-sm-12">
+            <div class="alert  alert-danger alert-dismissible fade show" role="alert">
+                <span class="badge badge-pill badge-danger">Hata</span> @mesaj
+                <button type="button" class="close" data-dismiss="alert" aria-label="Close">
+                    <span aria-hidden="true">&times;</span>';
+                </button>
+            </div>
+        </div>
+        Session["bannerEklenemedi"] = null;
+    }
+
+
+
+}
+<div class="alert"></div>
+<div class="content mt-3">
+    <div class="animated fadeIn">
+        <div class="row">
+            <div class="col-xs-6 col-sm-6">
+                <div class="card">
+                    <div class="card-header">
+                        <strong>Banner Sil</strong>
+                    </div>
+                    <form>
+
+                        <div class="card-body card-block ">
+                            <div class="form-group ">
+                                <label class=" form-control-label">Banner Resimleri</label>
+                                <div class="input-group" style="overflow: scroll; ">
+                                    <div class="input-group-addon "><i class="fa fa-picture-o"></i></div>
+
+                                    @*<select id="selectedBanner" name="" class="vodiapicker form-control bannerId">*@
+
+                                    @if (@Model != null)
+                                    {
+
+                                        foreach (Banner bann in @Model)
+                                        {
+                                            <div  class="col-md-12">
+                                                <input name="id" style="margin-top: 35px; margin-left: 5px;" type="radio" value="@bann.id" data-id="@bann.id" data-alt="@bann.buttonName" data-thumbnail="@bann.bannerPicPath" />
+
+
+                                                <img style="margin: 0;padding: 0; margin-bottom: 10px;" class="col-md-6" src="@bann.bannerPicPath" /><br />
+                                            </div>
+                                        }
+
+                                    }
+
+                                    <div class="form-group">
+
+                                        <a style="margin-left: 5px" class="btn btn-danger bannerDelete"><i class="fa fa-trash" title="Banner Sil"></i>Sil</a>
+                                    </div>
+
+                                </div>
+
+                            </div>
+
+                        </div>
+
+                    </form>
+                </div>
+            </div>
+            <div class="col-xs-6 col-sm-6">
+                <div class="card">
+                    <div class="card-header">
+                        <strong>Banner Ekle</strong>
+                    </div>
+                    <form method="post" action="/banner/bannerAdd" enctype="multipart/form-data">
+                        <div class="card-body card-block">
+
+                            <div class="form-group">
+                                <label class=" form-control-label">Resim</label>
+                                <div class="input-group">
+                                    <div class="input-group-addon"><i class="fa fa-picture-o"></i></div>
+                                    <input class="form-control" type="file" name="companyPicturePath">
+
+                                </div>
+
+                            </div>
+                            <div class="form-group">
+                                <label class=" form-control-label">Banner Üstü Yazı</label>
+                                <div class="input-group">
+                                    <div class="input-group-addon"><i class="fa fa-file-text"></i></div>
+                                    <textarea class="form-control" name="textArea"></textarea>
+                                </div>
+
+                            </div>
+
+
+                            <div class="form-group" style="background-image: url('~/content/img/logo/logo.png');">
+
+                                <input id="bannerAdd" type="submit" class="btn btn-success" style="float: right" value="Kaydet" />
+
+                            </div>
+
+                        </div>
+                    </form>
+                </div>
+            </div>
+        </div><!--row end-->
+    </div><!-- .animated -->
+</div>
+
+
+
+@section js{
+
+
+    <script type="text/javascript">
+
+        function failOk(m) {
+            var okFail = '<div class="col-sm-12">';
+            okFail += '<div class="alert  alert-danger alert-dismissible fade show" role="alert">';
+            okFail += ' <span class="badge badge-pill badge-success">Hata</span>' + m;
+            okFail += ' <button type="button" class="close" data-dismiss="alert" aria-label="Close">';
+            okFail += '<span aria-hidden="true">&times;</span>';
+            okFail += '</button>';
+            okFail += '</div>';
+            okFail += ' </div>';
+            return okFail;
+        }
+        function ok(m) {
+            var ok = '<div class="col-sm-12">';
+            ok += '<div class="alert  alert-success alert-dismissible fade show" role="alert">';
+            ok += ' <span class="badge badge-pill badge-success">Başarılı</span>' + m;
+            ok += ' <button type="button" class="close" data-dismiss="alert" aria-label="Close">';
+            ok += '<span aria-hidden="true">&times;</span>';
+            ok += '</button>';
+            ok += '</div>';
+            ok += ' </div>';
+            return ok;
+        }
+
+        $(".bannerDelete").click(function() {
+
+            var id=$("input:checked").val()
+            $.ajax({
+                url: "/Banner/bannerDelete",
+                data: {id:id},
+                type: "POST",
+                success:function(data) {
+                    if (data.id == 1) {
+                        var mesaj = data.message;
+                        $(".alert").html(ok(mesaj));
+                        setTimeout(function () { $('#alert').hide('slow'); }, 5000);
+                        setTimeout(function () { document.location.replace("/Banner/Index") }, 2000);
+                    } else {
+                        $(".alert").html(failOk(mesaj));
+                        setTimeout(function () { $('#alert').hide('slow'); }, 5000);
+                        setTimeout(function () { document.location.replace("/Banner/Index") }, 2000);
+                    }
+                },
+                error:function(data) {
+                    if (data.id == 0) {
+                        var mesaj = data.message;
+                        $(".alert").html(failOk(mesaj));
+                        setTimeout(function () { $('#alert').hide('slow'); }, 2000);
+                        setTimeout(function () { document.location.replace("/Banner/Index") }, 3000);
+                    } else {
+                        $(".alert").html(failOk(mesaj));
+                        setTimeout(function () { $('#alert').hide('slow'); }, 2000);
+                        setTimeout(function () { document.location.replace("/Banner/Index") }, 3000);
+                    }
+                }
+        });
+
+        })
+    </script>
+
+
+}
+
+
+

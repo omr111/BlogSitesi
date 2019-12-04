@@ -6,8 +6,25 @@
     <ul>
         @foreach (Etiket e in Model)
         {
-            <li><a href="/Etiket/Index/@e.id" class="btn btn-default">@e.Adi (@e.MakaleEtikets.Where(x=>x.EtiketID==e.id).Count())</a></li>
+            <li><a data-id="@e.id"href="javascript:void(0)" class="btn btn-default etiket">@e.Adi (@e.MakaleEtikets.Where(x=>x.EtiketID==e.id).Count())</a></li>
         }
 
     </ul>
 </div>
+<script type="text/javascript" src="~/Content/js/vendor/jquery-1.11.1.min.js"></script>
+<script src="/Scripts/jquery.unobtrusive-ajax.min.js"></script>
+<script type="text/javascript">
+    $(".etiket").click(function() {
+        var etiketId = $(this).data('id');
+        alert(etiketId);
+        $.ajax({
+            url: "/Etiket/EtiketeGoreMakaleGetir",
+            type: "Get",
+            data:{id:etiketId}
+           
+          
+
+
+    })
+    })
+</script>
