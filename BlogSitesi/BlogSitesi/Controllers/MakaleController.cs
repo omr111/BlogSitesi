@@ -122,21 +122,32 @@ namespace BlogSitesi.Controllers
                     ctx.SaveChanges();
 
                     string[] eti = etiketler.Split(',');
-                    foreach(string etiket in eti)
+                    foreach (string etiket in eti)
                     {
                         Etiket etk = ctx.Etikets.FirstOrDefault(x => x.Adi.ToLower() == etiket.ToLower().Trim());
-                        if (etk==null)
+                        MakaleEtiket makaleyeEtiketEkle = new MakaleEtiket();
+                        if (etk == null)
                         {
                             etk = new Etiket();
                             etk.Adi = etiket;
-                            
+                            ctx.Entry(etk).State = EntityState.Added;
+                            ctx.SaveChanges();
+
+                            makaleyeEtiketEkle.EtiketID = etk.id;
+                            makaleyeEtiketEkle.MakaleID = m.id;
+                            ctx.MakaleEtikets.Add(makaleyeEtiketEkle);
                             ctx.SaveChanges();
                         }
-                        MakaleEtiket makaleEtiket=new MakaleEtiket();
-                        makaleEtiket.MakaleID = m.id;
-                        makaleEtiket.EtiketID = etk.id;
-                        m.MakaleEtikets.Add(makaleEtiket);
-                        ctx.SaveChanges();
+
+                        MakaleEtiket makaleEtiket = ctx.MakaleEtikets.FirstOrDefault(x => x.Etiket.Adi == etiket.ToLower() && x.MakaleID == m.id);
+                        if (makaleEtiket == null)
+                        {
+
+                            makaleyeEtiketEkle.EtiketID = etk.id;
+                            makaleyeEtiketEkle.MakaleID = m.id;
+                            ctx.MakaleEtikets.Add(makaleyeEtiketEkle);
+                            ctx.SaveChanges();
+                        }
                     }
                 }
                 return RedirectToAction("Index", "Home");
@@ -165,19 +176,6 @@ namespace BlogSitesi.Controllers
                     }
             }
 
-
-            //string kapakResimUrl = makale.BuyukResimYol;
-            //if (!string.IsNullOrEmpty(kapakResimUrl))
-            //{
-            //    ViewBag.kapakResim = kapakResimUrl;
-            //}
-            //else
-            //{
-            //    ViewBag.kapakResim = '#';
-            //}
-
-            //var devide=kapakResimUrl.Split('/');
-            //var fileName = devide[devide.Length - 1];
             
            
             int count = etiketAdi.Length - 1;
@@ -232,25 +230,33 @@ namespace BlogSitesi.Controllers
                 ctx.SaveChanges();
                 foreach (var tag in tags)
                 {
-                    Etiket searchEtiket = ctx.Etikets.FirstOrDefault(x => x.Adi == tag);
+                    Etiket searchEtiket = ctx.Etikets.FirstOrDefault(x => x.Adi == tag.ToLower());
+                    MakaleEtiket makaleyeEtiketEkle = new MakaleEtiket();
                     if (tag != "" && searchEtiket == null)
                     {
-                        Etiket etiketEkle=new Etiket();
+                        Etiket etiketEkle = new Etiket();
                         etiketEkle.Adi = tag.ToLower();
                         ctx.Etikets.Add(etiketEkle);
                         ctx.SaveChanges();
 
+                        makaleyeEtiketEkle.EtiketID = etiketEkle.id;
+                        makaleyeEtiketEkle.MakaleID = makaleUpdated.id;
+                        ctx.MakaleEtikets.Add(makaleyeEtiketEkle);
+                        ctx.SaveChanges();
                     }
 
-                    MakaleEtiket makaleEtiket = ctx.MakaleEtikets.FirstOrDefault(x => x.Etiket.Adi == tag.ToLower());
-                   
-                        MakaleEtiket makaleyeEtiketEkle = new MakaleEtiket();
+                    MakaleEtiket makaleEtiket = ctx.MakaleEtikets.FirstOrDefault(x => x.Etiket.Adi == tag.ToLower() && x.MakaleID == makaleUpdated.id);
+                    if (makaleEtiket == null)
+                    {
+
                         makaleyeEtiketEkle.EtiketID = searchEtiket.id;
                         makaleyeEtiketEkle.MakaleID = makaleUpdated.id;
                         ctx.MakaleEtikets.Add(makaleyeEtiketEkle);
                         ctx.SaveChanges();
-                    
-                  
+                    }
+
+
+
                 }
 
                 //return Json(new { message = "Başarılı" }, JsonRequestBehavior.AllowGet);
