@@ -35,11 +35,35 @@ namespace BlogSitesi.Controllers
             return View();
         }
         [AllowAnonymous]
-        public ActionResult MakaleListele(int yil, int ay)
+        public ActionResult MakaleListele(int yil, int ay,int? page)
         {
-            var data = ctx.Makales.Where(x => x.YayinTarihi.Year == yil && x.YayinTarihi.Month == ay);
-            
-            return View("_MakaleListele", data);
+
+           
+
+            int pageIndex;
+            int pagingCount = 4;
+            List<Makale> sendMakale = null;
+            if (!page.HasValue)
+            {
+                sendMakale = ctx.Makales.Where(x => x.YayinTarihi.Year == yil && x.YayinTarihi.Month == ay).OrderByDescending(x => x.YayinTarihi).Take(pagingCount).ToList();
+              
+            }
+            else
+            {
+                pageIndex = pagingCount * page.Value;
+                sendMakale = ctx.Makales.Where(x => x.YayinTarihi.Year == yil && x.YayinTarihi.Month == ay).OrderByDescending(x => x.YayinTarihi).Skip(pageIndex).Take(pagingCount).ToList();
+             
+            }
+
+            if (Request.IsAjaxRequest())
+            {
+              
+                return PartialView("_MakaleListele", sendMakale);
+              
+                
+            }
+            return View("_MakaleListele", sendMakale);
+           
         }
         [AllowAnonymous]
         public ActionResult Detay(int id)

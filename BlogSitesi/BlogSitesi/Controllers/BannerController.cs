@@ -23,6 +23,12 @@ namespace BlogSitesi.Controllers
             }
             return View();
         }
+
+        public PartialViewResult listBanner()
+        {
+            BlogContext ctx=new BlogContext();
+            return PartialView(ctx.Banners.ToList());
+        }
         [HttpPost]
         public ActionResult bannerAdd(string textArea, HttpPostedFileBase companyPicturePath)
         {

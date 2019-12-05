@@ -1,9 +1,51 @@
 ﻿
 @{
-    ViewBag.Title = "Etiket-Index";
+    ViewBag.Title = "Index";
+    Layout = "~/Views/Shared/_Layout.cshtml";
 }
-<!--Etiket/Index den gelen id, EtiketeGoreMakaleGetir action'a gönderilerek o action çalıştırılır.-->
-@*@{
-    Html.RenderAction("EtiketeGoreMakaleGetir", new { id = Model });
-}*@
 
+@*Etiket/Index den gelen id, EtiketeGoreMakaleGetir action'a gönderilerek o action çalıştırılır.*@
+<div class="posts">
+    @{
+        Html.RenderAction("EtiketeGoreMakaleGetir", new { id = Model });
+    }
+
+    <div class="load-more">
+        <a class="loadMore" href="javascript:void(0)">Load More</a>
+    </div>
+</div>
+<script type="text/javascript" src="~/Content/js/vendor/jquery-1.11.1.min.js"></script>
+<script src="/Scripts/jquery.unobtrusive-ajax.min.js"></script>
+<script type="text/javascript">
+    var id=@Model;
+    var pageNo=1;
+    var isDataFinish = true;
+    $(".loadMore").click(function () {
+
+        if (isDataFinish) {
+            $.ajax({
+                url: "/Etiket/EtiketeGoreMakaleGetir",
+                data: {id:id, page: pageNo },
+                type: "Get",
+                success: function (data) {
+                 
+                    $(".load-more").before(data);
+                    pageNo++;
+                    
+                    if (data.trim()=='') {
+                        isDataFinish = false;
+                        
+                        $(".loadMore").remove();
+                       
+                    }
+
+
+
+                },
+                error: function () { alert("Sayfa Yükleme Sırasında Hata Oluştur Tekrar Deneyiniz.") }
+
+            })
+        }
+      
+    })
+</script>

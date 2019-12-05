@@ -42,9 +42,14 @@ namespace BlogSitesi.Controllers
 
             if (Request.IsAjaxRequest())
             {
-                return PartialView("_MakaleListele", sendMakale);
+              
+                    return PartialView("_MakaleListele", sendMakale);
+              
+                
             }
-            return View("_MakaleListele", sendMakale);
+             return View("_MakaleListele", sendMakale);
+         
+         
         }
 
         public PartialViewResult headerSection()

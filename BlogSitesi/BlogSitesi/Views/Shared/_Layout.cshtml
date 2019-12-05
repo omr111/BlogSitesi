@@ -41,7 +41,9 @@
 
 @RenderSection("Title", false)
 
-    @RenderSection("siteSlider",false)
+    @{
+      Html.RenderAction("listBanner","Banner");
+    }
     <section class="main-container" >
 
 

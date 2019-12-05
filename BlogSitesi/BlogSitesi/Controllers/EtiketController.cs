@@ -12,9 +12,9 @@ namespace BlogSitesi.Controllers
         BlogContext ctx = new BlogContext();
         //
         // GET: /Etiket/
-        public ActionResult Index()
+        public ActionResult Index(int id)
         {
-            return View();
+            return View(id);
         }
         public PartialViewResult Etiket()
         {
@@ -23,12 +23,36 @@ namespace BlogSitesi.Controllers
     
         }
      
-        public ActionResult EtiketeGoreMakaleGetir(int id)
+        
+        public ActionResult EtiketeGoreMakaleGetir(int id ,int? page)
         {
-            
+            int pageIndex;
+            int pagingCount = 4;
+            List<Makale> sendMakale = null;
+            if (!page.HasValue)
+            {
+              
+
+                sendMakale = ctx.Makales.Where(x => x.MakaleEtikets.Any(y => y.EtiketID == id))
+                    .OrderByDescending(x => x.YayinTarihi).Take(pagingCount).ToList();
+            }
+            else
+            {
+                pageIndex = pagingCount * page.Value;
+                sendMakale = ctx.Makales.Where(x => x.MakaleEtikets.Any(y => y.EtiketID == id)).OrderByDescending(x => x.YayinTarihi).Skip(pageIndex).Take(pagingCount).ToList();
+
+            }
+
+            if (Request.IsAjaxRequest())
+            {
+                return PartialView("_MakaleListele", sendMakale);
+            }
+
+            return View("_MakaleListele", sendMakale);
             //var makale = ctx.Makales.Where(x => x.Etikets.Any(y => y.id == id));
-            List<Makale> makale = ctx.Makales.Where(x => x.MakaleEtikets.Any(y => y.EtiketID == id)).ToList();
-            return View("_MakaleListele", makale);
+            //List<Makale> makale = ctx.Makales.Where(x => x.MakaleEtikets.Any(y => y.EtiketID == id)).ToList();
+            //return View("_MakaleListele", makale);
         }
-	}
+    }
+	
 }
