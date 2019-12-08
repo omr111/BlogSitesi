@@ -38,14 +38,22 @@
             <ul class="info">
                 <li><a href="/Kategori/Index/@Model.KategoriID">{ @Model.Kategori.Adi }</a></li>
                 <li><a href="/Makale/TariheGoreListe?yil=@Model.YayinTarihi.Year&ay=@Model.YayinTarihi.Month">{ @Model.YayinTarihi.ToString("MMMM yyyy")}</a></li>
-                <li><a href="/Yazar/Index/@Model.YazarID">{ @Model.Kullanici.Adi }</a></li>
-                <li>{<a href="#Yorum"> Comments: @Model.Yorums.Count.ToString()</a> }</li>
-                <li>{<a href="Javascript:void(0)"> Views: @Model.Goruntulenme</a> }</li>
-                <li>{<a class="begen" data-makaleid="@Model.id" href="Javascript:void(0);"> Likes: @Model.KullaniciBegenis.Count</a> }</li>
+                <li><a href="/Yazar/Index/@Model.YazarID">{ @Model.Kullanici.Nick }</a></li>
+                <li>{<a href="#Yorum"> Yorum: @Model.Yorums.Count.ToString()</a> }</li>
+                <li>{<a href="Javascript:void(0)"> Görüntüleme: @Model.Goruntulenme</a> }</li>
+                @if (Model.KullaniciBegenis.Any(x => x.Kullanici.Nick.ToLower()==User.Identity.Name.ToLower()))
+                {
+                    <li>{<a class="begen" data-makaleid="@Model.id" href="Javascript:void(0);" style="color:#1abc9c" title="Beğenildi"> Beğen: <label class="likeCount">@Model.KullaniciBegenis.Count</label></a> }</li>
+                }
+                else
+                {
+                    <li>{<a class="begen" data-makaleid="@Model.id" href="Javascript:void(0);" title="Henüz Beğenmediniz">Beğen: <label class="likeCount">@Model.KullaniciBegenis.Count</label></a> }</li>
+                }
             </ul>
+            
         </header>
-        <div class="text-editor">
-          
+        <div class="text-editor" >
+
             <figure>
                 @if (!string.IsNullOrEmpty(@Model.BuyukResimYol) || @Model.BuyukResimYol != null)
                 {
@@ -55,10 +63,13 @@
                 {
                     <img src="#" alt="makale" />
                 }
-                
-            </figure>
 
-            @Html.Raw(Model.icerik)
+            </figure>
+           
+            <div style=" overflow: scroll;max-height: 800px;">
+                @Html.Raw(Model.icerik)
+            </div>
+           
             <div class="author-wrap">
                 <div class="author">
                     <figure>
@@ -73,16 +84,16 @@
 
                                 <img src="/Content/content/user03.png" alt="Blog-Site" />
                             }
-                            
+
                         </a>
                     </figure>
+                    <div class="Nick">@Model.Kullanici.Nick</div>
                     <div class="name">@Model.Kullanici.Adi @Model.Kullanici.Soyadi</div>
                     <div class="description">
                         @Model.Kullanici.Hakkinda
                     </div>
                 </div>
             </div>
-
         </div>
     </article>
     <div class="comments">
@@ -117,6 +128,7 @@
                         </div>
                         <div class="text">
                             @y.icerik
+                         
                         </div>
 
                     </div>
@@ -130,7 +142,7 @@
     @if (Session["Kullanici"] == null)
     {
 
-        <span> Yorum Yapmak İçin Lütfen Giriş Yapınız.</span>
+        <h4> Yorum Yapmak İçin Lütfen Giriş Yapınız.</h4>
 
     }
     else
@@ -161,7 +173,9 @@
                 <form action="/Makale/YorumYaz" method="post">
                     <input type="hidden" name="MakaleID" value="@Model.id" />
                     <input type="hidden" name="YorumYapanID" value="@kul.id" />
-                    <textarea name="icerik" placeholder="Yorum Yazın..."></textarea>
+                    <textarea name="icerik" placeholder="Yorum Yazın..." >
+                       
+                    </textarea>
                     <button type="submit" class="send">Gönder</button>
                 </form>
             </div>
@@ -194,23 +208,39 @@
         }
 
 
-        <ul class="social-icons">
-            <li><a href="#"><i style="color:#1abc9c" class="fa fa-facebook"></i></a></li>
-            <li><a href="#"><i style="color:#1abc9c" class="fa fa-twitter"></i></a></li>
-            <li><a href="#"><i style="color:#1abc9c" class="fa fa-instagram"></i></a></li>
-            <li><a href="#"><i style="color:#1abc9c" class="fa fa-vimeo-square"></i></a></li>
-            <li><a href="#"><i style="color:#1abc9c" class="fa fa-pinterest"></i></a></li>
-        </ul><!-- right-area -->
-
+       
+        <h4 class="Nick"> @Model.Kullanici.Nick</h4>
         <h4 class="author-name"><b class="light-color">@Model.Kullanici.Adi @Model.Kullanici.Soyadi</b></h4>
         <p>
             @Html.Raw(Model.Kullanici.Hakkinda)
         </p>
 
-        <div class="signature-image"><img src="~/images/signature-image.png" alt="Signature Image"></div>
-        <a class="read-more-link" href="#"><b>READ MORE</b></a>
+     
 
     </div>
 
 
 }
+<script type="text/javascript" src="~/Content/js/vendor/jquery-1.11.1.min.js"></script>
+<script src="/Scripts/jquery.unobtrusive-ajax.min.js"></script>
+<script type="text/javascript">
+    $(".begen").click(function() {
+        var makaleId=$(this).data("makaleid");
+        $.ajax({
+            url: "/Makale/Begen",
+            type: "Post",
+            data: { id: makaleId },
+            success:function(result) {
+                if (result.id == 1) {
+                    $(".likeCount").html( result.count);
+                    $(".begen").css('color', '#1abc9c');
+
+                }
+                else if (result.id == 2) {
+                    $(".likeCount").html(result.count);
+                    $(".begen").css('color','#5b7890');
+                }
+            },
+        });
+    });
+</script>

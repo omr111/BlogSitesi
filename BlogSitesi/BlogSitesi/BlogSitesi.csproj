@@ -1119,9 +1119,6 @@
     <Content Include="Content\blog-single.html" />
     <Content Include="Content\blog-single02.html" />
     <Content Include="Content\blog.html" />
-    <Content Include="Content\BuyukResimaaaaa-0b4f9878-285e-47b7-b894-778d91be45bd.png" />
-    <Content Include="Content\BuyukResimaaaaa-72a509e6-8751-4cab-9825-b5a8c8ca194a.png" />
-    <Content Include="Content\BuyukResimaaaaa-73a89715-e57c-4486-8eaa-33e7a8098341.png" />
     <Content Include="Content\BuyukResim\Chrysanthemum-04bc1040-f4cf-44cd-8156-e62b272322c3.jpg" />
     <Content Include="Content\BuyukResim\col1-portfolio06.jpg" />
     <Content Include="Content\BuyukResim\Hydrangeas-93ece2f6-eab6-4c4c-93d7-52513085245b.jpg" />
@@ -1151,6 +1148,7 @@
     <Content Include="Content\css\main.css" />
     <Content Include="Content\css\mCSB_buttons.html" />
     <Content Include="Content\css\typicons.css" />
+    <Content Include="Content\css\userProfile.css" />
     <Content Include="Content\elements.html" />
     <Content Include="Content\img\blank.gif" />
     <Content Include="Content\img\fancybox_loading%402x.gif" />
@@ -1185,6 +1183,7 @@
     <Content Include="Content\js\vendor\modernizr-2.6.2-respond-1.1.0.min.js" />
     <Content Include="Content\KucukResim\user03.png" />
     <Content Include="Content\logo\favicon.png" />
+    <Content Include="Content\logo\userBanner.png" />
     <Content Include="Content\portfolio-1col.html" />
     <Content Include="Content\portfolio-2col.html" />
     <Content Include="Content\portfolio-3col.html" />
@@ -1234,6 +1233,7 @@
     <Content Include="Views\Banner\Index.cshtml" />
     <Content Include="Views\Etiket\Index.cshtml" />
     <Content Include="Views\Banner\listBanner.cshtml" />
+    <Content Include="Views\Kullanici\userProfile.cshtml" />
     <None Include="_bin_deployableAssemblies\x86\sqlcese40.dll" />
     <None Include="_bin_deployableAssemblies\x86\sqlceqp40.dll" />
     <None Include="_bin_deployableAssemblies\x86\sqlceme40.dll" />

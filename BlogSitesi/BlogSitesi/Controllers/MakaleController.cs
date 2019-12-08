@@ -86,27 +86,49 @@ namespace BlogSitesi.Controllers
             return RedirectToAction("Detay", new { id = yorum.MakaleID });
 
         }
-        //public string Begen(int id)
-        //{
-        //  //  var makale = ctx.Makales.FirstOrDefault(x => x.id == id);
+        [HttpPost]
+        public ActionResult Begen(int id)
+        {
+            if (User.Identity.IsAuthenticated)
+            {
+                var makale = ctx.Makales.FirstOrDefault(x => x.id == id);
+                if (makale!=null)
+                {
+                    var kullaniciName = User.Identity.Name;
+                    var kID = ctx.Kullanicis.FirstOrDefault(x => x.Nick == kullaniciName);
+                    var varMi = ctx.KullaniciBegenis.FirstOrDefault(x => x.Makale.id == makale.id && x.KullaniciID == kID.id);
+                    if (varMi == null)
+                    {
+                        KullaniciBegeni begen = new KullaniciBegeni();
+                        begen.KullaniciID = kID.id;
+                        begen.MakaleID = makale.id;
+                        makale.KullaniciBegenis.Add(begen);
+                        ctx.SaveChanges();
+                        return Json(new { id = 1, count = makale.KullaniciBegenis.Count });
+                    }
+                    else
+                    {
+                        ctx.KullaniciBegenis.Remove(varMi);
+                        ctx.SaveChanges();
+                        return Json(new { id = 2, count = makale.KullaniciBegenis.Count });
+                    }
+                    
+                }
+                else
+                {
+                    return RedirectToAction("Index", "Home");
+                }
+            }
+            else
+            {
+                return RedirectToAction("login", "Kullanici");
+            }
+         
 
-        //  //  var kullaniciName =User.Identity.Name;
-              
-        //  //  var kID = ctx.Kullanicis.FirstOrDefault(x => x.Nick == kullaniciName);
-        
-            
-            
-        //  //// var varMi = ctx.KullaniciBegenis.FirstOrDefault(x => x.Makale.id == id && x.KullaniciID == kID.id);
-        //  //     //if (varMi == null)
-        //  //     //{
-        //  // makale.Kullanicis.Add(kID);
-        //  //         makale.Begeni++;
-        //  //     //}
-        //  //     //else
-        //  //     //    makale.Begeni--;
-        //  //  ctx.SaveChanges();
-        //    //return makale.Begeni.ToString();
-        //}
+          
+          
+           
+        }
        
         [ValidateInput(false)]
         public ActionResult MakaleYaz()

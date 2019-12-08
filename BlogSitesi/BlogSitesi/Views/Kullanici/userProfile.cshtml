@@ -1,0 +1,333 @@
+﻿
+@model BlogSitesi.Models.Kullanici
+@{
+    Layout = null;
+}
+
+<!DOCTYPE html>
+
+<html>
+<head>
+    <meta name="viewport" content="width=device-width" />
+    <title>ayha.Net | Kullanıcı Profil Sayfası</title>
+    <link href="https://maxcdn.bootstrapcdn.com/bootstrap/4.1.1/css/bootstrap.min.css" rel="stylesheet" id="bootstrap-css">
+    @*<link href="~/content/css/userProfile.css" rel="stylesheet" />*@
+
+
+    <link href="~/Content/css/userProfile.css" rel="stylesheet" />
+</head>
+<body>
+
+    <div class="container main-secction">
+        <div class="row">
+            <div class="col-md-12 col-sm-12 col-xs-12 image-section">
+               <img src="~/Content/logo/userBanner.png" style="width: 100%;"/>
+                
+            </div>
+
+            <div class="row  col-md-12 user-left-part">
+
+                <div class="col-md-3 col-sm-3 col-xs-12 user-profil-part pull-left">
+                    <form action="/Kullanici/pictureUpdate" method="post" enctype="multipart/form-data">
+                        @Html.AntiForgeryToken()
+                        @Html.TextBoxFor(m => m.id, new { @type = "hidden" })
+                        <div class="row">
+
+                            <div class="col-md-12 col-md-12-sm-12 col-xs-12 user-image text-center">
+                                @if (!string.IsNullOrEmpty(Model.kullaniciResimPath))
+                                {
+                                    <img src="@Model.kullaniciResimPath" alt="ayha-net-user" class="rounded-circle">
+                                }
+                                else
+                                {
+                                    <img src="https://www.jamf.com/jamf-nation/img/default-avatars/generic-user-purple.png" class="rounded-circle">
+                                }
+
+
+
+                            </div>
+
+                            <div class="col-md-12 col-sm-12 col-xs-12 user-detail-section1 text-center" style="margin-top:20px;">
+                                <input type="file" name="Resim" style="margin-top: 30px; margin-bottom: 10px;" />
+                                <button class="btn btn-success btn-block follow">Resim Değiştir</button>
+                                <a href="/Home/Index" class="btn btn-success btn-block follow">Anasayfaya Dön</a>
+                            </div>
+                            <div class="row user-detail-row">
+                                <div class="col-md-12 col-sm-12 user-detail-section2 pull-left">
+                                    <div class="border"></div>
+
+                                </div>
+                            </div>
+
+                        </div>
+                    </form>
+                </div>
+
+
+                <div class="col-md-9 col-sm-9 col-xs-12 pull-right profile-right-section">
+                    <div class="row profile-right-section-row">
+                        <div class="col-md-12 profile-header">
+
+                            <div class="row">
+                                <div class="col-md-8 col-sm-6 col-xs-6 profile-header-section1 pull-left">
+                                    <div class="infosaveUser">
+                                        @if (ViewData["userProfileError"] != null)
+                                        {
+
+                                            <div class="col-sm-12">
+
+                                                <div class="alert  alert-danger alert-dismissible fade show" role="alert">
+                                                    <span class="badge badge-pill badge-success">Hata</span> @ViewData["userProfileError"].ToString()
+                                                    <button type="button" class="close" data-dismiss="alert" aria-label="Close">
+                                                        <span aria-hidden="true">&times;</span>
+                                                    </button>
+                                                </div>
+                                            </div>
+                                        }
+
+                                    </div>
+                                    <script type="text/javascript">
+                                        setTimeout(function () { $('.infosaveUser').hide('slow'); }, 2000);
+                                    </script>
+                                    <h1>@Model.Nick</h1>
+                                    @if (Roles.GetRolesForUser().Length>0)
+                                    {
+                                        string role = "";
+
+                                        foreach (var uye in Roles.GetRolesForUser())
+                                        {
+                                            role += uye + " ";
+
+                                        }
+                                        <h6>
+                                            @role
+                                        </h6>
+                                    }
+                                    else
+                                    {
+                                        <h6>
+                                            Uye
+                                        </h6>
+                                    }
+
+                                </div>
+
+                            </div>
+                        </div>
+                        <div class="col-md-12">
+                            <div class="row">
+                                <div class="col-md-8">
+                                    <ul class="nav nav-tabs" role="tablist">
+                                        <li class="nav-item">
+                                            <a class="nav-link active" href="#profile" role="tab" data-toggle="tab"><i class="fas fa-user-circle"></i>Kişi Bilgileri</a>
+                                        </li>
+                                        <li class="nav-item">
+                                            <a class="nav-link" href="#buzz" role="tab" data-toggle="tab"><i class="fas fa-info-circle"></i>Profil Güncelle</a>
+                                        </li>
+                                    </ul>
+
+
+                                    <div class="tab-content">
+                                        <div role="tabpanel" class="tab-pane fade show active" id="profile">
+                                            <div class="container">
+                                                <div class="form-group">
+
+                                                    <div class="col-md-4" style="float: left">
+                                                        <label for="nameSurname">Kullanıcı Adı :</label>
+                                                    </div>
+                                                    <div class="col-md-8" style="float: left">
+                                                        <label for="nameSurname" style="margin-bottom: 20px">@Model.Nick</label>
+                                                    </div>
+
+                                                </div>
+                                                <div class="form-group">
+
+                                                    <div class="col-md-4" style="float: left">
+                                                        <label for="nameSurname">Adı :</label>
+                                                    </div>
+                                                    <div class="col-md-8" style="float: left">
+                                                        <label for="nameSurname" style="margin-bottom: 20px">@Model.Adi</label>
+                                                    </div>
+
+                                                </div>
+                                                <div style="clear: both"></div>
+
+                                                <div class="form-group">
+
+                                                    <div class="col-md-4" style="float: left">
+                                                        <label for="nameSurname">Soyadı :</label>
+                                                    </div>
+                                                    <div class="col-md-8" style="float: left">
+                                                        <label for="nameSurname" style="margin-bottom: 20px">@Model.Soyadi</label>
+                                                    </div>
+
+                                                </div>
+
+                                                <div style="clear: both"></div>
+
+                                                <div class="form-group">
+
+                                                    <div class="col-md-4" style="float: left">
+                                                        <label for="nameSurname">Email :</label>
+                                                    </div>
+                                                    <div class="col-md-8" style="float: left">
+                                                        <label for="nameSurname" style="margin-bottom: 20px">@Model.Mail</label>
+                                                    </div>
+
+                                                </div>
+
+
+                                                <div style="clear: both"></div>
+
+                                                <div class="form-group">
+
+                                                    <div class="col-md-4" style="float: left">
+                                                        <label for="nameSurname">Durumu :</label>
+                                                    </div>
+                                                    <div class="col-md-8" style="float: left">
+                                                        @if (Model.Aktif==false)
+                                                        {
+                                                            <label for="nameSurname" style="margin-bottom: 20px">Yasaklı</label>
+                                                        }
+                                                        else
+                                                        {
+                                                            <label for="nameSurname" style="margin-bottom: 20px">Aktif</label>
+                                                        }
+
+
+                                                    </div>
+
+                                                </div>
+
+
+
+                                            </div>
+                                        </div>
+
+                                        <div role="tabpanel" class="tab-pane fade" id="buzz">
+                                            <form action="/Kullanici/userProfileUpdate" method="post">
+                                                @Html.AntiForgeryToken()
+                                                @Html.TextBoxFor(m => m.id, new { @type = "hidden" })
+                                                @Html.TextBoxFor(m => m.parola, new { @type = "hidden" })
+                                                <div class="container">
+                                                   
+                                                    <div class="form-group">
+
+                                                        <div class="col-md-4" style="float: left">
+                                                            <label for="nameSurname">Kullanıcı Adı :</label>
+                                                        </div>
+
+                                                        <div class="col-md-8" style="float: left">
+                                                            <label style="margin-bottom: 20px" > @Model.Nick</label>
+
+                                                        </div>
+
+
+                                                    </div>
+                                                    @Html.ValidationMessageFor(m => m.Adi, "", new { @style = "color:red" })
+                                                    <div class="form-group">
+
+                                                        <div class="col-md-4" style="float: left">
+                                                            <label for="nameSurname">Adı :</label>
+                                                        </div>
+                                                        <div class="col-md-8" style="float: left">
+
+                                                            <input class="form-control" name="Adi" type="text" style="margin-bottom: 20px" value="@Model.Adi" />
+
+                                                        </div>
+
+                                                    </div>
+
+                                                    <div style="clear: both"></div>
+                                                    @Html.ValidationMessageFor(m => m.Soyadi, "", new { @style = "color:red" })
+                                                    <div class="form-group">
+
+                                                        <div class="col-md-4" style="float: left">
+                                                            <label for="nameSurname">Soyadı :</label>
+                                                        </div>
+                                                        <div class="col-md-8" style="float: left">
+                                                            <input name="Soyadi" class="form-control" type="text" style="margin-bottom: 20px" value="@Model.Soyadi" />
+                                                        </div>
+
+                                                    </div>
+
+                                                    <div style="clear: both"></div>
+                                                    @Html.ValidationMessageFor(m => m.Mail, "", new { @style = "color:red" })
+                                                    <div class="form-group">
+
+                                                        <div class="col-md-4" style="float: left">
+                                                            <label for="nameSurname">Email :</label>
+                                                        </div>
+                                                        <div class="col-md-8" style="float: left">
+                                                            <input name="Mail" class="form-control" type="email" style="margin-bottom: 20px" value="@Model.Mail" />
+                                                        </div>
+
+                                                    </div>
+
+                                                    <div class="form-group">
+
+                                                        <div class="col-md-4" style="float: left">
+                                                            <label for="nameSurname">Yeni Şifre :</label>
+                                                        </div>
+                                                        <div class="col-md-8" style="float: left">
+                                                            <input name="newPass" class="form-control" type="password" style="margin-bottom: 20px" />
+                                                        </div>
+
+                                                    </div>
+                                                    <div style="clear: both"></div>
+
+                                                    <div class="form-group">
+
+                                                        <div class="col-md-4" style="float: left">
+                                                            <label for="nameSurname">Durumu :</label>
+                                                        </div>
+                                                        <div class="col-md-8" style="float: left">
+                                                            @if (Model.Aktif==false)
+                                                            {
+                                                                <label for="nameSurname" style="margin-bottom: 20px">Yasaklı</label>
+                                                            }
+                                                            else
+                                                            {
+                                                                <label for="nameSurname" style="margin-bottom: 20px">Aktif</label>
+                                                            }
+
+
+                                                        </div>
+
+                                                        <input name="newPass" class="btn btn-success" type="submit" style="margin-bottom: 20px;float:right" />
+
+
+                                                    </div>
+
+
+
+                                                </div>
+                                            </form>
+                                        </div>
+
+                                    </div>
+
+                                </div>
+
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+
+            </div>
+
+        </div>
+    </div>
+
+
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.2.1/jquery.min.js"></script>
+    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.1.1/js/bootstrap.min.js"></script>
+    <!------ Include the above in your HEAD tag ---------->
+
+
+
+</body>
+</html>
+
+

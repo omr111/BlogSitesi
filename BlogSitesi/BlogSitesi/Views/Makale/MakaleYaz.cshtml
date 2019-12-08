@@ -2,11 +2,56 @@
 @{
     ViewBag.Title = "MakaleYaz";
 }
+<div class="modal fade small-modal" id="small-modal" tabindex="-1" role="dialog" aria-labelledby="small-modal-label" aria-hidden="true">
+    <div class="modal-dialog">
+        <div class="modal-content" data-border-top="multi">
+            <div class="modal-header">
+                <button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
+                <h4 class="modal-title" id="small-modal-label">Kullanıcı Silme Ekranı</h4>
+            </div>
+            <div class="modal-body">
+             
+             
+                <p class="uyari"></p>
+                <p class="pHata"></p>
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
+               
+
+            </div>
+        </div><!-- /.modal-content -->
+    </div><!-- /.modal-dialog -->
+</div>
+<div class="modal fade small-modal rollerCagirModal" id="small-modal" tabindex="-1" role="dialog" aria-labelledby="small-modal-label" aria-hidden="true">
+    <div class="modal-dialog">
+        <div class="modal-content" data-border-top="multi">
+            <div class="modal-header">
+                <button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
+                <h4 class="modal-title" id="small-modal-label">Kategori Ekle</h4>
+            </div>
+            <div class="modal-body">
+                <input class="form-control katName" type="text" placeholder="Kategori ekle..."/>
+                <p class="uyari1"></p>
+                <p class="pHata"></p>
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-success katEkle">Ekle</button>
+                <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
+
+
+            </div>
+        </div><!-- /.modal-content -->
+    </div><!-- /.modal-dialog -->
+</div>
 <h2>Yeni Makale Oluştur</h2>
 <div class="tabs-top col-md-11">
     <ul class="nav nav-tabs">
         <li class="active alert-success"><a href="#top-tab1" data-toggle="tab">Metin Makale</a></li>
-        <li class="alert-success"><a href="#top-tab2" data-toggle="tab">Resim Galerisi</a></li>
+        <li><button class="btn-lg btn-success rolleri" data-toggle="modal" data-target=".rollerCagirModal" data-uyeadi="">Kategori Ekle</button>
+           
+
+        </li>
 
     </ul>
     <div class="tab-content">
@@ -22,7 +67,7 @@
         <tr>
             <td><label>Kategori</label></td>
             <td>
-                <select class="form-control" name="KategoriID">
+                <select class="form-control" id="selectEkle" name="KategoriID">
                     @foreach (BlogSitesi.Models.Kategori kat in ViewBag.kategori)
                     {
                         <option value="@kat.id">@kat.Adi</option>
@@ -50,9 +95,7 @@
 
 }
         </div>
-        <div class="tab-pane " id="top-tab2">
-           resim galeri
-        </div>
+     
         
     </div>
 </div>
@@ -71,7 +114,28 @@
 
         CKEDITOR.replace('ckEditor', { entermode: CKEDITOR.ENTER_BR });
         CKFinder.setupCKEditor(null, '@Url.Content("~/ckfinder/")');
+        $(".katEkle").click(function() {
+            var katName = $(".katName").val();
+            $.ajax({
+                url: "/Kategori/kategoriEkle",
+                type: "Post",
+                data: { kat: katName },
+                success:function(data) {
+                    if (data.id == 1) {
 
+                        $(".uyari1").css('color', '#1abc9c');
+                        $(".uyari1").css('font-size', '15px');
+                        $(".uyari1").css('margin-top', '20px');
+                        $(".uyari1").html(data.message);
+                        $("#selectEkle").append(new Option(data.katAd, data.katId));
+                        $(".uyari1").html("");
+                    } else {
+                        $(".pHata").html(data.message);
+
+                    }
+                }
+            })
+        })
     </script>
 }
 

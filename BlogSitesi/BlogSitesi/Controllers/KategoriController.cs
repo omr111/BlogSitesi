@@ -22,6 +22,24 @@ namespace BlogSitesi.Controllers
             List<Kategori> k = ctx.Kategoris.ToList();
             return PartialView(k);
         }
+        [HttpPost]
+        public ActionResult kategoriEkle(string kat)
+        {
+            if (ctx.Kategoris.Any(x => x.Adi == kat.ToLower()))
+            {
+                return Json(new {id = 0, message="Böyle bir kategori zaten mevcut"});
+            }
+            else
+            {
+                Kategori kategori=new Kategori();
+                kategori.Adi = kat.ToLower();
+                ctx.Kategoris.Add(kategori);
+                ctx.SaveChanges();
+                return Json(new { id = 1,katId=kategori.id,katAd=kategori.Adi, message = "Kategori Başarıyla Kayıt Edildi" });
+
+            }
+            
+        }
         public ActionResult MakaleListele(int id,int? page)
         {
           

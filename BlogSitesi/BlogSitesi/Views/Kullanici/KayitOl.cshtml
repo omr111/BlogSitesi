@@ -1,46 +1,139 @@
 ﻿
 @{
-    ViewBag.Title = "Kayıt Ol";
+    Layout = null;
 }
-<h2>Kayıt Ol</h2>
-@using (Html.BeginForm("KayitOl", "Kullanici", FormMethod.Post, new { enctype = "multipart/form-data" })) 
-{ 
-<table>
-    <tr>
-    <td></td>
-    <td>@ViewBag.nickVar</td>
-    </tr>
-    <tr>
-        <td>Kullanıcı Adı</td>
-        <td><input type="text" name="Nick" value="" class="form-control" required/></td>
-    </tr>
-    <tr>
-        <td>Parola</td>
-        <td><input class="form-control" type="password"name="parola" value="" required /></td>
-    </tr>
-    <tr>
-        <td>Parola Tekrar</td>
-        <td><input type="password" name="parolaTekrar" value="" required class="form-control" /></td>
-    </tr>
-    <tr>
-        <td>Adı</td>
-        <td><input type="text" name="Adi" value="" required class="form-control"/></td>
-    </tr>
-    <tr>
-        <td>Soyadı</td>
-        <td><input type="text" name="Soyadi" value=""required class="form-control" /></td>
-    </tr>
-    <tr>
-        <td>Email</td>
-        <td><input type="email" name="Mail" value="" required class="form-control" /></td>
-    </tr>
-    <tr>
-        <td>Profil Resim</td>
-        <td><input type="file" name="Resim" value="" class="form-control" /></td>
-    </tr>
-    <tr>
-    <td></td>
-        <td><input type="submit" name="btnKayıtOl" value="Kayıt Ol" class="form-control" /></td>
-    </tr>
-</table>
-}
+    @model BlogSitesi.Models.Kullanici
+    <!DOCTYPE html>
+    <html lang="en">
+    <head>
+        <title>Kayıt Sayfası</title>
+        <meta charset="UTF-8">
+        <meta name="viewport" content="width=device-width, initial-scale=1">
+        <!--===============================================================================================-->
+        <link rel="icon" type="image/png" href="/Content/js/vendor/logIn/image/icons/favicon.ico" />
+
+        <!--===============================================================================================-->
+
+        <link href="~/Content/css/bootstrap.min.css" rel="stylesheet" />
+        <!--===============================================================================================-->
+
+
+        <link href="~/Content/js/vendor/logIn/css/util.css" rel="stylesheet" />
+
+        <link href="~/Content/js/vendor/logIn/css/main.css" rel="stylesheet" />
+        <!--===============================================================================================-->
+    </head>
+    <body>
+
+        <div class="limiter">
+            <div class="container-login100">
+                <div class="wrap-login100">
+
+                    @using (Html.BeginForm("KayitOl", "Kullanici", FormMethod.Post, new { enctype = "multipart/form-data",@class="login100-form validate-form" }))
+                    {
+                        @Html.AntiForgeryToken()
+                        @*<form action="/user/signIn" method="post" class="login100-form validate-form" enctype="multipart/form-data">*@
+                        <div class="infosaveUser col-md-12">
+                            @if (ViewData["userError"] != null)
+                            {
+
+                                <div class="col-sm-12">
+
+                                    <div class="alert  alert-danger alert-dismissible fade show" role="alert">
+                                        <span class="badge badge-pill badge-success">Hata</span> @ViewData["userError"].ToString()
+
+                                    </div>
+                                </div>
+                            }
+                        </div>
+                        <span class="login100-form-title p-b-34">
+                            Hesap Kayıt
+                        </span>
+                        <div class="wrap-input100 validate-input m-b-20" data-validate="Type user name">
+                            <input id="first-name" class="input100" type="text" required="required" name="Nick" maxlength="10" placeholder="Kullanıcı Adı...">
+                            <span class="focus-input100"></span>
+                        </div>
+                        @Html.ValidationMessageFor(m => m.Nick, "", new { @style = "color:red" })
+                        <div class="wrap-input100 validate-inp ut m-b-20" data-validate="Type password">
+                            <input class="input100" type="password" name="parola" required="required" maxlength="20" placeholder="Şifre...">
+                            <span class="focus-input100"></span>
+                        </div>
+                        @Html.ValidationMessageFor(m => m.parola, "", new { @style = "color:red" })
+                        <div class="wrap-input100 validate-input m-b-20" data-validate="Type user name">
+                            <input class="input100" type="text" name="Adi" required="required" maxlength="50" placeholder="Adınız...">
+                            <span class="focus-input100"></span>
+                        </div>
+                        @Html.ValidationMessageFor(m => m.Adi, "", new { @style = "color:red" })
+                        <div class="wrap-input100 validate-input m-b-20" data-validate="Type user name">
+                            <input class="input100" type="text" name="Soyadi" required="required" maxlength="50" placeholder="Soyadınız...">
+                            <span class="focus-input100"></span>
+                        </div>
+                        @Html.ValidationMessageFor(m => m.Soyadi, "", new { @style = "color:red" })
+                        <div class="wrap-input100 validate-input m-b-20" data-validate="Type email">
+                            <input class="input100" type="email" name="Mail" required="required" maxlength="50" placeholder="Email...">
+                            <span class="focus-input100"></span>
+                        </div>
+                        @Html.ValidationMessageFor(m => m.Mail, "", new { @style = "color:red" })
+                        <div class="wrap-input100 validate-input m-b-20" data-validate="Type user name">
+                            <label>Profil Resmi</label>
+                            <input style="margin-top: 20px;" class="input100" type="file" name="Resim" placeholder="Fotoğraf...">
+                            <span class="focus-input100"></span>
+                        </div>
+                        <div class="container-login100-form-btn">
+                            <button type="submit" class="login100-form-btn">
+                                Kayıt Ol
+                            </button>
+                        </div>
+                        <div class="container-login100-form-btn">
+                            <a href="/user/Index" class="login100-form-btn" style="margin-top: 20px;">
+                                Giriş Yap
+                            </a>
+                        </div>
+                    }
+
+
+                        @*</form>*@
+                  
+                    <div class="login100-more" style="background-image: url('/Content/js/vendor/logIn/image/bg-01.jpg'); ">
+
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        @*<script src="~/content/Scripts/jquery-3.4.1.js"></script>*@
+        <script src="~/Content/js/vendor/jquery-1.11.1.min.js"></script>
+
+    <script src="/Scripts/jquery.unobtrusive-ajax.min.js"></script>
+    </body>
+</html>
+    <script type="text/javascript">
+
+
+    function infoMessageFail(msg) {
+        var okFail = '<div class="col-sm-12">';
+        okFail += '<div class="alert  alert-danger alert-dismissible fade show" role="alert">';
+        okFail += ' <span class="badge badge-pill badge-success">Hata</span> ' + msg;
+        okFail += ' <button type="button" class="close" data-dismiss="alert" aria-label="Close">';
+        okFail += '<span aria-hidden="true">&times;</span>';
+        okFail += '</button>';
+        okFail += '</div>';
+        okFail += ' </div>';
+        return okFail;
+        function OnSuccess(data) {
+            alert(data.message);
+            if (data.errorId == 1) {
+                $(".infosaveUser").html(ok(data.message));
+                setTimeout(function () { $('.infosaveUser').hide('slow'); }, 2000);
+                document.location.replace("/user/Index");
+            } else {
+                $(".infosaveUser").html(okFail(data.message));
+                setTimeout(function () { $('.infosaveUser').hide('slow'); }, 5000);
+            }
+        }
+        function OnFailure(data) {
+            $(".infosaveUser").html(okFail(data.message));
+            setTimeout(function () { $('.infosaveUser').hide('slow'); }, 5000);
+        }
+    }
+    </script>

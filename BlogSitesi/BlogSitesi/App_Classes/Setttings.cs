@@ -9,6 +9,7 @@ namespace BlogSitesi.App_Classes
 {
     public class Setttings
     {
+
         public static Size BannerSize
         {
             get

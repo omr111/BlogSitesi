@@ -11,6 +11,7 @@ using System.Web.Security;
 using System.Web.UI.WebControls;
 using BlogSitesi.App_Classes;
 using Image = System.Drawing.Image;
+using System.IO;
 
 namespace BlogSitesi.Controllers
 {
@@ -38,14 +39,17 @@ namespace BlogSitesi.Controllers
         {
             return View();
         }
+        [ValidateAntiForgeryToken]
         [HttpPost]
-        public ActionResult KayitOl(Kullanici k,HttpPostedFileBase Resim,string parola)
+        public ActionResult KayitOl(Kullanici k,HttpPostedFileBase Resim)
         {
             try
             {
                 if (ctx.Kullanicis.Any(x=>x.Nick==k.Nick)==false)
                 {
-                    MembershipUser user = Membership.CreateUser(k.Nick, parola, k.Mail);
+                    
+                    MembershipUser user = Membership.CreateUser(k.Nick, k.parola, k.Mail);
+                   
                     k.id = (Guid)user.ProviderUserKey;
                     k.KayitTarihi = DateTime.Now;
                     Session["Kullanici"] = k;
@@ -67,11 +71,13 @@ namespace BlogSitesi.Controllers
                     //resim kaydet bitti.
                     FormsAuthentication.RedirectFromLoginPage(k.Adi, true);
                     Session["Kullanici"] = k;
-                    return RedirectToAction("GirisYap","Kullanici");
+                    return RedirectToAction("login", "Kullanici");
                 }
                 else
                 {
-                    ViewBag.nickVar = "Kullanıcı İsmi Zaten Kullanılmaktadır.";
+                    
+                    ViewData["userError"] = "Kayıt Etmeye Çalıştığınız Kullanıcı Zaten Kayıtlıdır.";
+              
                     return View();
                 }
 
@@ -79,8 +85,8 @@ namespace BlogSitesi.Controllers
 	
 	        catch (Exception ex)
             {
-                
-		            ViewBag.nickVar = ex.Message;
+
+                ViewData["userError"] = "Kayıt Sırasında Bir Hata Meydana Geldi!";
                     return View();  
 	        }
                 
@@ -151,5 +157,223 @@ namespace BlogSitesi.Controllers
                 return RedirectToAction("login");
             }
         }
+
+
+       public ActionResult userProfile()
+       {
+           if (User.Identity.IsAuthenticated)
+           {
+               var name = User.Identity.Name;
+               Kullanici user = ctx.Kullanicis.FirstOrDefault(x=>x.Nick==name);
+               if (user != null)
+               {
+                   return View(user);
+               }
+               else
+               {
+                   return RedirectToAction("Index", "Home");
+               }
+           }
+           else
+           {
+               return RedirectToAction("Index", "Home");
+           }
+
+
+       }
+
+       [HttpPost]
+       [ValidateAntiForgeryToken]
+       public ActionResult userProfileUpdate(string newPass, Kullanici user)
+       {
+           Kullanici userName = ctx.Kullanicis.FirstOrDefault(x => x.id == user.id);
+           try
+           {
+               if (ModelState.IsValid)
+               {
+
+                   if (userName != null)
+                   {
+                      
+                       userName.Mail = user.Mail;
+                       userName.Adi = user.Adi;
+                       userName.Soyadi = user.Soyadi;
+
+                       MembershipUser changeuser = Membership.GetUser(userName.Nick);
+                       changeuser.Email = userName.Mail;
+
+                       if (!string.IsNullOrEmpty(newPass))
+                       {
+                           changeuser.ChangePassword(userName.parola, newPass);
+                           userName.parola = newPass;
+                       }
+                       Membership.UpdateUser(changeuser);
+                       ctx.Kullanicis.AddOrUpdate(userName);
+                       ctx.SaveChanges();
+                       Session["Kullanici"] = user;
+                       FormsAuthentication.RedirectFromLoginPage(user.Nick, true);
+                       
+                     
+                     
+                       return RedirectToAction("userProfile");
+                   }
+                   else
+                   {
+                       return RedirectToAction("login", "Kullanici");
+                   }
+
+               }
+               return View("userProfile", userName);
+
+           }
+           catch (Exception e)
+           {
+               ViewData["userProfileError"] = "Güncelleme Sırasında Bir Hata Meydana Geldi.";
+               return View("userProfile", userName);
+           }
+
+       }
+       [HttpPost]
+       [ValidateAntiForgeryToken]
+       public ActionResult pictureUpdate(Guid id, HttpPostedFileBase Resim)
+       {
+           Kullanici user = ctx.Kullanicis.FirstOrDefault(x=>x.id==id);
+           if (user != null)
+           {
+               if (Resim != null)
+               {
+
+                   if (System.IO.File.Exists(Server.MapPath(user.kullaniciResimPath)))
+                   {
+                       System.IO.File.Delete(Server.MapPath(user.kullaniciResimPath));
+
+                   }
+                   int iconWidth = Setttings.KullaniciResim.Width;
+                   int iconHeight = Setttings.KullaniciResim.Height;
+
+                   string newName = "";
+                   if (Resim.FileName.Length > 10)
+                   {
+                       newName = Path.GetFileNameWithoutExtension(Resim.FileName.Substring(0, 10)) + "-" + Guid.NewGuid() + Path.GetExtension(Resim.FileName);
+                   }
+                   else
+                   {
+                       newName = Path.GetFileNameWithoutExtension(Resim.FileName) + "-" + Guid.NewGuid() + Path.GetExtension(Resim.FileName);
+                   }
+                   Image orjResim = Image.FromStream(Resim.InputStream);
+                   Bitmap iconDraw = new Bitmap(orjResim, iconWidth, iconHeight);
+
+                   iconDraw.Save(Server.MapPath("~/Content/kullaniciResim/" + newName));
+
+                   string saveDBPath = "/Content/kullaniciResim/" + newName;
+
+                   user.kullaniciResimPath = saveDBPath;
+                  ctx.Kullanicis.AddOrUpdate(user);
+                 int resultUpdate = ctx.SaveChanges();
+                   if (resultUpdate>0)
+                   {
+                       return RedirectToAction("userProfile");
+                   }
+                   else
+                   {
+                       return RedirectToAction("userProfile");
+                   }
+               }
+               else
+               {
+                   return RedirectToAction("userProfile");
+               }
+
+           }
+           else
+           {
+               return RedirectToAction("login", "Kullanici");
+           }
+
+       }
+
+        //[HttpPost]
+        //public ActionResult resetPassword(string changeName)
+        //{
+        //    try
+        //    {
+        //        ICompanyInformationBll _companyInformation = new CompanyInformationBll(new CompanyInformationDal());
+        //        CompanyInformation company = _companyInformation.GetOneWitId(2);
+        //        user userPass = _userBll.GetOneWithMail(changeName);
+
+        //        if (userPass != null)
+        //        {
+        //            Random random = new Random();
+        //            int sifreUret = random.Next(15689, 99586);
+
+        //            userPass.password = sifreUret.ToString();
+        //            bool resultUpdate = _userBll.Update(userPass);
+
+        //            if (resultUpdate)
+        //            {
+
+        //                user reUser = _userBll.GetOneWithMail(changeName);
+        //                // mail adresi ve şifresi ne ise adminpanelden company information'dan mail ve şifreyi de aynısını yapmalı!
+        //                var senderEmail = new MailAddress(company.email.Trim(), "");
+        //                var receiverEmail = new MailAddress(userPass.email.Trim(), "Receiver");
+
+        //                var password = company.emailPassword.Trim();
+        //                var sub = "Ayha.Net Şifre Reset";
+        //                var body = string.Format("Yeni Şifreniz {0}", reUser.password);
+
+
+        //                var smtp = new SmtpClient
+        //                {
+        //                    Timeout = 10000,
+        //                    Host = "mail.ayha.net",
+        //                    Port = 587,
+        //                    EnableSsl = false,
+        //                    DeliveryMethod = SmtpDeliveryMethod.Network,
+        //                    UseDefaultCredentials = true,
+        //                    Credentials = new NetworkCredential(senderEmail.Address, password),
+
+        //                };
+        //                using (var mess = new MailMessage(senderEmail, receiverEmail)
+        //                {
+        //                    IsBodyHtml = true,
+        //                    BodyEncoding = UTF8Encoding.UTF8,
+        //                    Subject = sub,
+        //                    Body = body,
+        //                    DeliveryNotificationOptions = DeliveryNotificationOptions.OnFailure,
+
+        //                })
+        //                {
+        //                    smtp.Send(mess);
+        //                }
+
+        //                return Json("Yeni Şifreniz Mail Adresinize Gönderildi.");
+        //            }
+        //            else
+        //            {
+
+        //                return Json("Mail Gönderilemedi Lütfen Tekrar Deneyiniz.");
+        //            }
+
+
+        //        }
+        //        else
+        //        {
+
+        //            return Json("Girilen Mail Adresi Kullanılmıyor !");
+        //        }
+
+        //    }
+
+
+
+        //    catch (Exception EX_NAME)
+        //    {
+        //        ViewData["resetInfo"] = "Girilen Mail Adresi Kullanılmıyor !";
+        //        return View("Index");
+        //    }
+
+
+        //}
+
     }
 }

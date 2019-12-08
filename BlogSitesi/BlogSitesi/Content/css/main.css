@@ -5,9 +5,11 @@
 }
 * {
   outline: none !important;
+    margin-bottom: 5px;
 }
 *:focus {
   outline: none !important;
+
 }
 a {
   text-decoration: none !important;
@@ -17,8 +19,8 @@ a {
 }
 .hidden-menu {
   background-color: #1abc9c;
-  height: 86px;
-  min-height: 0px;
+
+  min-height: 105px;
   margin-bottom: 0;
   -webkit-border-radius: 0px;
   -webkit-background-clip: padding-box;
