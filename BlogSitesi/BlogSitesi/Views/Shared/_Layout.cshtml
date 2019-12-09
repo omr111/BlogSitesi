@@ -74,45 +74,13 @@
                         @{
                             Html.RenderAction("Etiket", "Etiket");
                         }
-
-                        <div class="widget portfolio text-center">
-                            <h5>Portfolio</h5>
-                            <div class="view-more">
-                                <a href="#">{ View more }</a>
-                            </div>
-                            <div class="portfolio-slider">
-                                <ul class="slides">
-                                    <li>
-                                        <figure>
-                                            <a href="#">
-                                                <img src="/Content/content/portfolio01.jpg" />
-                                            </a>
-                                        </figure>
-                                    </li>
-                                    <li>
-                                        <figure>
-                                            <a href="#">
-                                                <img src="/Content/content/port-slider1.jpg" />
-                                            </a>
-                                        </figure>
-                                    </li>
-                                    <li>
-                                        <figure>
-                                            <a href="#">
-                                                <img src="/Content/content/port-slider2.jpg" />
-                                            </a>
-                                        </figure>
-                                    </li>
-                                    <li>
-                                        <figure>
-                                            <a href="#">
-                                                <img src="/Content/content/port-slider3.jpg" />
-                                            </a>
-                                        </figure>
-                                    </li>
-                                </ul>
-                            </div>
-                        </div>
+                        @{
+                            Html.RenderAction("sponsorWidget", "Admin");
+                        }
+                        @{
+                            Html.RenderAction("Adds","Admin");
+                        }
+                        
                     </div>
                 </aside>
             </div>

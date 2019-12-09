@@ -9,7 +9,28 @@ namespace BlogSitesi.App_Classes
 {
     public class Setttings
     {
+        public static Size SponsorSize
+        {
+            get
+            {
+                Size sonuc = new Size();
+                sonuc.Width = Convert.ToInt32(ConfigurationManager.AppSettings["sponsorW"]);
+                sonuc.Height = Convert.ToInt32(ConfigurationManager.AppSettings["sponsorH"]);
+                return sonuc;
+            }
 
+        }
+        public static Size ReklamSize
+        {
+            get
+            {
+                Size sonuc = new Size();
+                sonuc.Width = Convert.ToInt32(ConfigurationManager.AppSettings["reklamW"]);
+                sonuc.Height = Convert.ToInt32(ConfigurationManager.AppSettings["reklamH"]);
+                return sonuc;
+            }
+
+        }
         public static Size BannerSize
         {
             get

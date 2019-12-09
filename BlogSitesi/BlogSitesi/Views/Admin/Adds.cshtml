@@ -1,0 +1,26 @@
+﻿@model List<BlogSitesi.Models.Reklamlar>
+<div class="widget portfolio text-center">
+    <h5>Destekçilerimiz</h5>
+    <div class="view-more">
+       
+    </div>
+    <div class="portfolio-slider">
+        <ul class="slides">
+            @foreach (var item in Model)
+            {
+                <li>
+                    <figure>
+                    
+                        <a href="@item.reklamLink"  >
+
+                            <img src="@item.reklamPath" alt="@item.reklamText"  />
+                       
+                        </a>
+
+                    </figure>
+                </li>
+            }
+           
+        </ul>
+    </div>
+</div>

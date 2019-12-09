@@ -23,11 +23,8 @@
                         </li>
 
 
-
-                       @if (Session["Kullanici"] != null)
-                       {
-                            
-                           if (User.IsInRole("Moderator") || User.IsInRole("Admin") || User.IsInRole("Yazar"))
+    
+                          @if (User.IsInRole("Moderator") || User.IsInRole("Admin") || User.IsInRole("Yazar"))
                             {
 
                             }
@@ -37,7 +34,7 @@
                                     <a href="/Kullanici/YazarOl/">Yazar Ol</a>
                                 </li>
                             }
-                       }
+                      
 
                         @if (Session["Kullanici"] != null)
                         {
@@ -55,24 +52,28 @@
                                 </li>
                             }
                         }
-                        @if (User.IsInRole("Admin")&&Session["Kullanici"]!=null)
-                        {
-                            <li class="dropdown">
-                                <a href="#" id="navbarDrop1" class="dropdown-toggle" data-toggle="dropdown">Admin Panel</a>
-                                <ul class="dropdown-menu" role="menu" aria-labelledby="navbarDrop1">
-                                    <li><a href="/Kullanici/Index">Kullanıcı Listesi</a></li>
-                                    <li><a href="/Admin/YazarListesi/">Yazar Listesi</a></li>
-                                    <li><a href="/Admin/TumMakale/">Tüm Makaleler</a></li>
-                                    <li><a href="/Admin/yazarIstek">Yazarlık İstekleri</a></li>
-                                    <li><a href="/Home/sirketBilgileri">Site Bilgileri</a></li>
+                          @if (Session["Kullanici"] != null)
+                          {
+                              if (User.IsInRole("Admin"))
+                              {
+                                  <li class="dropdown">
+                                      <a href="#" id="navbarDrop1" class="dropdown-toggle" data-toggle="dropdown">Admin Panel</a>
+                                      <ul class="dropdown-menu" role="menu" aria-labelledby="navbarDrop1">
+                                          <li><a href="/Kullanici/Index">Kullanıcı Listesi</a></li>
+                                          <li><a href="/Admin/YazarListesi/">Yazar Listesi</a></li>
+                                          <li><a href="/Admin/TumMakale/">Tüm Makaleler</a></li>
+                                          <li><a href="/Admin/yazarIstek">Yazarlık İstekleri</a></li>
+                                          <li><a href="/Home/sirketBilgileri">Site Bilgileri</a></li>
 
 
 
 
-                                </ul>
-                            </li>
+                                      </ul>
+                                  </li>
 
-                        }
+                              }
+                          }
+                        
                         @if (Request.IsAuthenticated == true && Session["Kullanici"] != null)
                         {
                              

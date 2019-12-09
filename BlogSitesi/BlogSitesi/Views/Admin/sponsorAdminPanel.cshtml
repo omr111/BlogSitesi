@@ -1,15 +1,17 @@
-﻿
+﻿@using BlogSitesi.Models
+@model List<BlogSitesi.Models.sponsorlar>
 @{
-    ViewBag.Title = "Index";
+    ViewBag.Title = "Sponsorlar";
     Layout = "~/Views/Shared/_Layout.cshtml";
 }
 
-@using BlogSitesi.Models
-@model List<BlogSitesi.Models.Banner>
+
+
+
 @if (Session["bannerEklenemedi"] != null)
 {
     string mesaj = (string)Session["bannerEklenemedi"];
-    if (mesaj == "Banner Başarıyla Eklendi")
+    if (mesaj == "Sponsor Başarıyla Eklendi")
     {
 
         <div class="col-sm-12">
@@ -46,13 +48,13 @@
             <div class="col-xs-6 col-sm-6">
                 <div class="card">
                     <div class="card-header">
-                        <strong>Banner Sil</strong>
+                        <strong>Sponsor Sil</strong>
                     </div>
                     <form>
 
                         <div class="card-body card-block ">
                             <div class="form-group ">
-                                <label class=" form-control-label">Banner Resimleri</label>
+                                <label class=" form-control-label">Sponsorlar</label>
                                 <div class="input-group" style="overflow: scroll; ">
                                     <div class="input-group-addon "><i class="fa fa-picture-o"></i></div>
 
@@ -61,13 +63,13 @@
                                     @if (@Model != null)
                                     {
 
-                                        foreach (Banner bann in @Model)
+                                        foreach (sponsorlar bann in @Model)
                                         {
-                                            <div  class="col-md-12">
-                                                <input name="id" style="margin-top: 35px; margin-left: 5px;" type="radio" value="@bann.id" data-id="@bann.id" data-alt="@bann.buttonName" data-thumbnail="@bann.bannerPicPath" />
+                                            <div class="col-md-12">
+                                                <input name="id" style="margin-top: 35px; margin-left: 5px;" type="radio" value="@bann.id" data-id="@bann.id" data-alt="sponsorImd" data-thumbnail="@bann.sponsorPath" />
 
 
-                                                <img style="margin: 0;padding: 0; margin-bottom: 10px;" class="col-md-6" src="@bann.bannerPicPath" /><br />
+                                                <img style="margin: 0;padding: 0; margin-bottom: 10px;" class="col-md-6" src="@bann.sponsorPath" /><br />
                                             </div>
                                         }
 
@@ -90,31 +92,49 @@
             <div class="col-xs-6 col-sm-6">
                 <div class="card">
                     <div class="card-header">
-                        <strong>Banner Ekle</strong>
+                        <strong>Reklam Ekle</strong>
                     </div>
-                    <form method="post" action="/banner/bannerAdd" enctype="multipart/form-data">
+                    <form method="post" action="/Admin/sponsorEkle" enctype="multipart/form-data">
+                        @Html.AntiForgeryToken()
                         <div class="card-body card-block">
 
                             <div class="form-group">
-                                <label class=" form-control-label">Resim</label>
+                                <label class=" form-control-label">Sponsor resmi</label>
                                 <div class="input-group">
                                     <div class="input-group-addon"><i class="fa fa-picture-o"></i></div>
-                                    <input class="form-control" type="file" name="companyPicturePath">
+                                    <input class="form-control" type="file" name="file">
 
                                 </div>
 
                             </div>
                             <div class="form-group">
-                                <label class=" form-control-label">Banner Üstü Yazı</label>
+                                <label class=" form-control-label">Sponsor Adı</label>
                                 <div class="input-group">
-                                    <div class="input-group-addon"><i class="fa fa-file-text"></i></div>
-                                    <textarea class="form-control" name="textArea"></textarea>
+                                    <div class="input-group-addon"><i class="fa fa-id"></i></div>
+                                    <input class="form-control" type="text" name="sponsorName">
+
+                                </div>
+
+                            </div>
+                            <div class="form-group">
+                                <label class=" form-control-label">Sponsor Link</label>
+                                <div class="input-group">
+                                    <div class="input-group-addon"><i class="fa fa-link"></i></div>
+                                    <input class="form-control" maxlength="150" required="required" name="sponsorLink" />
+                                </div>
+
+                            </div>
+                            <div class="form-group">
+                                <label class=" form-control-label">Sponsor Kısa Açıklama</label>
+                                <div class="input-group">
+                                    <div class="input-group-addon"><i class="fa fa-info"></i></div>
+                                    <textarea maxlength="250" required="required" class="form-control" name="soponsorAciklama"></textarea>
                                 </div>
 
                             </div>
 
 
-                            <div class="form-group" >
+                            <div class="form-group">
 
                                 <input id="bannerAdd" type="submit" class="btn btn-success" style="float: right" value="Kaydet" />
 
@@ -162,7 +182,7 @@
 
             var id=$("input:checked").val()
             $.ajax({
-                url: "/Banner/bannerDelete",
+                url: "/Admin/sponsorSil",
                 data: {id:id},
                 type: "POST",
                 success:function(data) {
@@ -170,11 +190,11 @@
                         var mesaj = data.message;
                         $(".alert").html(ok(mesaj));
                         setTimeout(function () { $('#alert').hide('slow'); }, 5000);
-                        setTimeout(function () { document.location.replace("/Banner/Index") }, 2000);
+                        setTimeout(function () { document.location.replace("/Admin/sponsorAdminPanel") }, 2000);
                     } else {
                         $(".alert").html(failOk(mesaj));
                         setTimeout(function () { $('#alert').hide('slow'); }, 5000);
-                        setTimeout(function () { document.location.replace("/Banner/Index") }, 2000);
+                        setTimeout(function () { document.location.replace("/Admin/sponsorAdminPanel") }, 2000);
                     }
                 },
                 error:function(data) {
@@ -182,11 +202,11 @@
                         var mesaj = data.message;
                         $(".alert").html(failOk(mesaj));
                         setTimeout(function () { $('#alert').hide('slow'); }, 2000);
-                        setTimeout(function () { document.location.replace("/Banner/Index") }, 3000);
+                        setTimeout(function () { document.location.replace("/Admin/sponsorAdminPanel") }, 3000);
                     } else {
                         $(".alert").html(failOk(mesaj));
                         setTimeout(function () { $('#alert').hide('slow'); }, 2000);
-                        setTimeout(function () { document.location.replace("/Banner/Index") }, 3000);
+                        setTimeout(function () { document.location.replace("/Admin/sponsorAdminPanel") }, 3000);
                     }
                 }
         });
@@ -196,6 +216,8 @@
 
 
 }
+
+
 
 
 

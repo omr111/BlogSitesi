@@ -1,0 +1,21 @@
+﻿@model List<BlogSitesi.Models.sponsorlar>
+@foreach (var item in Model)
+{
+    <div class="widget sponsors text-center" style="overflow: scroll; max-height: 600px;">
+        <h5>Sponsorlarımız</h5>
+        <div class="sponsor">
+            <div class="via">@item.sponsorName</div>
+            <figure>
+                <a href="@item.sponsorLink">
+                    <img src="@item.sponsorPath" alt="sponsorimg"/>
+                </a>
+            </figure>
+            <div class="description">
+               @item.soponsorAciklama
+              
+            </div>
+        </div>
+   
+    </div>
+
+}

@@ -1114,11 +1114,6 @@
     <Content Include="common-js\scripts.js" />
     <Content Include="common-js\swiper.js" />
     <Content Include="common-js\tether.min.js" />
-    <Content Include="Content\404.html" />
-    <Content Include="Content\about-us.html" />
-    <Content Include="Content\blog-single.html" />
-    <Content Include="Content\blog-single02.html" />
-    <Content Include="Content\blog.html" />
     <Content Include="Content\BuyukResim\Chrysanthemum-04bc1040-f4cf-44cd-8156-e62b272322c3.jpg" />
     <Content Include="Content\BuyukResim\col1-portfolio06.jpg" />
     <Content Include="Content\BuyukResim\Hydrangeas-93ece2f6-eab6-4c4c-93d7-52513085245b.jpg" />
@@ -1133,7 +1128,6 @@
     <Content Include="Content\BuyukResim\Penguins-a51be5de-55e8-402a-94ac-1a690a920eef.jpg" />
     <Content Include="Content\BuyukResim\Penguins-ffb867f8-5de9-4c08-b193-b37aec9d0ffd.jpg" />
     <Content Include="Content\BuyukResim\ssl-79f3d9d7-9dc5-47c8-9b19-f25ba35e73a2.jpg" />
-    <Content Include="Content\contact.html" />
     <Content Include="Content\css\bootstrap.min.css" />
     <Content Include="Content\css\flexslider.css" />
     <Content Include="Content\css\font-awesome.min.css" />
@@ -1149,7 +1143,6 @@
     <Content Include="Content\css\mCSB_buttons.html" />
     <Content Include="Content\css\typicons.css" />
     <Content Include="Content\css\userProfile.css" />
-    <Content Include="Content\elements.html" />
     <Content Include="Content\img\blank.gif" />
     <Content Include="Content\img\fancybox_loading%402x.gif" />
     <Content Include="Content\img\fancybox_loading.gif" />
@@ -1157,9 +1150,6 @@
     <Content Include="Content\img\fancybox_sprite%402x.png" />
     <Content Include="Content\img\fancybox_sprite.png" />
     <Content Include="Content\img\layout-selector.png" />
-    <Content Include="Content\index.html" />
-    <Content Include="Content\index02.html" />
-    <Content Include="Content\index03.html" />
     <Content Include="Content\js\main.js" />
     <Content Include="Content\css\table.css" />
     <Content Include="Content\js\table.js" />
@@ -1184,13 +1174,6 @@
     <Content Include="Content\KucukResim\user03.png" />
     <Content Include="Content\logo\favicon.png" />
     <Content Include="Content\logo\userBanner.png" />
-    <Content Include="Content\portfolio-1col.html" />
-    <Content Include="Content\portfolio-2col.html" />
-    <Content Include="Content\portfolio-3col.html" />
-    <Content Include="Content\portfolio-4col.html" />
-    <Content Include="Content\portfolio-fullpage.html" />
-    <Content Include="Content\portfolio-fullscreen.html" />
-    <Content Include="Content\portfolio-single.html" />
     <Content Include="Content\YazarResim\author.png" />
     <Content Include="Global.asax" />
     <Content Include="Content\fonts\fontawesome-webfontba72.eot" />
@@ -1234,6 +1217,10 @@
     <Content Include="Views\Etiket\Index.cshtml" />
     <Content Include="Views\Banner\listBanner.cshtml" />
     <Content Include="Views\Kullanici\userProfile.cshtml" />
+    <Content Include="Views\Admin\Adds.cshtml" />
+    <Content Include="Views\Admin\adminPanelReklamlar.cshtml" />
+    <Content Include="Views\Admin\sponsorWidget.cshtml" />
+    <Content Include="Views\Admin\sponsorAdminPanel.cshtml" />
     <None Include="_bin_deployableAssemblies\x86\sqlcese40.dll" />
     <None Include="_bin_deployableAssemblies\x86\sqlceqp40.dll" />
     <None Include="_bin_deployableAssemblies\x86\sqlceme40.dll" />
@@ -1340,8 +1327,10 @@
     <Compile Include="Models\Mapping\MakaleMap.cs" />
     <Compile Include="Models\Mapping\MakaleTipMap.cs" />
     <Compile Include="Models\Mapping\MesajlarMap.cs" />
+    <Compile Include="Models\Mapping\ReklamlarMap.cs" />
     <Compile Include="Models\Mapping\SirketBilgileriMap.cs" />
     <Compile Include="Models\Mapping\SiteTakipMap.cs" />
+    <Compile Include="Models\Mapping\sponsorlarMap.cs" />
     <Compile Include="Models\Mapping\sysdiagramMap.cs" />
     <Compile Include="Models\Mapping\vw_aspnet_ApplicationsMap.cs" />
     <Compile Include="Models\Mapping\vw_aspnet_MembershipUsersMap.cs" />
@@ -1356,8 +1345,10 @@
     <Compile Include="Models\Mapping\YorumMap.cs" />
     <Compile Include="Models\Mapping\ZiyaretciLogMap.cs" />
     <Compile Include="Models\Mesajlar.cs" />
+    <Compile Include="Models\Reklamlar.cs" />
     <Compile Include="Models\SirketBilgileri.cs" />
     <Compile Include="Models\SiteTakip.cs" />
+    <Compile Include="Models\sponsorlar.cs" />
     <Compile Include="Models\sysdiagram.cs" />
     <Compile Include="Models\vw_aspnet_Applications.cs" />
     <Compile Include="Models\vw_aspnet_MembershipUsers.cs" />
@@ -1400,10 +1391,12 @@
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />
+    <Folder Include="Content\addPictures\" />
     <Folder Include="Content\bannerPictures\" />
     <Folder Include="Content\editorResim\" />
     <Folder Include="Content\kullaniciResim\" />
     <Folder Include="Content\OrtaResim\" />
+    <Folder Include="Content\sponsorResim\" />
   </ItemGroup>
   <PropertyGroup>
     <VisualStudioVersion Condition="'$(VisualStudioVersion)' == ''">10.0</VisualStudioVersion>
