@@ -1,4 +1,4 @@
-@import url(http://fonts.googleapis.com/css?family=Dosis:300,400,500,700|Montserrat:400,700|Open+Sans:400italic,400,300italic,300,700italic,700,600);
+@import url(https://fonts.googleapis.com/css?family=Dosis:300,400,500,700|Montserrat:400,700|Open+Sans:400italic,400,300italic,300,700italic,700,600);
 .set-default {
   float: left;
   width: 100%;
@@ -11,6 +11,7 @@
   outline: none !important;
 
 }
+
 a {
   text-decoration: none !important;
 }
@@ -20,7 +21,7 @@ a {
 .hidden-menu {
   background-color: #1abc9c;
 
-  min-height: 105px;
+   
   margin-bottom: 0;
   -webkit-border-radius: 0px;
   -webkit-background-clip: padding-box;

@@ -53,6 +53,7 @@
                             <input id="first-name" class="input100" type="text" required="required" name="Nick" maxlength="10" placeholder="Kullanıcı Adı...">
                             <span class="focus-input100"></span>
                         </div>
+                       
                         @Html.ValidationMessageFor(m => m.Nick, "", new { @style = "color:red" })
                         <div class="wrap-input100 validate-inp ut m-b-20" data-validate="Type password">
                             <input class="input100" type="password" name="parola" required="required" maxlength="20" placeholder="Şifre...">

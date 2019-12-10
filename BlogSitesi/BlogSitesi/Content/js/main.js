@@ -254,7 +254,7 @@ var Cleanse = {
         if(topMenu.hasClass('hidden-menu-up')) {
             body.addClass('more-padding');
             topMenu.animate({
-                "height" : "86px",
+                "height" : "103px",
                 "overflow" : "hidden"
             }, {
                 duration : 400,

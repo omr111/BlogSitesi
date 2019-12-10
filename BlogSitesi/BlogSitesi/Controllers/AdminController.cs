@@ -9,6 +9,7 @@ using System.Linq;
 using System.Web;
 using System.Web.Mvc;
 using System.Web.Security;
+using System.Web.Services.Description;
 
 namespace BlogSitesi.Controllers
 {
@@ -29,7 +30,6 @@ namespace BlogSitesi.Controllers
             List<aspnet_Users> users = ctx.aspnet_Users.Where(x => x.aspnet_Roles.Any(y => y.RoleName!="Uye")).ToList();
            
             
-            //List<Kullanici> yazarlar = ctx.Kullanicis.Where(x => x.YazarMi == true).ToList();
 
             return View(users);
         }
@@ -92,6 +92,31 @@ namespace BlogSitesi.Controllers
                 return View();
             }
         }
+
+        public ActionResult yorumlarKullaniciEngelle(Guid id)
+        {
+            Kullanici kullanici = ctx.Kullanicis.FirstOrDefault(x => x.id == id);
+            if (kullanici.Aktif)
+            {
+                kullanici.Aktif = false;
+
+            }
+            else
+            {
+                kullanici.Aktif = true;
+            }
+            ctx.Entry(kullanici).State = EntityState.Modified;
+            int result = ctx.SaveChanges();
+            if (result > 0)
+            {
+
+                return RedirectToAction("tumYorumlar", "Admin");
+            }
+            else
+            {
+                return View();
+            }
+        }
         public ActionResult yazarEngelle(Guid id)
         {
             Kullanici yazar = ctx.Kullanicis.FirstOrDefault(x => x.id == id);
@@ -108,6 +133,7 @@ namespace BlogSitesi.Controllers
             ctx.SaveChanges();
             return RedirectToAction("YazarListesi", "Admin");
         }
+
 
         public PartialViewResult Adds()
         {
@@ -229,6 +255,29 @@ namespace BlogSitesi.Controllers
         {
             return View(ctx.sponsorlars.ToList());
         }
+        [HttpPost]
+        public ActionResult yorumSil(int id)
+        {
+            Yorum yorum = ctx.Yorums.FirstOrDefault(x => x.id == id);
+            if (yorum!=null)
+            {
+                ctx.Yorums.Remove(yorum);
+               int result= ctx.SaveChanges();
+               if (result>0)
+               {
+                   return Json(new{id=1,message = "Yorum Başarıyla Silindi"});
+               }
+               else
+               {
+                   return Json(new {id = 0, message = "Yorum Silinemedi"});
+               }
+            }
+            else
+            {
+                return Json(new {id = 1, message = "Silinmek İstenilen Yorum Bulunamadı"});
+
+            }
+        }
         [ValidateAntiForgeryToken]
         [HttpPost]
         public ActionResult sponsorEkle(sponsorlar sponsor,HttpPostedFileBase file)
@@ -328,6 +377,11 @@ namespace BlogSitesi.Controllers
             {
                 return Json(new { id = 0, message = e.Message });
             }
+        }
+
+        public ActionResult tumYorumlar()
+        {
+            return View(ctx.Yorums.ToList());
         }
 	}
 }

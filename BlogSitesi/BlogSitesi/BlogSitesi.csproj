@@ -1221,22 +1221,6 @@
     <Content Include="Views\Admin\adminPanelReklamlar.cshtml" />
     <Content Include="Views\Admin\sponsorWidget.cshtml" />
     <Content Include="Views\Admin\sponsorAdminPanel.cshtml" />
-    <None Include="_bin_deployableAssemblies\x86\sqlcese40.dll" />
-    <None Include="_bin_deployableAssemblies\x86\sqlceqp40.dll" />
-    <None Include="_bin_deployableAssemblies\x86\sqlceme40.dll" />
-    <None Include="_bin_deployableAssemblies\x86\sqlceer40EN.dll" />
-    <None Include="_bin_deployableAssemblies\x86\sqlcecompact40.dll" />
-    <None Include="_bin_deployableAssemblies\x86\sqlceca40.dll" />
-    <None Include="_bin_deployableAssemblies\x86\Microsoft.VC90.CRT\README_ENU.txt" />
-    <None Include="_bin_deployableAssemblies\x86\Microsoft.VC90.CRT\msvcr90.dll" />
-    <None Include="_bin_deployableAssemblies\amd64\sqlcese40.dll" />
-    <None Include="_bin_deployableAssemblies\amd64\sqlceqp40.dll" />
-    <None Include="_bin_deployableAssemblies\amd64\sqlceme40.dll" />
-    <None Include="_bin_deployableAssemblies\amd64\sqlceer40EN.dll" />
-    <None Include="_bin_deployableAssemblies\amd64\sqlcecompact40.dll" />
-    <None Include="_bin_deployableAssemblies\amd64\sqlceca40.dll" />
-    <None Include="_bin_deployableAssemblies\amd64\Microsoft.VC90.CRT\README_ENU.txt" />
-    <None Include="_bin_deployableAssemblies\amd64\Microsoft.VC90.CRT\msvcr90.dll" />
     <None Include="Scripts\jquery-3.4.1.intellisense.js" />
     <Content Include="images\author-1-200x200.jpg" />
     <Content Include="images\signature-image.png" />
@@ -1270,8 +1254,6 @@
     <Content Include="Views\Yazar\Index.cshtml" />
     <Content Include="Views\Makale\TariheGoreListe.cshtml" />
     <Content Include="Views\Makale\Detay.cshtml" />
-    <None Include="_bin_deployableAssemblies\amd64\Microsoft.VC90.CRT\Microsoft.VC90.CRT.manifest" />
-    <None Include="_bin_deployableAssemblies\x86\Microsoft.VC90.CRT\Microsoft.VC90.CRT.manifest" />
   </ItemGroup>
   <ItemGroup>
     <Compile Include="App_Classes\Setttings.cs" />
@@ -1382,6 +1364,7 @@
     <Content Include="Views\Makale\MakaleDuzenle.cshtml" />
     <Content Include="Views\Kullanici\login.cshtml" />
     <Content Include="Views\Shared\_MakaleListele.cshtml" />
+    <Content Include="Views\Admin\tumYorumlar.cshtml" />
     <None Include="Web.Debug.config">
       <DependentUpon>Web.config</DependentUpon>
     </None>

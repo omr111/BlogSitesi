@@ -9,22 +9,7 @@
 @if (Session["bannerEklenemedi"] != null)
 {
     string mesaj = (string)Session["bannerEklenemedi"];
-    if (mesaj == "Banner Başarıyla Eklendi")
-    {
-
-        <div class="col-sm-12">
-
-            <div class="alert  alert-success alert-dismissible fade show" role="alert">
-                <span class="badge badge-pill badge-success">Başarılı</span> @mesaj
-                <button type="button" class="close" data-dismiss="alert" aria-label="Close">
-                    <span aria-hidden="true">&times;</span>
-                </button>
-            </div>
-        </div>
-        Session["bannerEklenemedi"] = null;
-    }
-    else
-    {
+  
         <div class="col-sm-12">
             <div class="alert  alert-danger alert-dismissible fade show" role="alert">
                 <span class="badge badge-pill badge-danger">Hata</span> @mesaj
@@ -34,7 +19,7 @@
             </div>
         </div>
         Session["bannerEklenemedi"] = null;
-    }
+  
 
 
 
@@ -108,7 +93,7 @@
                                 <label class=" form-control-label">Banner Üstü Yazı</label>
                                 <div class="input-group">
                                     <div class="input-group-addon"><i class="fa fa-file-text"></i></div>
-                                    <textarea class="form-control" name="textArea"></textarea>
+                                    <textarea class="form-control" required="required" maxlength="50" name="textArea"></textarea>
                                 </div>
 
                             </div>
@@ -169,7 +154,7 @@
                     if (data.id == 1) {
                         var mesaj = data.message;
                         $(".alert").html(ok(mesaj));
-                        setTimeout(function () { $('#alert').hide('slow'); }, 5000);
+                        setTimeout(function () { $('#alert').hide('slow'); }, 3000);
                         setTimeout(function () { document.location.replace("/Banner/Index") }, 2000);
                     } else {
                         $(".alert").html(failOk(mesaj));

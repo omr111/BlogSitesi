@@ -49,9 +49,7 @@ namespace BlogSitesi.Controllers
             }
 
             return View("_MakaleListele", sendMakale);
-            //var makale = ctx.Makales.Where(x => x.Etikets.Any(y => y.id == id));
-            //List<Makale> makale = ctx.Makales.Where(x => x.MakaleEtikets.Any(y => y.EtiketID == id)).ToList();
-            //return View("_MakaleListele", makale);
+           
         }
     }
 	

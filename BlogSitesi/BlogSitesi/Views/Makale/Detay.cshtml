@@ -41,7 +41,7 @@
                 <li><a href="/Yazar/Index/@Model.YazarID">{ @Model.Kullanici.Nick }</a></li>
                 <li>{<a href="#Yorum"> Yorum: @Model.Yorums.Count.ToString()</a> }</li>
                 <li>{<a href="Javascript:void(0)"> Görüntüleme: @Model.Goruntulenme</a> }</li>
-                @if (Model.KullaniciBegenis.Any(x => x.Kullanici.Nick.ToLower()==User.Identity.Name.ToLower()))
+                @if (Model.KullaniciBegenis.Any(x => x.Kullanici.Nick.ToLower() == User.Identity.Name.ToLower()))
                 {
                     <li>{<a class="begen" data-makaleid="@Model.id" href="Javascript:void(0);" style="color:#1abc9c" title="Beğenildi"> Beğen: <label class="likeCount">@Model.KullaniciBegenis.Count</label></a> }</li>
                 }
@@ -50,9 +50,9 @@
                     <li>{<a class="begen" data-makaleid="@Model.id" href="Javascript:void(0);" title="Henüz Beğenmediniz">Beğen: <label class="likeCount">@Model.KullaniciBegenis.Count</label></a> }</li>
                 }
             </ul>
-            
+
         </header>
-        <div class="text-editor" >
+        <div class="text-editor">
 
             <figure>
                 @if (!string.IsNullOrEmpty(@Model.BuyukResimYol) || @Model.BuyukResimYol != null)
@@ -65,11 +65,11 @@
                 }
 
             </figure>
-           
+
             <div style=" overflow: scroll;max-height: 800px;">
                 @Html.Raw(Model.icerik)
             </div>
-           
+
             <div class="author-wrap">
                 <div class="author">
                     <figure>
@@ -88,7 +88,7 @@
                         </a>
                     </figure>
                     <div class="name">@Model.Kullanici.Nick</div>
-                   
+
                     <div class="description">
                         @Model.Kullanici.Hakkinda
                     </div>
@@ -113,8 +113,8 @@
                                 }
                                 else
                                 {
-                            
-                                    <img src="~/Content/content/user03.png" alt="blog-site"/>
+
+                                    <img src="~/Content/content/user03.png" alt="blog-site" />
                                 }
                             </a>
                         </figure>
@@ -128,7 +128,7 @@
                         </div>
                         <div class="text">
                             @y.icerik
-                         
+
                         </div>
 
                     </div>
@@ -148,39 +148,51 @@
     else
     {
         Kullanici kul = (Kullanici)Session["Kullanici"];
-        <div class="write-comment">
-            <h3>Yorum Yaz.</h3>
-            <div class="user">
-                <figure>
-                    <a href="#">
-                        @if (!string.IsNullOrEmpty(kul.kullaniciResimPath) || kul.kullaniciResimPath != null)
-                        {
-                            <img src="@kul.kullaniciResimPath" alt="" />
-                        }
-                        else
-                        {
-                            
+        if (kul.Aktif == false)
+        {
+            <h3>Engellisiniz,Yorum Yapamazsınız.</h3>
+        }
+        else if (@Model.Aktif == false)
+        {
+            <h3>Bu Makale Kilitlenmiştir.</h3>
+        }
+        else
+        {
+            <div class="write-comment">
+
+                <h3>Yorum Yaz.</h3>
+                <div class="user">
+                    <figure>
+                        <a href="javascript:void(0)">
+                            @if (!string.IsNullOrEmpty(kul.kullaniciResimPath) || kul.kullaniciResimPath != null)
+                            {
+                                <img src="@kul.kullaniciResimPath" alt="@kul.resimAltText" />
+                            }
+                            else
+                            {
+
                                 <img src="~/Content/content/user03.png" />
-                        }
-                        
-                    </a>
-                </figure>
-                <div class="name text-center">
-                    <a href="#">@kul.Nick</a>
+                            }
+
+                        </a>
+                    </figure>
+                    <div class="name text-center">
+                        <a href="javascript:void(0)">@kul.Nick</a>
+                    </div>
                 </div>
+                <div class="textarea-wrap">
+                    <form action="/Makale/YorumYaz" method="post">
+                        <input type="hidden" name="MakaleID" value="@Model.id" />
+                        <input type="hidden" name="YorumYapanID" value="@kul.id" />
+                        <textarea name="icerik" placeholder="Yorum Yazın..."></textarea>
+                        @Html.ValidationMessage("icerik", "Mesaj alanı boş geçilemez ve en fazla 500 karakter olabilir", new { @style = "color:red" })
+                        <button type="submit" class="send">Gönder</button>
+                    </form>
+                </div>
+                <hr>
             </div>
-            <div class="textarea-wrap">
-                <form action="/Makale/YorumYaz" method="post">
-                    <input type="hidden" name="MakaleID" value="@Model.id" />
-                    <input type="hidden" name="YorumYapanID" value="@kul.id" />
-                    <textarea name="icerik" placeholder="Yorum Yazın..." >
-                       
-                    </textarea>
-                    <button type="submit" class="send">Gönder</button>
-                </form>
-            </div>
-            <hr>
-        </div>
+        }
+        
     }
 </div>
 
@@ -188,11 +200,10 @@
 @section MakaleDetayYazarBilgileri{
 
     <link href="https://fonts.googleapis.com/css?family=Roboto:300,400,500" rel="stylesheet">
-    <link href="common-css/ionicons.css" rel="stylesheet">
 
     <link href="/common-css/Singlestyles.css" rel="stylesheet" />
 
-    <link href="/common-css/swiper.css" rel="stylesheet" />
+
     <div class="sidebar-section about-author center-text">
         @if (!string.IsNullOrEmpty(Model.Kullanici.kullaniciResimPath) || Model.Kullanici.kullaniciResimPath != null)
         {
@@ -203,19 +214,19 @@
         }
         else
         {
-            <div style="margin-bottom: 30px;" class="author-image"><img style="margin-top: 20px"  src="~/Content/content/user03.png" alt="Autohr Image" /></div>
+            <div style="margin-bottom: 30px;" class="author-image"><img style="margin-top: 20px" src="~/Content/content/user03.png" alt="Autohr Image" /></div>
 
         }
 
 
-       
+
         <h4 class="Nick"> @Model.Kullanici.Nick</h4>
         <h4 class="author-name"><b class="light-color">@Model.Kullanici.Adi @Model.Kullanici.Soyadi</b></h4>
         <p>
             @Html.Raw(Model.Kullanici.Hakkinda)
         </p>
 
-     
+
 
     </div>
 
@@ -224,21 +235,21 @@
 <script type="text/javascript" src="~/Content/js/vendor/jquery-1.11.1.min.js"></script>
 <script src="/Scripts/jquery.unobtrusive-ajax.min.js"></script>
 <script type="text/javascript">
-    $(".begen").click(function() {
-        var makaleId=$(this).data("makaleid");
+    $(".begen").click(function () {
+        var makaleId = $(this).data("makaleid");
         $.ajax({
             url: "/Makale/Begen",
             type: "Post",
             data: { id: makaleId },
-            success:function(result) {
+            success: function (result) {
                 if (result.id == 1) {
-                    $(".likeCount").html( result.count);
+                    $(".likeCount").html(result.count);
                     $(".begen").css('color', '#1abc9c');
 
                 }
                 else if (result.id == 2) {
                     $(".likeCount").html(result.count);
-                    $(".begen").css('color','#5b7890');
+                    $(".begen").css('color', '#5b7890');
                 }
             },
         });

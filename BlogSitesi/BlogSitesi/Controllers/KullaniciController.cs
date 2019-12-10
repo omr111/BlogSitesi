@@ -43,52 +43,59 @@ namespace BlogSitesi.Controllers
         [HttpPost]
         public ActionResult KayitOl(Kullanici k,HttpPostedFileBase Resim)
         {
-            try
+            if (ModelState.IsValid)
             {
-                if (ctx.Kullanicis.Any(x=>x.Nick==k.Nick)==false)
+                try
                 {
-                    
-                    MembershipUser user = Membership.CreateUser(k.Nick, k.parola, k.Mail);
-                   
-                    k.id = (Guid)user.ProviderUserKey;
-                    k.KayitTarihi = DateTime.Now;
-                    Session["Kullanici"] = k;
-                    k.YazarMi = false;
-                    ctx.Kullanicis.Add(k);
-                    ctx.SaveChanges();
-                    Roles.AddUserToRole(k.Nick, "Uye");
+                    if (ctx.Kullanicis.Any(x => x.Nick == k.Nick) == false)
+                    {
 
-                    //resim kaydet
-                    string extention = Resim.ContentType.Split('/')[1];
-                    string fileName = "f_" + Guid.NewGuid() + "." + extention;
-                    Image orjImage = Image.FromStream(Resim.InputStream);
-                    Bitmap paintBitmap=new Bitmap(orjImage,Setttings.KullaniciResim.Width,Setttings.KullaniciResim.Height);
-                    paintBitmap.Save(Server.MapPath("~/Content/kullaniciResim/"+fileName));
-                    Kullanici kullanici = ctx.Kullanicis.FirstOrDefault(x => x.id == k.id);
-                    kullanici.kullaniciResimPath = "/Content/kullaniciResim/" + fileName;
-                    ctx.Entry(kullanici).State = EntityState.Modified;
-                    ctx.SaveChanges();
-                    //resim kaydet bitti.
-                    FormsAuthentication.RedirectFromLoginPage(k.Adi, true);
-                    Session["Kullanici"] = k;
-                    return RedirectToAction("login", "Kullanici");
+                        MembershipUser user = Membership.CreateUser(k.Nick, k.parola, k.Mail);
+
+                        k.id = (Guid)user.ProviderUserKey;
+                        k.KayitTarihi = DateTime.Now;
+                        Session["Kullanici"] = k;
+                        k.YazarMi = false;
+                        ctx.Kullanicis.Add(k);
+                        ctx.SaveChanges();
+                        Roles.AddUserToRole(k.Nick, "Uye");
+
+                        //resim kaydet
+                        string extention = Resim.ContentType.Split('/')[1];
+                        string fileName = "f_" + Guid.NewGuid() + "." + extention;
+                        Image orjImage = Image.FromStream(Resim.InputStream);
+                        Bitmap paintBitmap = new Bitmap(orjImage, Setttings.KullaniciResim.Width, Setttings.KullaniciResim.Height);
+                        paintBitmap.Save(Server.MapPath("~/Content/kullaniciResim/" + fileName));
+                        Kullanici kullanici = ctx.Kullanicis.FirstOrDefault(x => x.id == k.id);
+                        kullanici.kullaniciResimPath = "/Content/kullaniciResim/" + fileName;
+                        ctx.Entry(kullanici).State = EntityState.Modified;
+                        ctx.SaveChanges();
+                        //resim kaydet bitti.
+                        FormsAuthentication.RedirectFromLoginPage(k.Adi, true);
+                        Session["Kullanici"] = k;
+                        return RedirectToAction("login", "Kullanici");
+                    }
+                    else
+                    {
+
+                        ViewData["userError"] = "Kayıt Etmeye Çalıştığınız Kullanıcı Zaten Kayıtlıdır.";
+
+                        return View();
+                    }
+
                 }
-                else
+
+                catch (Exception ex)
                 {
-                    
-                    ViewData["userError"] = "Kayıt Etmeye Çalıştığınız Kullanıcı Zaten Kayıtlıdır.";
-              
+
+                    ViewData["userError"] = "Kayıt Sırasında Bir Hata Meydana Geldi!";
                     return View();
                 }
-
             }
-	
-	        catch (Exception ex)
+            else
             {
-
-                ViewData["userError"] = "Kayıt Sırasında Bir Hata Meydana Geldi!";
-                    return View();  
-	        }
+                return View();
+            }
                 
       }
        
@@ -113,26 +120,35 @@ namespace BlogSitesi.Controllers
           return View();
 
         }
+        [ValidateAntiForgeryToken]
         [HttpPost]
         public ActionResult YazarOl(YazarlikBasvurusu k)
         {
-            var kulname=User.Identity.Name;
-            var kulID = ctx.Kullanicis.FirstOrDefault(x => x.Nick == kulname);
-            if(kulID!=null)
-            { 
-            
-            k.kID = kulID.id;
-            k.Nick = kulname;      
-            
-            ctx.YazarlikBasvurusus.Add(k);
-            ctx.SaveChanges();
+            if (ModelState.IsValid)
+            {
+                var kulname = User.Identity.Name;
+                var kulID = ctx.Kullanicis.FirstOrDefault(x => x.Nick == kulname);
+                if (kulID != null)
+                {
+
+                    k.kID = kulID.id;
+                    k.Nick = kulname;
+
+                    ctx.YazarlikBasvurusus.Add(k);
+                    ctx.SaveChanges();
+                }
+                else
+                {
+                    ViewBag.kayitYok = "Yazarlık Başvurusundan Önce Lütfen Sitemize Kayıt Olun ve Siteye Giriş Yapın!";
+
+                }
+                return View();
             }
             else
             {
-                ViewBag.kayitYok = "Yazarlık Başvurusundan Önce Lütfen Sitemize Kayıt Olun ve Siteye Giriş Yapın!";
-
+                return View("YazarOl");
             }
-            return View();
+
         }
 
         public ActionResult login()
@@ -186,52 +202,59 @@ namespace BlogSitesi.Controllers
        [ValidateAntiForgeryToken]
        public ActionResult userProfileUpdate(string newPass, Kullanici user)
        {
-           Kullanici userName = ctx.Kullanicis.FirstOrDefault(x => x.id == user.id);
-           try
+           if (ModelState.IsValid)
            {
-               if (ModelState.IsValid)
+               Kullanici userName = ctx.Kullanicis.FirstOrDefault(x => x.id == user.id);
+               try
                {
-
-                   if (userName != null)
+                   if (ModelState.IsValid)
                    {
-                      
-                       userName.Mail = user.Mail;
-                       userName.Adi = user.Adi;
-                       userName.Soyadi = user.Soyadi;
 
-                       MembershipUser changeuser = Membership.GetUser(userName.Nick);
-                       changeuser.Email = userName.Mail;
-
-                       if (!string.IsNullOrEmpty(newPass))
+                       if (userName != null)
                        {
-                           changeuser.ChangePassword(userName.parola, newPass);
-                           userName.parola = newPass;
+
+                           userName.Mail = user.Mail;
+                           userName.Adi = user.Adi;
+                           userName.Soyadi = user.Soyadi;
+
+                           MembershipUser changeuser = Membership.GetUser(userName.Nick);
+                           changeuser.Email = userName.Mail;
+
+                           if (!string.IsNullOrEmpty(newPass))
+                           {
+                               changeuser.ChangePassword(userName.parola, newPass);
+                               userName.parola = newPass;
+                           }
+                           Membership.UpdateUser(changeuser);
+                           ctx.Kullanicis.AddOrUpdate(userName);
+                           ctx.SaveChanges();
+                           Session["Kullanici"] = user;
+                           FormsAuthentication.RedirectFromLoginPage(user.Nick, true);
+
+
+
+                           return RedirectToAction("userProfile");
                        }
-                       Membership.UpdateUser(changeuser);
-                       ctx.Kullanicis.AddOrUpdate(userName);
-                       ctx.SaveChanges();
-                       Session["Kullanici"] = user;
-                       FormsAuthentication.RedirectFromLoginPage(user.Nick, true);
-                       
-                     
-                     
-                       return RedirectToAction("userProfile");
+                       else
+                       {
+                           return RedirectToAction("login", "Kullanici");
+                       }
+
                    }
-                   else
-                   {
-                       return RedirectToAction("login", "Kullanici");
-                   }
+                   return View("userProfile", userName);
 
                }
-               return View("userProfile", userName);
+               catch (Exception e)
+               {
+                   ViewData["userProfileError"] = "Güncelleme Sırasında Bir Hata Meydana Geldi.";
+                   return View("userProfile", userName);
+               }
 
            }
-           catch (Exception e)
+           else
            {
-               ViewData["userProfileError"] = "Güncelleme Sırasında Bir Hata Meydana Geldi.";
-               return View("userProfile", userName);
+               return View("userProfile");
            }
-
        }
        [HttpPost]
        [ValidateAntiForgeryToken]

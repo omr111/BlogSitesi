@@ -1,5 +1,6 @@
 using System;
 using System.Collections.Generic;
+using System.ComponentModel.DataAnnotations;
 
 namespace BlogSitesi.Models
 {
@@ -17,14 +18,33 @@ namespace BlogSitesi.Models
         }
 
         public System.Guid id { get; set; }
+        [Required(ErrorMessage = "Bu alan zorunludur")]
+        [MaxLength(50,ErrorMessage = "En fazla 50 karakter girin")]
         public string Adi { get; set; }
+
+        [Required(ErrorMessage = "Bu alan zorunludur")]
+        [MaxLength(50, ErrorMessage = "En fazla 50 karakter girin")]
         public string Soyadi { get; set; }
+
+    
+        [MaxLength(1000, ErrorMessage = "En fazla 1000 karakter girin")]
         public string Hakkinda { get; set; }
+
+        [Required(ErrorMessage = "Bu alan zorunludur")]
+        [MaxLength(70, ErrorMessage = "En fazla 70 karakter girin")]
         public string Mail { get; set; }
+
+
         public System.DateTime KayitTarihi { get; set; }
+
+        [Required(ErrorMessage = "Bu alan zorunludur")]
+        [MaxLength(50, ErrorMessage = "En fazla 50 karakter girin")]
         public string Nick { get; set; }
         public bool YazarMi { get; set; }
         public bool Aktif { get; set; }
+
+        [Required(ErrorMessage = "Bu alan zorunludur")]
+        [MaxLength(50, ErrorMessage = "En fazla 50 karakter girin")]
         public string parola { get; set; }
         public string kullaniciResimPath { get; set; }
         public string resimAltText { get; set; }

@@ -29,6 +29,10 @@ namespace BlogSitesi.Controllers
             {
                 return Json(new {id = 0, message="Böyle bir kategori zaten mevcut"});
             }
+            else if (kat.Length > 50 || string.IsNullOrEmpty(kat.Trim()))
+            {
+                return Json(new { id = 0, message = "Boş geçilemez ve 50 karakterden fazla giremezsiniz!" });
+            }
             else
             {
                 Kategori kategori=new Kategori();

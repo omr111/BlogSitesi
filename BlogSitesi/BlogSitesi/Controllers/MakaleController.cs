@@ -76,15 +76,24 @@ namespace BlogSitesi.Controllers
 
             return View(data);
         }
+        [HttpPost]
         public ActionResult YorumYaz(Yorum yorum)
         {
-            yorum.EklemeTarihi = DateTime.Now;
-            yorum.Aktif = false;
-            yorum.Baslik = "";
-            ctx.Yorums.Add(yorum);
-            ctx.SaveChanges();
-            return RedirectToAction("Detay", new { id = yorum.MakaleID });
+            if (ModelState.IsValid)
+            {
+                yorum.EklemeTarihi = DateTime.Now;
+                yorum.Aktif = true;
+                yorum.Baslik = "";
+                ctx.Yorums.Add(yorum);
+                ctx.SaveChanges();
+                return RedirectToAction("Detay", new { id = yorum.MakaleID });
 
+            }
+            else
+            {
+
+                return RedirectToAction("Detay", new {id = yorum.MakaleID});
+            }
         }
         [HttpPost]
         public ActionResult Begen(int id)
@@ -138,69 +147,78 @@ namespace BlogSitesi.Controllers
 
         }
         //returnleri kontrol et. validation hatalarına göre return yapılacak
+        [ValidateAntiForgeryToken]
         [ValidateInput(false)]
         [HttpPost]
         public ActionResult MakaleYaz(Makale m,HttpPostedFileBase Resim,string etiketler)
         {
 
-            try
+            if (ModelState.IsValid)
             {
-                if (m != null) { 
-                    Kullanici aktif = Session["Kullanici"] as Kullanici;
-                    m.YayinTarihi = DateTime.Now;
-                    m.MakaleTipID = 1;
-                    if(aktif!=null)
-                        m.YazarID = aktif.id;
-                    if (Resim!=null)
-                    {
-                        resimKaydet kaydet=ResimKaydet(Resim,HttpContext);
-                        m.BuyukResimYol= kaydet.buyukResimYol;
-                         m.kucukResimYol=  kaydet.kucukResimYol;
-                         m.resimAlt = kaydet.resimAltText;
-                    }
-                    else
-                    {
-                        return View(Json("Lütfen Bir Resim Ekleyiniz", JsonRequestBehavior.AllowGet));
-                    }
+                try
+                {
+                    if (m != null) { 
+                        Kullanici aktif = Session["Kullanici"] as Kullanici;
+                        m.YayinTarihi = DateTime.Now;
+                        m.MakaleTipID = 1;
+                        if(aktif!=null)
+                            m.YazarID = aktif.id;
+                        if (Resim!=null)
+                        {
+                            resimKaydet kaydet=ResimKaydet(Resim,HttpContext);
+                            m.BuyukResimYol= kaydet.buyukResimYol;
+                            m.kucukResimYol=  kaydet.kucukResimYol;
+                            m.resimAlt = kaydet.resimAltText;
+                        }
+                        else
+                        {
+                            return View(Json("Lütfen Bir Resim Ekleyiniz", JsonRequestBehavior.AllowGet));
+                        }
            
           
-                    ctx.Makales.Add(m);
-                    ctx.SaveChanges();
+                        ctx.Makales.Add(m);
+                        ctx.SaveChanges();
 
-                    string[] eti = etiketler.Split(',');
-                    foreach (string etiket in eti)
-                    {
-                        Etiket etk = ctx.Etikets.FirstOrDefault(x => x.Adi.ToLower() == etiket.ToLower().Trim());
-                        MakaleEtiket makaleyeEtiketEkle = new MakaleEtiket();
-                        if (etk == null)
+                        string[] eti = etiketler.Split(',');
+                        foreach (string etiket in eti)
                         {
-                            etk = new Etiket();
-                            etk.Adi = etiket;
-                            ctx.Entry(etk).State = EntityState.Added;
-                            ctx.SaveChanges();
+                            Etiket etk = ctx.Etikets.FirstOrDefault(x => x.Adi.ToLower() == etiket.ToLower().Trim());
+                            MakaleEtiket makaleyeEtiketEkle = new MakaleEtiket();
+                            if (etk == null)
+                            {
+                                etk = new Etiket();
+                                etk.Adi = etiket;
+                                ctx.Entry(etk).State = EntityState.Added;
+                                ctx.SaveChanges();
 
-                            makaleyeEtiketEkle.EtiketID = etk.id;
-                            makaleyeEtiketEkle.MakaleID = m.id;
-                            ctx.MakaleEtikets.Add(makaleyeEtiketEkle);
-                            ctx.SaveChanges();
-                        }
+                                makaleyeEtiketEkle.EtiketID = etk.id;
+                                makaleyeEtiketEkle.MakaleID = m.id;
+                                ctx.MakaleEtikets.Add(makaleyeEtiketEkle);
+                                ctx.SaveChanges();
+                            }
 
-                        MakaleEtiket makaleEtiket = ctx.MakaleEtikets.FirstOrDefault(x => x.Etiket.Adi == etiket.ToLower() && x.MakaleID == m.id);
-                        if (makaleEtiket == null)
-                        {
+                            MakaleEtiket makaleEtiket = ctx.MakaleEtikets.FirstOrDefault(x => x.Etiket.Adi == etiket.ToLower() && x.MakaleID == m.id);
+                            if (makaleEtiket == null)
+                            {
 
-                            makaleyeEtiketEkle.EtiketID = etk.id;
-                            makaleyeEtiketEkle.MakaleID = m.id;
-                            ctx.MakaleEtikets.Add(makaleyeEtiketEkle);
-                            ctx.SaveChanges();
+                                makaleyeEtiketEkle.EtiketID = etk.id;
+                                makaleyeEtiketEkle.MakaleID = m.id;
+                                ctx.MakaleEtikets.Add(makaleyeEtiketEkle);
+                                ctx.SaveChanges();
+                            }
                         }
                     }
+                    return RedirectToAction("Index", "Home");
                 }
-                return RedirectToAction("Index", "Home");
+                catch (Exception e)
+                {
+                    return RedirectToAction("Index", "Home");
+                }
             }
-            catch (Exception e)
+            else
             {
-                return RedirectToAction("Index", "Home");
+                ViewBag.kategori = ctx.Kategoris.ToList();
+                return View("MakaleYaz");
             }
            
         }
@@ -231,19 +249,22 @@ namespace BlogSitesi.Controllers
         }
 
         [ValidateInput(false)]
+        [ValidateAntiForgeryToken]
         [HttpPost]
         public ActionResult MakaleDuzenle(Makale makale,string etiketler,HttpPostedFileBase Resim  )
         {
-            try
+            if (ModelState.IsValid)
             {
-               
-                Makale makaleUpdated = ctx.Makales.FirstOrDefault(x => x.id == makale.id);
-                if (Resim != null)
+                try
                 {
-                    
-                   
-                   //todo yanlış olabilir kontrol et!
-                        if (System.IO.File.Exists(Server.MapPath( makaleUpdated.BuyukResimYol)))
+
+                    Makale makaleUpdated = ctx.Makales.FirstOrDefault(x => x.id == makale.id);
+                    if (Resim != null)
+                    {
+
+
+                      
+                        if (System.IO.File.Exists(Server.MapPath(makaleUpdated.BuyukResimYol)))
                         {
                             System.IO.File.Delete(Server.MapPath(makaleUpdated.BuyukResimYol));
 
@@ -253,70 +274,77 @@ namespace BlogSitesi.Controllers
                             System.IO.File.Delete(Server.MapPath(makaleUpdated.kucukResimYol));
                         }
 
-                        
-                    resimKaydet kaydet = ResimKaydet(Resim, HttpContext);
-                    makaleUpdated.BuyukResimYol = kaydet.buyukResimYol;
-                    makaleUpdated.kucukResimYol = kaydet.kucukResimYol;
-                    makaleUpdated.resimAlt = kaydet.resimAltText;
-                }
-                makaleUpdated.Baslik = makale.Baslik;
-                
-                makaleUpdated.icerik = makale.icerik;
-                
-                ctx.Entry(makaleUpdated).State = EntityState.Modified;
-                //todo hata kontrolü yapılacak.
-                ctx.SaveChanges();
-                string[] tags = etiketler.Split(',');
-                List < MakaleEtiket > makaleEtikets = ctx.MakaleEtikets.Where(x => x.MakaleID == makaleUpdated.id).ToList();
-                foreach (var etiket  in makaleEtikets)
-                {
-                    ctx.Entry(etiket).State = EntityState.Deleted;
-                }
 
-                ctx.SaveChanges();
-                foreach (var tag in tags)
-                {
-                    Etiket searchEtiket = ctx.Etikets.FirstOrDefault(x => x.Adi == tag.ToLower());
-                    MakaleEtiket makaleyeEtiketEkle = new MakaleEtiket();
-                    if (tag != "" && searchEtiket == null)
+                        resimKaydet kaydet = ResimKaydet(Resim, HttpContext);
+                        makaleUpdated.BuyukResimYol = kaydet.buyukResimYol;
+                        makaleUpdated.kucukResimYol = kaydet.kucukResimYol;
+                        makaleUpdated.resimAlt = kaydet.resimAltText;
+                    }
+                    makaleUpdated.Baslik = makale.Baslik;
+
+                    makaleUpdated.icerik = makale.icerik;
+
+                    ctx.Entry(makaleUpdated).State = EntityState.Modified;
+                    //todo hata kontrolü yapılacak.
+                    ctx.SaveChanges();
+                    string[] tags = etiketler.Split(',');
+                    List<MakaleEtiket> makaleEtikets = ctx.MakaleEtikets.Where(x => x.MakaleID == makaleUpdated.id).ToList();
+                    foreach (var etiket in makaleEtikets)
                     {
-                        Etiket etiketEkle = new Etiket();
-                        etiketEkle.Adi = tag.ToLower();
-                        ctx.Etikets.Add(etiketEkle);
-                        ctx.SaveChanges();
-
-                        makaleyeEtiketEkle.EtiketID = etiketEkle.id;
-                        makaleyeEtiketEkle.MakaleID = makaleUpdated.id;
-                        ctx.MakaleEtikets.Add(makaleyeEtiketEkle);
-                        ctx.SaveChanges();
+                        ctx.Entry(etiket).State = EntityState.Deleted;
                     }
 
-                    MakaleEtiket makaleEtiket = ctx.MakaleEtikets.FirstOrDefault(x => x.Etiket.Adi == tag.ToLower() && x.MakaleID == makaleUpdated.id);
-                    if (makaleEtiket == null)
+                    ctx.SaveChanges();
+                    foreach (var tag in tags)
                     {
+                        Etiket searchEtiket = ctx.Etikets.FirstOrDefault(x => x.Adi == tag.ToLower());
+                        MakaleEtiket makaleyeEtiketEkle = new MakaleEtiket();
+                        if (tag != "" && searchEtiket == null)
+                        {
+                            Etiket etiketEkle = new Etiket();
+                            etiketEkle.Adi = tag.ToLower();
+                            ctx.Etikets.Add(etiketEkle);
+                            ctx.SaveChanges();
 
-                        makaleyeEtiketEkle.EtiketID = searchEtiket.id;
-                        makaleyeEtiketEkle.MakaleID = makaleUpdated.id;
-                        ctx.MakaleEtikets.Add(makaleyeEtiketEkle);
-                        ctx.SaveChanges();
+                            makaleyeEtiketEkle.EtiketID = etiketEkle.id;
+                            makaleyeEtiketEkle.MakaleID = makaleUpdated.id;
+                            ctx.MakaleEtikets.Add(makaleyeEtiketEkle);
+                            ctx.SaveChanges();
+                        }
+
+                        MakaleEtiket makaleEtiket = ctx.MakaleEtikets.FirstOrDefault(x => x.Etiket.Adi == tag.ToLower() && x.MakaleID == makaleUpdated.id);
+                        if (makaleEtiket == null)
+                        {
+
+                            makaleyeEtiketEkle.EtiketID = searchEtiket.id;
+                            makaleyeEtiketEkle.MakaleID = makaleUpdated.id;
+                            ctx.MakaleEtikets.Add(makaleyeEtiketEkle);
+                            ctx.SaveChanges();
+                        }
+
+
+
                     }
 
+                    //return Json(new { message = "Başarılı" }, JsonRequestBehavior.AllowGet);
+                    return RedirectToAction("Detay", new { id = makale.id });
+                    //return Json("Başarılı", JsonRequestBehavior.AllowGet);
 
-
+                    //return Json(new { message = "Başarılı" }, JsonRequestBehavior.AllowGet);
                 }
+                catch (Exception e)
+                {
 
-                //return Json(new { message = "Başarılı" }, JsonRequestBehavior.AllowGet);
-                return RedirectToAction("Detay", new { id = makale.id });
-                //return Json("Başarılı", JsonRequestBehavior.AllowGet);
-              
-                //return Json(new { message = "Başarılı" }, JsonRequestBehavior.AllowGet);
+                    
+                    Session["errorMessage"] += e.Message;
+                    return RedirectToAction("MakaleDuzenle");
+                }
             }
-            catch (Exception e)
+            else
             {
-
-
-                Session["errorMessage"] += e.Message;
-                return RedirectToAction("MakaleDuzenle");
+                ViewBag.etiketler = etiketler;
+                ViewBag.kategori=ctx.Kategoris.ToList();
+                return View("MakaleDuzenle", makale);
             }
         }
        public static resimKaydet ResimKaydet(HttpPostedFileBase Resim,HttpContextBase ctx)
