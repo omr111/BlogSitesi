@@ -26,6 +26,7 @@ namespace BlogSitesi.Controllers
         {
             return View();
         }
+
         [AllowAnonymous]
         public ActionResult TariheGoreListe(int yil,int ay)
         {
@@ -76,6 +77,7 @@ namespace BlogSitesi.Controllers
 
             return View(data);
         }
+        [Authorize]
         [HttpPost]
         public ActionResult YorumYaz(Yorum yorum)
         {
@@ -95,6 +97,8 @@ namespace BlogSitesi.Controllers
                 return RedirectToAction("Detay", new {id = yorum.MakaleID});
             }
         }
+
+        [Authorize]
         [HttpPost]
         public ActionResult Begen(int id)
         {
@@ -138,6 +142,11 @@ namespace BlogSitesi.Controllers
           
            
         }
+
+
+        [Authorize(Roles = "Admin")]
+        [Authorize(Roles ="Moderator")]
+        [Authorize(Roles ="Yazar")]
        
         [ValidateInput(false)]
         public ActionResult MakaleYaz()
@@ -146,7 +155,9 @@ namespace BlogSitesi.Controllers
             return View();
 
         }
-        //returnleri kontrol et. validation hatalarına göre return yapılacak
+        [Authorize(Roles = "Admin")]
+        [Authorize(Roles ="Moderator")]
+        [Authorize(Roles ="Yazar")]
         [ValidateAntiForgeryToken]
         [ValidateInput(false)]
         [HttpPost]
@@ -223,6 +234,9 @@ namespace BlogSitesi.Controllers
            
         }
        
+        [Authorize(Roles = "Admin")]
+        [Authorize(Roles ="Moderator")]
+        [Authorize(Roles ="Yazar")]
         [ValidateInput(false)]
         public ActionResult MakaleDuzenle(int id)
         {
@@ -247,7 +261,9 @@ namespace BlogSitesi.Controllers
            ViewBag.etiketler = virgulSil;
             return View("MakaleDuzenle", makale);
         }
-
+        [Authorize(Roles = "Admin")]
+        [Authorize(Roles ="Moderator")]
+        [Authorize(Roles ="Yazar")]
         [ValidateInput(false)]
         [ValidateAntiForgeryToken]
         [HttpPost]
@@ -347,6 +363,8 @@ namespace BlogSitesi.Controllers
                 return View("MakaleDuzenle", makale);
             }
         }
+
+        [Authorize]
        public static resimKaydet ResimKaydet(HttpPostedFileBase Resim,HttpContextBase ctx)
         {
             BlogContext context = new BlogContext();
@@ -390,6 +408,9 @@ namespace BlogSitesi.Controllers
           
            return kaydet;
         }
+
+       [Authorize(Roles = "Admin")]
+       [Authorize(Roles = "Moderator")]
         [HttpPost]
        public JsonResult MakaleSil(int id)
        {

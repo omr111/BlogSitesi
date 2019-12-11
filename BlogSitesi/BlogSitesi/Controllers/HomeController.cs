@@ -12,17 +12,20 @@ using System.Web.Mvc;
 
 namespace BlogSitesi.Controllers
 {
+    [AllowAnonymous]
     public class HomeController : Controller
     {
         BlogContext ctx = new BlogContext();
         //
         // GET: /Home/
+        
         public ActionResult Index()
         {
 
 
             return View(ctx.Banners.ToList());
         }
+    
         public ActionResult MakaleListele(int? page )
         {
             int pageIndex;
@@ -51,13 +54,13 @@ namespace BlogSitesi.Controllers
          
          
         }
-
+      
         public PartialViewResult headerSection()
         {
 
             return PartialView(ctx.SirketBilgileris.FirstOrDefault(x=>x.id==1));
         }
-
+       
         public PartialViewResult Footer()
         {
             footerModel footerModel = new footerModel();
@@ -65,12 +68,13 @@ namespace BlogSitesi.Controllers
             footerModel.populerMakaleler = ctx.Makales.OrderByDescending(x => x.Goruntulenme).Take(3).ToList();
             return PartialView(footerModel);
         }
+        [Authorize(Roles = "Admin")]
         public ActionResult sirketBilgileri()
         {
             
             return View(ctx.SirketBilgileris.FirstOrDefault(x => x.id ==1));
         }
-
+        [Authorize(Roles = "Admin")]
         [ValidateAntiForgeryToken]
         [ValidateInput(false)]
         [HttpPost]

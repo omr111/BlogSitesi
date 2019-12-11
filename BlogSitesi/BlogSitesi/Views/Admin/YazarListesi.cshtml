@@ -75,6 +75,7 @@
                         <th>Kayıt Tarihi</th>
                         <th>Rütbeler</th>
                         <th>Engelle</th>
+                        <th>İş Sonu</th>
 
                     </tr>
                 </thead>
@@ -93,7 +94,7 @@
                                 @kullanici.Kullanici.KayitTarihi
                             </td>
                             <td>
-                                <button class="btn btn-success rolleri" data-toggle="modal" data-target=".rollerCagirModal" data-uyeadi="@kullanici.Kullanici.Nick">
+                                <button class="btn btn-success rolleri" style="float: right" data-toggle="modal" data-target=".rollerCagirModal" data-uyeadi="@kullanici.Kullanici.Nick">
 
                                     Roller
                                 </button>
@@ -101,15 +102,17 @@
                             <td>
                                 @if (kullanici.Kullanici.Aktif)
                                 {
-                                    <a href="/Admin/yazarEngelle/@kullanici.Kullanici.id" class="btn btn-success">Engelle</a>
+                                    <a href="/Admin/yazarEngelle/@kullanici.Kullanici.id" style="float: right" class="btn btn-success">Engelle</a>
                                 }
                                 else
                                 {
-                                    <a href="/Admin/yazarEngelle/@kullanici.Kullanici.id" class="btn btn-danger">Engelli</a>
+                                    <a href="/Admin/yazarEngelle/@kullanici.Kullanici.id" style="float: right" class="btn btn-danger">Engelli</a>
                                 }
                             </td>
 
-
+                            <td>
+                                <a href="/Admin/IstenCikart/@kullanici.Kullanici.id" class="btn btn-danger" style="float: right"><span class="glyphicon glyphicon-indent-left" style="font-size: 20px"></span></a>
+                            </td>
                         </tr>
 
                     }

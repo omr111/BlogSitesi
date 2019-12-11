@@ -7,6 +7,7 @@ using System.Web.Mvc;
 
 namespace BlogSitesi.Controllers
 {
+    [AllowAnonymous]
     public class PostController : Controller
     {
         BlogContext ctx = new BlogContext();

@@ -74,9 +74,8 @@
                         <th scope="col">YayinTarihi</th>
                         <th scope="col">Detay</th>
                         <th scope="col">Duzenle</th>
-                        <th scope="col">Sil</th>
                         <th scope="col">Kilitle</th>
-
+                        <th scope="col">Sil</th>
                     </tr>
                 </thead>
                 <tbody scope="col">
@@ -103,9 +102,16 @@
                                 </a>
                             </td>
                             <td scope="col">
-                                <button class="btn btn-warning kulname btn-sm">
-                                    <span class="glyphicon glyphicon-lock" title="Kilitle"></span>
-                                </button>
+                                <a href="/Admin/MakaleKilitle/@m.id" class="btn btn-warning kulname btn-sm">
+                                    @if (m.Aktif)
+                                    {
+                                        <span class="fa fa-unlock" title="Kilitle"></span>
+                                    }
+                                    else
+                                    {
+                                        <span class="fa fa-lock" title="Kilidi Aç"></span>
+                                    }
+                                </a>
                             </td>
                             <td scope="col">
                                 <button class="btn btn-danger btnMakaleSil btn-sm" data-toggle="modal" data-target="#small-modal" data-makaleadi="@m.Baslik" data-makale="@m.id">

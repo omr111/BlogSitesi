@@ -12,16 +12,20 @@ namespace BlogSitesi.Controllers
         BlogContext ctx = new BlogContext();
         //
         // GET: /Kategori/
+        [AllowAnonymous]
         public ActionResult Index(int id)
         {
    
              return View(id);
         }
+        [AllowAnonymous]
         public PartialViewResult KategoriWidget()
         {
             List<Kategori> k = ctx.Kategoris.ToList();
             return PartialView(k);
         }
+        [Authorize(Roles = "Admin")]
+        [Authorize(Roles = "Moderator")]
         [HttpPost]
         public ActionResult kategoriEkle(string kat)
         {
@@ -44,6 +48,7 @@ namespace BlogSitesi.Controllers
             }
             
         }
+        [AllowAnonymous]
         public ActionResult MakaleListele(int id,int? page)
         {
           

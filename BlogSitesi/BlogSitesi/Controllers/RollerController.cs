@@ -7,6 +7,8 @@ using System.Web.Mvc;
 using System.Web.Security;
 namespace BlogSitesi.Controllers
 {
+    [Authorize(Roles = "Admin")]
+    [Authorize(Roles = "Moderator")]
     public class RollerController : Controller
     {
         BlogContext ctx = new BlogContext();
@@ -37,7 +39,12 @@ namespace BlogSitesi.Controllers
         [HttpPost]
         public ActionResult Ekle(string RolName)
         {
-            Roles.CreateRole(RolName);
+            if (!Roles.IsUserInRole(RolName.Trim()))
+            {
+                 Roles.CreateRole(RolName);
+
+               return RedirectToAction("Index");
+            }
             return RedirectToAction("Index");
         }
 

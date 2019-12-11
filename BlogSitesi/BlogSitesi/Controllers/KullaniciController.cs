@@ -20,7 +20,7 @@ namespace BlogSitesi.Controllers
         BlogContext ctx = new BlogContext();
         //
         // GET: /Kullanici/
-   
+        [AllowAnonymous]
         public ActionResult Index()
         {
             
@@ -28,17 +28,19 @@ namespace BlogSitesi.Controllers
 
             return View(kul);
         }                                                               
-       
+        [AllowAnonymous]
         public ActionResult CikisYap()
         {
             FormsAuthentication.SignOut();
+            Session["Kullanici"] = null;
             return RedirectToAction("Index","Home");
         }
-    
+        [AllowAnonymous]
         public ActionResult KayitOl()
         {
             return View();
         }
+        [AllowAnonymous]
         [ValidateAntiForgeryToken]
         [HttpPost]
         public ActionResult KayitOl(Kullanici k,HttpPostedFileBase Resim)
@@ -98,7 +100,8 @@ namespace BlogSitesi.Controllers
             }
                 
       }
-       
+        [Authorize(Roles = "Admin")]
+        [Authorize(Roles = "Moderator")]
         [HttpPost]
       public string uyeRolleri(string Nick)
         {
@@ -113,13 +116,14 @@ namespace BlogSitesi.Controllers
             rol = rol.Remove(rol.Length - 1, 1);
             return rol;
         }
-        
+      [AllowAnonymous]
         public ActionResult YazarOl()
         {
           
           return View();
 
         }
+        [AllowAnonymous]
         [ValidateAntiForgeryToken]
         [HttpPost]
         public ActionResult YazarOl(YazarlikBasvurusu k)
@@ -150,11 +154,12 @@ namespace BlogSitesi.Controllers
             }
 
         }
-
+        [AllowAnonymous]
         public ActionResult login()
         {
             return View();
         }
+        [AllowAnonymous]
        [HttpPost]
         public ActionResult login(string KullaniciAdi, string parola)
         {
@@ -164,6 +169,7 @@ namespace BlogSitesi.Controllers
                 FormsAuthentication.RedirectFromLoginPage(KullaniciAdi,true);
                 Guid GuidId = (Guid)Membership.GetUser(KullaniciAdi).ProviderUserKey;
                 Session["Kullanici"] = ctx.Kullanicis.FirstOrDefault(x => x.id == GuidId);
+                Session.Timeout =Session.Timeout+ 100;
                 return RedirectToAction("Index", "Home");
           
             }
@@ -174,7 +180,7 @@ namespace BlogSitesi.Controllers
             }
         }
 
-
+        [Authorize]
        public ActionResult userProfile()
        {
            if (User.Identity.IsAuthenticated)
@@ -197,7 +203,7 @@ namespace BlogSitesi.Controllers
 
 
        }
-
+       [Authorize]
        [HttpPost]
        [ValidateAntiForgeryToken]
        public ActionResult userProfileUpdate(string newPass, Kullanici user)
@@ -256,6 +262,7 @@ namespace BlogSitesi.Controllers
                return View("userProfile");
            }
        }
+       [Authorize]
        [HttpPost]
        [ValidateAntiForgeryToken]
        public ActionResult pictureUpdate(Guid id, HttpPostedFileBase Resim)

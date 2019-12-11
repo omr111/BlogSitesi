@@ -7,6 +7,7 @@ using System.Web.Mvc;
 
 namespace BlogSitesi.Controllers
 {
+    [AllowAnonymous]
     public class YazarController : Controller
     {
         BlogContext ctx = new BlogContext();
@@ -16,6 +17,7 @@ namespace BlogSitesi.Controllers
         {
             return View(id);
         }
+
         public ActionResult MakaleListele(Guid id)
         {
             var data = ctx.Makales.Where(x => x.YazarID == id);

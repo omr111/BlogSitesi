@@ -10,6 +10,7 @@ using System.IO;
 
 namespace BlogSitesi.Controllers
 {
+    [AllowAnonymous]
     public class BannerController : Controller
     {
         // GET: Banner
@@ -29,6 +30,8 @@ namespace BlogSitesi.Controllers
             BlogContext ctx=new BlogContext();
             return PartialView(ctx.Banners.ToList());
         }
+        [Authorize(Roles = "Admin")]
+        [Authorize(Roles ="Moderator")]
         [HttpPost]
         public ActionResult bannerAdd(string textArea, HttpPostedFileBase companyPicturePath)
         {
@@ -93,7 +96,8 @@ namespace BlogSitesi.Controllers
 
 
         }
-
+        [Authorize(Roles = "Admin")]
+        [Authorize(Roles = "Moderator")]
         [HttpPost]
         public ActionResult bannerDelete(int id)
         {

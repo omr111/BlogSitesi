@@ -7,6 +7,7 @@ using System.Web.Mvc;
 
 namespace BlogSitesi.Controllers
 {
+    [AllowAnonymous]
     public class EtiketController : Controller
     {
         BlogContext ctx = new BlogContext();
