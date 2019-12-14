@@ -10,7 +10,7 @@ namespace BlogSitesi.Controllers
     [AllowAnonymous]
     public class YazarController : Controller
     {
-        BlogContext ctx = new BlogContext();
+        u9139968_blogContext ctx = new u9139968_blogContext();
         //
         // GET: /Yazar/
         public ActionResult Index(Guid id)

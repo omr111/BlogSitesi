@@ -9,7 +9,7 @@ namespace BlogSitesi.Models
         public int id { get; set; }
         public string bannerPicPath { get; set; }
         public string buttonName { get; set; }
-        
+
         [MaxLength(50, ErrorMessage = "En fazla 50 karakter girin")]
         public string textArea { get; set; }
     }

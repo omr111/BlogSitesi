@@ -44,6 +44,9 @@ D:\omr111-GitHub\BlogSitesi\BlogSitesi\BlogSitesi\bin\System.Web.Webpages.xml
 D:\omr111-GitHub\BlogSitesi\BlogSitesi\BlogSitesi\bin\System.Web.Webpages.Deployment.xml
 D:\omr111-GitHub\BlogSitesi\BlogSitesi\BlogSitesi\bin\System.Web.Webpages.Razor.xml
 D:\omr111-GitHub\BlogSitesi\BlogSitesi\BlogSitesi\bin\System.Web.Helpers.xml
+D:\omr111-GitHub\BlogSitesi\BlogSitesi\BlogSitesi\obj\Debug\BlogSitesi.csprojResolveAssemblyReference.cache
 D:\omr111-GitHub\BlogSitesi\BlogSitesi\BlogSitesi\obj\Debug\BlogSitesi.dll
 D:\omr111-GitHub\BlogSitesi\BlogSitesi\BlogSitesi\obj\Debug\BlogSitesi.pdb
-D:\omr111-GitHub\BlogSitesi\BlogSitesi\BlogSitesi\obj\Debug\BlogSitesi.csprojResolveAssemblyReference.cache
+D:\omr111-GitHub\BlogSitesi\BlogSitesi\BlogSitesi\bin\Microsoft.Web.Infrastructure.dll
+D:\omr111-GitHub\BlogSitesi\BlogSitesi\BlogSitesi\bin\System.Web.Mvc.dll
+D:\omr111-GitHub\BlogSitesi\BlogSitesi\BlogSitesi\bin\System.Web.Mvc.xml

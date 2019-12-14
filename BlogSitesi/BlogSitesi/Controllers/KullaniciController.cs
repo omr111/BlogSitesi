@@ -12,12 +12,14 @@ using System.Web.UI.WebControls;
 using BlogSitesi.App_Classes;
 using Image = System.Drawing.Image;
 using System.IO;
+using System.Net.Mail;
+using System.Net;
 
 namespace BlogSitesi.Controllers
 {
     public class KullaniciController : Controller
     {
-        BlogContext ctx = new BlogContext();
+        u9139968_blogContext ctx = new u9139968_blogContext();
         //
         // GET: /Kullanici/
         [AllowAnonymous]
@@ -100,8 +102,7 @@ namespace BlogSitesi.Controllers
             }
                 
       }
-        [Authorize(Roles = "Admin")]
-        [Authorize(Roles = "Moderator")]
+        [Authorize(Roles = "Admin,Moderator")]
         [HttpPost]
       public string uyeRolleri(string Nick)
         {
@@ -322,88 +323,92 @@ namespace BlogSitesi.Controllers
 
        }
 
-        //[HttpPost]
-        //public ActionResult resetPassword(string changeName)
-        //{
-        //    try
-        //    {
-        //        ICompanyInformationBll _companyInformation = new CompanyInformationBll(new CompanyInformationDal());
-        //        CompanyInformation company = _companyInformation.GetOneWitId(2);
-        //        user userPass = _userBll.GetOneWithMail(changeName);
+       [HttpPost]
+       public ActionResult resetPassword(string changeName)
+       {
+           try
+           {
 
-        //        if (userPass != null)
-        //        {
-        //            Random random = new Random();
-        //            int sifreUret = random.Next(15689, 99586);
+               SirketBilgileri company = ctx.SirketBilgileris.FirstOrDefault(x => x.id == 1);
+              
+               Kullanici userPass = ctx.Kullanicis.FirstOrDefault(x=>x.Nick==changeName);
 
-        //            userPass.password = sifreUret.ToString();
-        //            bool resultUpdate = _userBll.Update(userPass);
+               if (userPass != null)
+               {
+                   Random random = new Random();
+                   int sifreUret = random.Next(15689, 99586);
+                   MembershipUser changeuser = Membership.GetUser(userPass.Nick);
+                   changeuser.ChangePassword(userPass.parola, sifreUret.ToString());
+                   userPass.parola = sifreUret.ToString();
+                   ctx.Kullanicis.AddOrUpdate(userPass);
+                   int resultUpdate = ctx.SaveChanges();
 
-        //            if (resultUpdate)
-        //            {
+                   if (resultUpdate>0)
+                   {
+                       
+                 
+                       Kullanici reUser = ctx.Kullanicis.FirstOrDefault(x => x.Nick == changeName);
+                       // mail adresi ve şifresi ne ise adminpanelden company information'dan mail ve şifreyi de aynısını yapmalı!
+                       var senderEmail = new MailAddress(company.email.Trim(), "");
+                       var receiverEmail = new MailAddress(userPass.Mail.Trim(), "Receiver");
 
-        //                user reUser = _userBll.GetOneWithMail(changeName);
-        //                // mail adresi ve şifresi ne ise adminpanelden company information'dan mail ve şifreyi de aynısını yapmalı!
-        //                var senderEmail = new MailAddress(company.email.Trim(), "");
-        //                var receiverEmail = new MailAddress(userPass.email.Trim(), "Receiver");
-
-        //                var password = company.emailPassword.Trim();
-        //                var sub = "Ayha.Net Şifre Reset";
-        //                var body = string.Format("Yeni Şifreniz {0}", reUser.password);
-
-
-        //                var smtp = new SmtpClient
-        //                {
-        //                    Timeout = 10000,
-        //                    Host = "mail.ayha.net",
-        //                    Port = 587,
-        //                    EnableSsl = false,
-        //                    DeliveryMethod = SmtpDeliveryMethod.Network,
-        //                    UseDefaultCredentials = true,
-        //                    Credentials = new NetworkCredential(senderEmail.Address, password),
-
-        //                };
-        //                using (var mess = new MailMessage(senderEmail, receiverEmail)
-        //                {
-        //                    IsBodyHtml = true,
-        //                    BodyEncoding = UTF8Encoding.UTF8,
-        //                    Subject = sub,
-        //                    Body = body,
-        //                    DeliveryNotificationOptions = DeliveryNotificationOptions.OnFailure,
-
-        //                })
-        //                {
-        //                    smtp.Send(mess);
-        //                }
-
-        //                return Json("Yeni Şifreniz Mail Adresinize Gönderildi.");
-        //            }
-        //            else
-        //            {
-
-        //                return Json("Mail Gönderilemedi Lütfen Tekrar Deneyiniz.");
-        //            }
+                       var password = company.emailPassword.Trim();
+                       var sub = "Velhasıl Blog Şifre Reset";
+                       var body = string.Format("Yeni Şifreniz {0}", reUser.parola);
 
 
-        //        }
-        //        else
-        //        {
+                       var smtp = new SmtpClient
+                       {
+                           Timeout = 10000,
+                           Host = "mail.xn--velhasl-wfb.net",
+                           Port = 587,
+                           EnableSsl = false,
+                           DeliveryMethod = SmtpDeliveryMethod.Network,
+                           UseDefaultCredentials = true,
+                           Credentials = new NetworkCredential(senderEmail.Address, password),
 
-        //            return Json("Girilen Mail Adresi Kullanılmıyor !");
-        //        }
+                       };
+                       using (var mess = new MailMessage(senderEmail, receiverEmail)
+                       {
+                           IsBodyHtml = true,
+                           BodyEncoding = System.Text.UTF8Encoding.UTF8,
+                           Subject = sub,
+                           Body = body,
+                           DeliveryNotificationOptions = DeliveryNotificationOptions.OnFailure,
 
-        //    }
+                       })
+                       {
+                           smtp.Send(mess);
+                       }
+
+                       return Json("Yeni Şifreniz Mail Adresinize Gönderildi.");
+                   }
+                   else
+                   {
+
+                       return Json("Mail Gönderilemedi Lütfen Tekrar Deneyiniz.");
+                   }
+
+
+               }
+               else
+               {
+
+                   return Json("Girilen Kullanıcı Adı Kullanılmıyor !");
+               }
+
+           }
 
 
 
-        //    catch (Exception EX_NAME)
-        //    {
-        //        ViewData["resetInfo"] = "Girilen Mail Adresi Kullanılmıyor !";
-        //        return View("Index");
-        //    }
+           catch (Exception EX_NAME)
+           {
+               return Json("Girilen Kullanıcı Adı Kullanılmıyor !");
+              
+           }
 
 
-        //}
+       }
 
     }
 }

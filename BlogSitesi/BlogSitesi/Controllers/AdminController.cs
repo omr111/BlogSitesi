@@ -16,16 +16,15 @@ namespace BlogSitesi.Controllers
     
     public class AdminController : Controller
     {
-     
-        BlogContext ctx = new BlogContext();
+
+        u9139968_blogContext ctx = new u9139968_blogContext();
         //
         // GET: /Admin/
         public ActionResult Index()
         {
             return View();
         }
-       [Authorize(Roles = "Admin")]
-       [Authorize(Roles = "Moderator")]
+        [Authorize(Roles = "Admin,Moderator")]
         public ActionResult YazarListesi()
         {
             List<aspnet_Users> users = ctx.aspnet_Users.Where(x => x.aspnet_Roles.Any(y => y.RoleName!="Uye")).ToList();
@@ -34,22 +33,19 @@ namespace BlogSitesi.Controllers
 
             return View(users);
         }
-        [Authorize(Roles = "Admin")]
-        [Authorize(Roles = "Moderator")]
+        [Authorize(Roles = "Admin,Moderator")]
         public ActionResult TumMakale()
         {
             List<Makale> makaleler = ctx.Makales.ToList();
             return View(makaleler);
         }
-        [Authorize(Roles = "Admin")]
-        [Authorize(Roles ="Moderator")]
+        [Authorize(Roles = "Admin,Moderator")]
         public ActionResult yazarIstek()
         {
             List<YazarlikBasvurusu> istek = ctx.YazarlikBasvurusus.ToList();
             return View(istek);
         }
-        [Authorize(Roles = "Admin")]
-        [Authorize(Roles ="Moderator")]
+        [Authorize(Roles = "Admin,Moderator")]
         [HttpPost]
         public bool istekReddet(int id)
         {
@@ -62,8 +58,7 @@ namespace BlogSitesi.Controllers
                 return false;
 
         }
-        [Authorize(Roles = "Admin")]
-        [Authorize(Roles ="Moderator")]
+        [Authorize(Roles = "Admin,Moderator")]
          [HttpPost]
         public ActionResult YazarOnay(Kullanici k)
         {
@@ -77,8 +72,7 @@ namespace BlogSitesi.Controllers
             ctx.SaveChanges();
             return RedirectToAction("yazarIstek");
         }
-        [Authorize(Roles = "Admin")]
-        [Authorize(Roles ="Moderator")]
+        [Authorize(Roles = "Admin,Moderator")]
         public ActionResult kullaniciEngelle(Guid id)
         {
             Kullanici kullanici = ctx.Kullanicis.FirstOrDefault(x => x.id == id);
@@ -103,8 +97,7 @@ namespace BlogSitesi.Controllers
                 return View();
             }
         }
-        [Authorize(Roles = "Admin")]
-        [Authorize(Roles ="Moderator")]
+        [Authorize(Roles = "Admin,Moderator")]
         public ActionResult yorumlarKullaniciEngelle(Guid id)
         {
             Kullanici kullanici = ctx.Kullanicis.FirstOrDefault(x => x.id == id);
@@ -274,8 +267,7 @@ namespace BlogSitesi.Controllers
             return View(ctx.sponsorlars.ToList());
         }
 
-        [Authorize(Roles = "Admin")]
-        [Authorize(Roles ="Moderator")]
+        [Authorize(Roles = "Admin,Moderator")]
         [HttpPost]
         public ActionResult yorumSil(int id)
         {
@@ -406,8 +398,7 @@ namespace BlogSitesi.Controllers
             }
         }
 
-        [Authorize(Roles = "Admin")]
-        [Authorize(Roles = "Moderator")]
+        [Authorize(Roles = "Admin,Moderator")]
 
         public ActionResult tumYorumlar()
         {

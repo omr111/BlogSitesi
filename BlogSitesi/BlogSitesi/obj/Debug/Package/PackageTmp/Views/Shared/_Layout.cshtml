@@ -1,0 +1,160 @@
+﻿@{
+    Layout = null;
+}
+
+<!DOCTYPE html>
+<html class="no-js">
+<head>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
+    <title>Velhasıl.net | Bilginin Adresi</title>
+    <meta name="description" content="">
+    <meta name="viewport" content="width=device-width">
+    <link rel="icon" type="image/png" href="/Content/logo/favicon.png" >
+    <link href="https://fonts.googleapis.com/css?family=Indie+Flower&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="/Content/css/bootstrap.min.css">
+    <link rel="stylesheet" href="/Content/css/font-awesome.min.css">
+    <link rel="stylesheet" href="/Content/css/typicons.css">
+    <link rel="stylesheet" href="/Content/css/flexslider.css">
+    <link rel="stylesheet" href="/Content/css/jquery.selectBoxIt.css">
+    <link rel="stylesheet" href="/Content/css/jquery.fancybox.css">
+    <link rel="stylesheet" href="/Content/css/main.css">
+
+    <link href="/common-css/ionicons.css" rel="stylesheet" />
+  
+    <link rel="stylesheet" href="/common-css/layerslider.css" />
+    <link rel="stylesheet" href="/common-css/swiper.css" />
+    <link href="/common-css/styles.css" rel="stylesheet" />
+    <link href="~/Content/css/table.css" rel="stylesheet" />
+    
+    
+    
+    
+
+    @RenderSection("sliderCss",false)
+
+    <script src="/Content/js/vendor/modernizr-2.6.2-respond-1.1.0.min.js"></script>
+    @RenderSection("css", false)
+</head>
+<body>
+
+
+
+
+@{
+    Html.RenderAction("headerSection","Home");
+}
+
+@RenderSection("Title", false)
+
+    @{
+      Html.RenderAction("listBanner","Banner");
+    }
+    <section class="main-container" >
+
+
+        <div class="container" style="margin-top: 20px!important;">
+
+            <div class=" row" style=" -webkit-box-shadow: 2px 2px 28px 3px rgba(19,166,137,0.30);-moz-box-shadow: 2px 2px 28px 3px rgba(19,166,137,0.47); box-shadow: 2px 2px 28px 3px rgba(19,166,137,0.30); ) !important;">
+
+                <div class="col-sm-8">
+
+                    @RenderBody()
+
+                </div>
+                <aside class="col-sm-4">
+                    <div class="widgets">
+                        <!-- partial sil kullanılmayacak-->
+                        @*@Html.Partial("_denemeYazarWidget");*@
+
+                        @RenderSection("MakaleDetayYazarBilgileri", false)
+
+
+
+                        @{
+                            Html.RenderAction("KategoriWidget", "Kategori");
+                        }
+                        @{
+                            Html.RenderAction("_PostGetir", "Post");
+                        }
+                        @{
+                            Html.RenderAction("Etiket", "Etiket");
+                        }
+                        @{
+                            Html.RenderAction("sponsorWidget", "Admin");
+                        }
+                        @{
+                            Html.RenderAction("Adds","Admin");
+                        }
+                        
+                    </div>
+                </aside>
+            </div>
+
+        </div>
+
+    </section>
+@{
+    Html.RenderAction("Footer", "Home");
+}
+
+
+
+    @*<script src="~/Content/js/vendor/jquery-1.10.1.min.js"></script>*@
+    @*<script src="~/Scripts/jquery-3.4.1.js"></script>*@
+ 
+<script type="text/javascript" src="~/Content/js/vendor/jquery-1.11.1.min.js"></script>
+<script src="/Scripts/jquery.unobtrusive-ajax.min.js"></script>
+
+
+<script src="http://ajax.googleapis.com/ajax/libs/jqueryui/1.9.2/jquery-ui.min.js"></script>
+<script src="/Content/js/vendor/bootstrap.min.js"></script>
+<script src="/Content/js/vendor/jquery.isotope.min.js"></script>
+<script src="/Content/js/vendor/jquery.isotope.perfectmasonry.js"></script>
+<script src="/Content/js/vendor/jquery.raty.min.js"></script>
+<script src="/Content/js/vendor/jquery.flexslider.js"></script>
+<script src="/Content/js/vendor/jquery.mousewheel.js"></script>
+<script src="/Content/js/vendor/jquery.mCustomScrollbar.js"></script>
+<script src="/Content/js/vendor/jquery.hoverdir.js"></script>
+<script src="/Content/js/vendor/jquery.selectBoxIt.min.js"></script>
+<script src="/Content/js/vendor/jquery.fancybox.pack.js"></script>
+<script src="/Content/js/main.js"></script>
+
+   
+@RenderSection("sliderJs",false)
+
+
+
+<script src="/common-js/tether.min.js"></script>
+<script src="/common-js/embed.videos.min.js"></script>
+<script src="/common-js/jquery.circliful.min.js"></script>
+<script src="/common-js/jquery.countdown.min.js"></script>
+<script src="/common-js/layerslider.js"></script>
+<script src="/common-js/scripts.js"></script>
+<script src="/common-js/swiper.js"></script>
+<script src="~/Content/js/table.js"></script>
+    <script src="~/ckfinder/ckfinder.js"></script>
+<script src="/ckeditor/ckeditor.js"></script>
+
+@RenderSection("js", false);
+<script>
+    $(document).ready(function() {
+        $("a.begen").click(function() {
+            var id = $(this).data("makaleid");
+            var link = "/Makale/Begen/" + id;
+            var begenThis = $(this);
+            $.ajax({
+                type: "GET",
+                url: link,
+                success: function(result) {
+                    begenThis.html(" Likes: " + result);
+                }
+            });
+
+        });
+
+    });
+</script>
+
+</body>
+</html>

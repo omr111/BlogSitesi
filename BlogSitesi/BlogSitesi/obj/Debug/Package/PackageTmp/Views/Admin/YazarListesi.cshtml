@@ -1,0 +1,148 @@
+﻿@{
+    ViewBag.Title = "Yazar-Listesi";
+}
+@using BlogSitesi.Models
+@model List<aspnet_Users>
+<div class="modal fade small-modal" id="small-modal" tabindex="-1" role="dialog" aria-labelledby="small-modal-label" aria-hidden="true">
+    <div class="modal-dialog">
+        <div class="modal-content" data-border-top="multi">
+            <div class="modal-header">
+                <button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
+                <h4 class="modal-title" id="small-modal-label">Kullanıcı Silme Ekranı</h4>
+            </div>
+            <div class="modal-body">
+                <p class="uyari"></p>
+                <p class="pHata"></p>
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
+                <button type="button" class="btn btn-danger btnkulSil">Sil</button>
+
+            </div>
+        </div><!-- /.modal-content -->
+    </div><!-- /.modal-dialog -->
+</div>
+<div class="modal fade small-modal rollerCagirModal" id="small-modal" tabindex="-1" role="dialog" aria-labelledby="small-modal-label" aria-hidden="true">
+    <div class="modal-dialog">
+        <div class="modal-content" data-border-top="multi">
+            <div class="modal-header">
+                <button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
+                <h4 class="modal-title" id="small-modal-label">Kullanıcı Rolleri</h4>
+            </div>
+            <div class="modal-body">
+                <p class="uyari"></p>
+                <p class="pHata"></p>
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
+
+
+            </div>
+        </div><!-- /.modal-content -->
+    </div><!-- /.modal-dialog -->
+</div>
+
+
+
+
+
+<h1>Yazar Listesi </h1>
+<div class="row">
+    <div class="col-md-12" style="margin-top: 20px">
+        <div class="panel panel-success">
+            <div class="panel-heading">
+                <h3 class="panel-title">
+                    Filtrele
+                    <div class="pull-right">
+                        <span class="clickable filter" data-toggle="tooltip" title="Arama Yap" data-container="body">
+                            <i class="glyphicon glyphicon-filter"></i>
+                        </span>
+                    </div>
+                </h3>
+
+            </div>
+            <div class="panel-body ">
+                <input type="text" class="form-control" id="task-table-filter" data-action="filter" data-filters="#task-table" placeholder="Arama..." />
+            </div>
+            <table class="table table-hover" id="task-table">
+                <thead>
+                    <tr>
+
+
+                        <th>Ad</th>
+                        <th>Soyad</th>
+                        <th>Nick</th>
+                        <th>Kayıt Tarihi</th>
+                        <th>Rütbeler</th>
+                        <th>Engelle</th>
+                        <th>İş Sonu</th>
+
+                    </tr>
+                </thead>
+                <tbody>
+                    @foreach (aspnet_Users kullanici in Model)
+                    {
+
+                        <tr>
+                            <td>@kullanici.Kullanici.Adi</td>
+                            <td>@kullanici.Kullanici.Soyadi</td>
+
+                            <td>
+                                @kullanici.UserName
+                            </td>
+                            <td>
+                                @kullanici.Kullanici.KayitTarihi
+                            </td>
+                            <td>
+                                <button class="btn btn-success rolleri" style="float: right" data-toggle="modal" data-target=".rollerCagirModal" data-uyeadi="@kullanici.Kullanici.Nick">
+
+                                    Roller
+                                </button>
+                            </td>
+                            <td>
+                                @if (kullanici.Kullanici.Aktif)
+                                {
+                                    <a href="/Admin/yazarEngelle/@kullanici.Kullanici.id" style="float: right" class="btn btn-success">Engelle</a>
+                                }
+                                else
+                                {
+                                    <a href="/Admin/yazarEngelle/@kullanici.Kullanici.id" style="float: right" class="btn btn-danger">Engelli</a>
+                                }
+                            </td>
+
+                            <td>
+                                <a href="/Admin/IstenCikart/@kullanici.Kullanici.id" class="btn btn-danger" style="float: right"><span class="glyphicon glyphicon-indent-left" style="font-size: 20px"></span></a>
+                            </td>
+                        </tr>
+
+                    }
+
+                </tbody>
+            </table>
+
+                </div>
+            </div>
+        </div>
+
+@section js{
+
+    <script>
+
+
+        $(".rolleri").click(function () {
+            var ka = $(this).data("uyeadi");
+
+            $.ajax({
+                type: "POST",
+                url: "/Kullanici/uyeRolleri",
+                data: { Nick: ka },
+                success: function (veri) {
+
+                    $(".uyari").html(veri);
+
+                }
+
+            })
+        });
+    </script>
+}

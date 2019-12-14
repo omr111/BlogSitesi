@@ -9,7 +9,7 @@ namespace BlogSitesi.Controllers
 {
     public class KategoriController : Controller
     {
-        BlogContext ctx = new BlogContext();
+        u9139968_blogContext ctx = new u9139968_blogContext();
         //
         // GET: /Kategori/
         [AllowAnonymous]
@@ -24,8 +24,7 @@ namespace BlogSitesi.Controllers
             List<Kategori> k = ctx.Kategoris.ToList();
             return PartialView(k);
         }
-        [Authorize(Roles = "Admin")]
-        [Authorize(Roles = "Moderator")]
+        [Authorize(Roles = "Admin,Moderator")]
         [HttpPost]
         public ActionResult kategoriEkle(string kat)
         {

@@ -1,0 +1,82 @@
+﻿
+@{
+    ViewBag.Title = "YazarinMakaleleri";
+}
+@using BlogSitesi.Models
+@model List<Makale>
+
+<h1>Yazara Ait Makaleler </h1>
+<div class="row">
+    <div class="col-md-12" style="margin-top: 20px">
+        <div class="panel panel-success">
+            <div class="panel-heading">
+                <h3 class="panel-title">
+                    Filtrele
+                    <div class="pull-right">
+                        <span class="clickable filter" data-toggle="tooltip" title="Arama Yap" data-container="body">
+                            <i class="glyphicon glyphicon-filter"></i>
+                        </span>
+                    </div>
+                </h3>
+
+            </div>
+            <div class="panel-body ">
+                <input type="text" class="form-control" id="task-table-filter" data-action="filter" data-filters="#task-table" placeholder="Arama..." />
+            </div>
+            <table class="table table-hover" id="task-table">
+                        <thead>
+                            <tr>
+
+
+                                <th>Makale Başlık</th>
+                                <th>Ekleme Tarihi</th>
+                                <th>Detay</th>
+                                <th>Güncelle</th>
+                                <th>Sil</th>
+                           
+                            </tr>
+                        </thead>
+                        <tbody>
+                            @foreach (Makale m in Model)
+                            {
+
+                                <tr>
+                                    <td>@m.Baslik</td>
+                                    <td>@m.YayinTarihi</td>
+                                  
+                                <td>
+                                    <a href="~/Makale/Detay/@m.id" class="btn btn-info "><span class="glyphicon glyphicon-check" title="Detay"></span></a>
+                                       
+                                    </td>
+                                    <td>
+                                        <a href="/Makale/MakaleDuzenle/@m.id" class="btn btn-success btn-sm"> <span class="glyphicon glyphicon-refresh" title="Güncelle"></span></a>
+                                      
+                                    </td>
+              
+
+
+                                    <!--Normalde bir silme butonuna tıklandığında silmek için oluşturduğumuz view silme
+                                        sayfasının linkini id ile birlikte gönderiyorduk
+                                        falat ajax ile yazdığımızda yeni bir view sayfası oluşturmamıza gerek yok
+                                        mevcut kategori sayfasında tüm işlemleri yapacağız
+                                        bu yüzden de href'e hiç bir yere gitmemesi için # koyduk
+                                        Daha sonra bu butona daha sonra kullanmak üzere bir ktgsil class'ı oluşturduk
+                                        en son olarak her html etiketinin sahip olduğu data- özelliğini kullanarak
+                                        tıklandığı ürünün id'sini aldık bu data- Csharp'ta Tag üzelliğine denk gelmekte-->
+                                    <td>
+                                        <a href="/Makale/MakaleSil/@m.id" class="btn btn-danger kulname btn-sm" data-toggle="modal" data-target="#small-modal" data-kulname="@m.id">
+
+                                            <span class="glyphicon glyphicon-trash " title="Sil"></span>
+                                        </a>
+                                    </td>
+
+
+                                </tr>
+
+                            }
+                            
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+        </div>

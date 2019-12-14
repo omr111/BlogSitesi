@@ -18,7 +18,7 @@ namespace BlogSitesi.Controllers
     
     public class MakaleController : Controller
     {
-        BlogContext ctx = new BlogContext();
+        u9139968_blogContext ctx = new u9139968_blogContext();
         //
         // GET: /Makale/
         [AllowAnonymous]
@@ -144,9 +144,7 @@ namespace BlogSitesi.Controllers
         }
 
 
-        [Authorize(Roles = "Admin")]
-        [Authorize(Roles ="Moderator")]
-        [Authorize(Roles ="Yazar")]
+        [Authorize(Roles = "Admin,Moderator,Yazar")]
        
         [ValidateInput(false)]
         public ActionResult MakaleYaz()
@@ -155,9 +153,7 @@ namespace BlogSitesi.Controllers
             return View();
 
         }
-        [Authorize(Roles = "Admin")]
-        [Authorize(Roles ="Moderator")]
-        [Authorize(Roles ="Yazar")]
+        [Authorize(Roles = "Admin,Moderator,Yazar")]
         [ValidateAntiForgeryToken]
         [ValidateInput(false)]
         [HttpPost]
@@ -233,14 +229,14 @@ namespace BlogSitesi.Controllers
             }
            
         }
-       
-        [Authorize(Roles = "Admin")]
-        [Authorize(Roles ="Moderator")]
-        [Authorize(Roles ="Yazar")]
+
+        [Authorize(Roles = "Admin,Moderator,Yazar")]
+   
+        
         [ValidateInput(false)]
         public ActionResult MakaleDuzenle(int id)
         {
-            BlogContext ctx =new BlogContext();
+            u9139968_blogContext ctx = new u9139968_blogContext();
             //List<MakaleEtiket> makaleEtiketleri=ctx.MakaleEtikets.Where(x => x.MakaleID == id).ToList();
             Makale makale = ctx.Makales.FirstOrDefault(x => x.id == id);
             ViewBag.kategori=ctx.Kategoris.ToList();
@@ -261,9 +257,8 @@ namespace BlogSitesi.Controllers
            ViewBag.etiketler = virgulSil;
             return View("MakaleDuzenle", makale);
         }
-        [Authorize(Roles = "Admin")]
-        [Authorize(Roles ="Moderator")]
-        [Authorize(Roles ="Yazar")]
+        [Authorize(Roles = "Admin,Moderator,Yazar")]
+       
         [ValidateInput(false)]
         [ValidateAntiForgeryToken]
         [HttpPost]
@@ -367,7 +362,7 @@ namespace BlogSitesi.Controllers
         [Authorize]
        public static resimKaydet ResimKaydet(HttpPostedFileBase Resim,HttpContextBase ctx)
         {
-            BlogContext context = new BlogContext();
+            u9139968_blogContext context = new u9139968_blogContext();
             
             int kucukEn = Setttings.KucukResimYol.Width;
             int kucukBoy = Setttings.KucukResimYol.Height;
@@ -409,8 +404,7 @@ namespace BlogSitesi.Controllers
            return kaydet;
         }
 
-       [Authorize(Roles = "Admin")]
-       [Authorize(Roles = "Moderator")]
+       [Authorize(Roles = "Admin,Moderator")]
         [HttpPost]
        public JsonResult MakaleSil(int id)
        {

@@ -1,0 +1,166 @@
+﻿@{
+    ViewBag.Title = "Tüm Makaleler";
+}
+@using BlogSitesi.Models
+@model List<Makale>
+
+
+<div class="modal fade small-modal" id="small-modal" tabindex="-1" role="dialog" aria-labelledby="small-modal-label" aria-hidden="true">
+    <div class="modal-dialog">
+        <div class="modal-content" data-border-top="multi">
+            <div class="modal-header">
+                <button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
+                <h4 class="modal-title" id="small-modal-label">Makale Silme Ekranı</h4>
+            </div>
+            <div class="modal-body">
+                <p class="uyari1"></p>
+                <p class="pHata"></p>
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-default" data-dismiss="modal">Kapat</button>
+               
+                <button class="btn btn-danger btnMakaleSilOnay" >Sil</button>
+            </div>
+        </div><!-- /.modal-content -->
+    </div><!-- /.modal-dialog -->
+</div>
+<div class="modal fade small-modal rollerCagirModal" id="small-modal" tabindex="-1" role="dialog" aria-labelledby="small-modal-label" aria-hidden="true">
+    <div class="modal-dialog">
+        <div class="modal-content" data-border-top="multi">
+            <div class="modal-header">
+                <button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
+                <h4 class="modal-title" id="small-modal-label">Kullanıcı Rolleri</h4>
+            </div>
+            <div class="modal-body">
+                <p class="uyari"></p>
+                <p class="pHata"></p>
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
+
+
+            </div>
+        </div><!-- /.modal-content -->
+    </div><!-- /.modal-dialog -->
+</div>
+
+
+    <h1>Tüm Makaleler Listesi </h1>
+    <div class="row">
+    <div class="col-md-12" style="margin-top: 20px">
+        <div class="panel panel-success">
+            <div class="panel-heading">
+                <h3 class="panel-title">
+                    Filtrele
+                    <div class="pull-right">
+                        <span class="clickable filter" data-toggle="tooltip" title="Arama Yap" data-container="body">
+                            <i class="glyphicon glyphicon-filter"></i>
+                        </span>
+                    </div>
+                </h3>
+
+            </div>
+            <div class="panel-body ">
+                <input type="text" class="form-control" id="task-table-filter" data-action="filter" data-filters="#task-table" placeholder="Arama..." />
+            </div>
+            <table class="table table-hover" id="task-table">
+                <thead scope="col">
+                    <tr>
+
+
+                        <th scope="col">Baslik</th>
+                        <th scope="col">Kategori</th>
+                        <th scope="col">Ekleyen Yazar</th>
+                        <th scope="col">YayinTarihi</th>
+                        <th scope="col">Detay</th>
+                        <th scope="col">Duzenle</th>
+                        <th scope="col">Kilitle</th>
+                        <th scope="col">Sil</th>
+                    </tr>
+                </thead>
+                <tbody scope="col">
+                    @foreach (Makale m in Model)
+                    {
+
+                        <tr scope="col">
+                            <td scope="col">@m.Baslik</td>
+                            <td scope="col">@m.Kategori.Adi</td>
+                            <td scope="col">
+                                @m.Kullanici.Nick
+                            </td>
+                            <td scope="col">
+                                @m.YayinTarihi
+                            </td>
+                            <td scope="col">
+                                <a href="/Makale/Detay/@m.id" class="btn btn-info makaleAdi  ">
+                                    <span class="glyphicon glyphicon-check" title="Detay"></span>
+                                </a>
+                            </td>
+                            <td scope="col">
+                                <a href="/Makale/MakaleDuzenle/@m.id" class="btn btn-success btn-sm">
+                                    <span class="glyphicon glyphicon-refresh" title="Güncelle"> </span>
+                                </a>
+                            </td>
+                            <td scope="col">
+                                <a href="/Admin/MakaleKilitle/@m.id" class="btn btn-warning kulname btn-sm">
+                                    @if (m.Aktif)
+                                    {
+                                        <span class="fa fa-unlock" title="Kilitle"></span>
+                                    }
+                                    else
+                                    {
+                                        <span class="fa fa-lock" title="Kilidi Aç"></span>
+                                    }
+                                </a>
+                            </td>
+                            <td scope="col">
+                                <button class="btn btn-danger btnMakaleSil btn-sm" data-toggle="modal" data-target="#small-modal" data-makaleadi="@m.Baslik" data-makale="@m.id">
+                                    <span class="glyphicon glyphicon-trash" title="Sil"></span>
+                                </button>
+                            </td>
+                        </tr>
+                    }
+                </tbody>
+            </table>
+        </div>
+    </div>
+</div>
+
+
+
+   
+
+@section js{
+    <script>
+        
+      
+        var makale;
+        $(".btnMakaleSil").click(function () {
+            var id = $(this).data("makale");
+            makale = $(".btnMakaleSilOnay").name = id;
+           
+            var baslik = $(this).data("makaleadi");
+           
+            $(".uyari1").html(baslik + " </br></br> Başlıklı Makaleyi Silmek İstediğinizden Emin misiniz ?");
+        });
+        $(".btnMakaleSilOnay").click(function () {
+           
+            $.ajax({
+                url: "/Makale/MakaleSil/",
+                data: { id: makale },
+                type: "POST",
+                success: function (result) {
+                    debugger
+                    if (result.isOK == 1) {
+                       
+                        $(".mesaj").html(result.message);
+                        document.location = "/Admin/TumMakale";
+                    } else
+                        $(".hata").html(result.message);
+
+                }
+
+            });
+        });
+    </script>
+}

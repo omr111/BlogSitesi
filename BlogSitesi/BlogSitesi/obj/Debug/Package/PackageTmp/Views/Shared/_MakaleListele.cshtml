@@ -1,0 +1,69 @@
+﻿@{
+    Layout = null;
+}
+@{
+    ViewBag.Title = "MakaleListele";
+}
+
+@model IEnumerable<BlogSitesi.Models.Makale>
+
+
+
+@helper metinKisalt(string metin)
+{
+    if (metin.Length > 300)
+    {
+        @Html.Raw(metin.Substring(0, 300))
+    }
+    else
+    {
+        @Html.Raw(metin)
+    }
+}
+
+
+
+    @foreach (BlogSitesi.Models.Makale m in Model)
+    {
+
+        <article class="blog-post">
+            <header>
+                <h2>
+                    <a href="/Makale/Detay/@m.id">@m.Baslik</a>
+                </h2>
+                <ul class="info">
+                    <li><a href="/Kategori/Index/@m.KategoriID">{ @m.Kategori.Adi }</a></li>
+                    <li><a href="/Makale/TariheGoreListe?yil=@m.YayinTarihi.Year&ay=@m.YayinTarihi.Month">{ @m.YayinTarihi.ToString("MMMM yyyy")}</a></li>
+                    <li><a href="/Yazar/Index/@m.Kullanici.id">{ @m.Kullanici.Nick }</a></li>                    
+                    <li>{<a href="javascript:void(0);"> Comments: @m.Yorums.Count</a> }</li>
+                    <li>{<a href="Javascript:void(0);"> Views: @m.Goruntulenme</a> }</li>
+                    <li>{<a class="begen" data-makaleid="@m.id" href="Javascript:void(0);"> Likes: @m.KullaniciBegenis.Count</a> }</li>
+                </ul>
+            </header>
+
+            <div class="content">
+                <figure>
+                    <a href="/Makale/Detay/@m.id">
+                        @if (!string.IsNullOrEmpty(m.BuyukResimYol))
+                        {
+                            <img src="@m.BuyukResimYol" alt="@m.resimAlt" />
+                        }
+                        else
+                        {
+                            <img src="" alt="" />
+                        }
+                    </a>
+                </figure>
+                <div class="text">
+                    
+                    @metinKisalt(m.icerik);
+                    
+                </div>
+                <a href="/Makale/Detay/@m.id" class="btn btn-default">Read more</a>
+            </div>
+
+        </article>
+
+    }
+  
+

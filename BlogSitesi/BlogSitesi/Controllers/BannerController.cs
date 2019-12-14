@@ -16,7 +16,7 @@ namespace BlogSitesi.Controllers
         // GET: Banner
         public ActionResult Index()
         {
-            BlogContext ctx=new BlogContext();
+            u9139968_blogContext ctx = new u9139968_blogContext();
             List<Banner> banners = ctx.Banners.ToList();
             if (banners != null)
             {
@@ -27,18 +27,17 @@ namespace BlogSitesi.Controllers
 
         public PartialViewResult listBanner()
         {
-            BlogContext ctx=new BlogContext();
+            u9139968_blogContext ctx = new u9139968_blogContext();
             return PartialView(ctx.Banners.ToList());
         }
-        [Authorize(Roles = "Admin")]
-        [Authorize(Roles ="Moderator")]
+        [Authorize(Roles = "Admin,Moderator")]
         [HttpPost]
         public ActionResult bannerAdd(string textArea, HttpPostedFileBase companyPicturePath)
         {
 
             try
             {
-                BlogContext ctx=new BlogContext();
+                u9139968_blogContext ctx = new u9139968_blogContext();
                 if (ModelState.IsValid && !string.IsNullOrEmpty(textArea) && companyPicturePath != null)
                 {
                     int picWidth = Setttings.BannerSize.Width;
@@ -96,14 +95,13 @@ namespace BlogSitesi.Controllers
 
 
         }
-        [Authorize(Roles = "Admin")]
-        [Authorize(Roles = "Moderator")]
+        [Authorize(Roles = "Admin,Moderator")]
         [HttpPost]
         public ActionResult bannerDelete(int id)
         {
             try
             {
-                BlogContext ctx=new BlogContext();
+                u9139968_blogContext ctx = new u9139968_blogContext();
                 Banner bnr = ctx.Banners.FirstOrDefault(x=>x.id==id);
                 if (bnr != null)
                 {

@@ -1,0 +1,48 @@
+﻿@using BlogSitesi.Models
+
+@{
+    ViewBag.Title = "Home-Index";
+}
+
+
+<div class="posts">
+    @{
+        Html.RenderAction("MakaleListele");
+    }
+    <div class="load-more" >
+        <a class="loadMore" href="javascript:void(0)">Load More</a>
+    </div>
+</div>
+<script type="text/javascript" src="~/Content/js/vendor/jquery-1.11.1.min.js"></script>
+<script src="/Scripts/jquery.unobtrusive-ajax.min.js"></script>
+<script type="text/javascript">
+    var pageNo=1;
+    var isDataFinish = true;
+    $(".loadMore").click(function () {
+
+        if (isDataFinish) {
+            $.ajax({
+                url: "/Home/MakaleListele",
+                data: { page: pageNo },
+                type: "Get",
+                success: function (data) {
+
+                        $(".load-more").before(data);
+                        pageNo++;
+                        if (data.trim()=='') {
+                        isDataFinish = false;
+                        
+                        $(".loadMore").remove();
+                       
+                        }
+
+
+
+                },
+                error: function () { alert("Sayfa Yükleme Sırasında Hata Oluştur Tekrar Deneyiniz.") }
+
+            })
+        }
+      
+    })
+</script>

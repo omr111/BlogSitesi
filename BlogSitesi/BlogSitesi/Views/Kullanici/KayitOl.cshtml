@@ -6,8 +6,14 @@
     <!DOCTYPE html>
     <html lang="en">
     <head>
-        <title>Kayıt Sayfası</title>
+        <title>Velhasıl.net | Kayıt Sayfası</title>
         <meta charset="UTF-8">
+        <meta name="description" content="Doğru,güvenilir,yerinden bilgilerle ufkunuzu genişletmek,bilginize bilgi katmak için sizinleyiz.">
+       
+        <meta name="keywords" content="velhasıl,blog,gezi,teknoloji,web tasarım,bilgi,tasarım,bakım,güzellik,makyaj,donanım,travel" />
+        <meta name="robots" content="Ayha, restoran, yemek, mantı, lezzet, taze, doğal, kahvaltı" />
+        <meta name="googlebot" content="velhasıl,blog,gezi,teknoloji,web tasarım,bilgi,tasarım,bakım,güzellik,makyaj,donanım,travel" " />
+
         <meta name="viewport" content="width=device-width, initial-scale=1">
         <!--===============================================================================================-->
         <link rel="icon" type="image/png" href="/Content/js/vendor/logIn/image/icons/favicon.ico" />
@@ -86,7 +92,7 @@
                             </button>
                         </div>
                         <div class="container-login100-form-btn">
-                            <a href="/user/Index" class="login100-form-btn" style="margin-top: 20px;">
+                            <a href="/Kullanici/login" class="login100-form-btn" style="margin-top: 20px;">
                                 Giriş Yap
                             </a>
                         </div>
@@ -126,7 +132,7 @@
             if (data.errorId == 1) {
                 $(".infosaveUser").html(ok(data.message));
                 setTimeout(function () { $('.infosaveUser').hide('slow'); }, 2000);
-                document.location.replace("/user/Index");
+                document.location.replace("/Kullanici/login");
             } else {
                 $(".infosaveUser").html(okFail(data.message));
                 setTimeout(function () { $('.infosaveUser').hide('slow'); }, 5000);

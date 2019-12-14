@@ -1,0 +1,63 @@
+﻿@using BlogSitesi.Models
+<div class="widget posts">
+    <h5>Posts</h5>
+    <div class="widget-tabs">
+        <ul class="nav nav-tabs">
+            <li class="active"><a href="#popular" data-toggle="tab">Popular</a></li>
+            <li><span>/</span></li>
+            <li><a href="#fresh" data-toggle="tab">Yeniler</a></li>
+        </ul>
+        <div class="tab-content">
+            <div class="tab-pane active" id="popular">
+                <ul>
+                    @foreach (Makale m in ViewBag.popular)
+                    {
+                        <li>
+                            <figure>
+                                <a href="/Makale/Detay/@m.id">
+                                    @if (!string.IsNullOrEmpty(m.kucukResimYol))
+                                    {
+                                        <img src="@m.kucukResimYol" alt="@m.resimAlt" />
+                                    }
+                                    else
+                                    {
+                                        <img src="" alt="" />
+                                    }
+                                </a>
+                            </figure>
+                            <div class="text">
+                                <a href="/Makale/Detay/@m.id/">@m.Baslik</a>
+                                <a href="/Kategori/Index/@m.KategoriID" class="category">{ @m.Kategori.Adi }</a>
+                            </div>
+                        </li>
+                    }
+                </ul>
+            </div>
+            <div class="tab-pane" id="fresh">
+                <ul>
+                    @foreach (Makale ma in ViewBag.fresh)
+                    {
+                        <li>
+                            <figure>
+                                <a href="/Makale/Detay/@ma.id">
+                                    @if (!string.IsNullOrEmpty(ma.kucukResimYol))
+                                    {
+                                        <img src="@ma.kucukResimYol" alt="@ma.resimAlt" />
+                                    }
+                                    else
+                                    {
+                                        <img src="" alt="" />
+                                    }
+                                </a>
+                            </figure>
+                            <div class="text">
+                                <a href="/Makale/Detay/@ma.id">@ma.Baslik</a>
+                                <a href="/Kategori/Index/@ma.KategoriID" class="category">{ @ma.Kategori.Adi }</a>
+                            </div>
+                        </li>
+                    }
+                </ul>
+            </div>
+        </div>
+    </div>
+</div>

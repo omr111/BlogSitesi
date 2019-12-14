@@ -1,0 +1,122 @@
+﻿@{
+    ViewBag.Title = "MakaleDuzenle";
+
+}
+
+@using System.Data.Entity.Core.Common.EntitySql
+@using System.Diagnostics
+@using System.Web.Razor
+@model BlogSitesi.Models.Makale
+
+<h2>Makale Düzenle</h2>
+<div class="tabs-top col-md-11">
+    <ul class="nav nav-tabs">
+        <li class="active alert-success"><a href="#top-tab1" data-toggle="tab">Metin Makale</a></li>
+
+
+    </ul>
+    <div class="tab-content">
+        <div class="active" id="top-tab1">
+            @using (Html.BeginForm("MakaleDuzenle", "Makale", FormMethod.Post, new { enctype = "multipart/form-data" }))
+                {
+                    @Html.AntiForgeryToken()
+                <table>
+                    <tr>
+                        <td><label>Başlık</label></td>
+                        <td>
+                            <input data-model="@Model.id" id="baslik" class="form-control dataAl" required="required" maxlength="150" type="text" name="Baslik" value="@Model.Baslik" placeholder="Başlık giriniz." />
+                            @Html.ValidationMessageFor(m => m.Baslik, "", new { @style = "color:red" })
+                        </td>
+                    </tr>
+                   
+                    <tr>
+                        <td><label>Kategori</label></td>
+                        <td>
+                            <select class="form-control" id="KategoriID" name="KategoriID">
+                                @foreach (BlogSitesi.Models.Kategori kat in ViewBag.kategori)
+                                {
+                                    <option value="@kat.id">@kat.Adi</option>
+                                }
+                            </select>
+                        </td>
+                        @Html.ValidationMessageFor(m => m.KategoriID, "", new { @style = "color:red" })
+                    </tr>
+                    <tr>
+                        <td><label>Etiketler</label></td>
+                        <td><input id="etiketler" class="form-control" required="required" maxlength="50" type="text" name="etiketler" value="@ViewBag.etiketler" placeholder="Etiket giriniz." /></td>
+                    </tr>
+                    <tr>
+                        <td><label>Resim</label></td>
+                        <td class="img">
+                            <img src="@Model.BuyukResimYol" />
+                        </td>
+                    </tr>
+                    <tr>
+                        <td><label>Yeni Resim</label></td>
+                        <td>
+                            <input type="file" id="Resim" name="Resim" value="" class="form-control" />
+                        </td>
+                    </tr>
+                    <tr>
+                        <td><label>İçerik</label></td>
+                        <td>
+                            <textarea id="ckEditor" class="form-control" rows="20" cols="80" name="icerik" style="overflow: scroll;" placeholder="Makalenizi Giriniz...">@Html.Raw(Model.icerik)</textarea>
+                            @Html.ValidationMessageFor(m => m.icerik, "", new { @style = "color:red" })
+                        </td>
+                     
+                    </tr>
+                   
+                    <tr>
+                        <td></td>
+                        <td> <input type="submit" class="btn alert-success form-control updateMakale" id="btnEkle" value="Yayınla" name="btnEkle" /></td>
+                    </tr>
+                </table>
+            
+            }
+            <div class="col-md-12 container" style="margin-top: 20px;">
+                <table style="margin-top: 30px;">
+                    @if (Session["errorMessage"] != null)
+                    {
+
+                        string message = (string)Session["errorMessage"];
+                        
+                            if (message.Trim() != "")
+                            {
+                                <tr class="errorMessages">
+
+                                    <p style="color: coral;font-size: 15px;margin-top: 5px;">* @message</p>
+                                </tr>
+                                Session["errorMessage"] = null;
+                            }
+
+                    }
+                </table>
+                </div>
+            </div>
+   
+    </div>
+</div>
+
+
+@section js{
+    <script type="text/javascript">
+
+        var editor = CKEDITOR.instances["editor1"];
+        if (editor) {
+            editor.destroy(true);
+
+        }
+        
+        CKEDITOR.replace('ckEditor',
+            {
+                entermode: CKEDITOR.ENTER_BR
+            });
+        CKFinder.setupCKEditor(null, '@Url.Content("~/ckfinder/")');
+     
+    </script>
+}
+
+
+
+
+

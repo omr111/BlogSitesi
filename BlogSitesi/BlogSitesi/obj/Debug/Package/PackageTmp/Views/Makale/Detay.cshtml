@@ -1,0 +1,257 @@
+﻿@{
+    ViewBag.Title = "Detay";
+}
+@using BlogSitesi.Models
+@model  BlogSitesi.Models.Makale
+@{
+    ViewBag.Title = ViewBag.Baslik;
+}
+
+@helper TarihTut(DateTime yorumTarihi)
+{
+    TimeSpan sure = DateTime.Now - yorumTarihi;
+    if (sure.Minutes < 1)
+    {
+        <div class="time-ago">Şimdi</div>
+    }
+    else if (sure.Hours < 1)
+    {
+        <div class="time-ago">@sure.Minutes Dakika Önce </div>
+    }
+    else if (sure.Hours < 1)
+    {
+        <div class="time-ago">@sure.Hours Saat Önce</div>
+    }
+    else if (sure.Hours > 24)
+    {
+        <div class="time-ago">@yorumTarihi.ToString("dd.MM.yyyy") Tarinde</div>
+    }
+}
+
+
+<div class="posts">
+    <article class="blog-post">
+        <header>
+            <h2>
+                <a href="/Makale/Detay/@Model.id">@Model.Baslik</a>
+            </h2>
+            <ul class="info">
+                <li><a href="/Kategori/Index/@Model.KategoriID">{ @Model.Kategori.Adi }</a></li>
+                <li><a href="/Makale/TariheGoreListe?yil=@Model.YayinTarihi.Year&ay=@Model.YayinTarihi.Month">{ @Model.YayinTarihi.ToString("MMMM yyyy")}</a></li>
+                <li><a href="/Yazar/Index/@Model.YazarID">{ @Model.Kullanici.Nick }</a></li>
+                <li>{<a href="#Yorum"> Yorum: @Model.Yorums.Count.ToString()</a> }</li>
+                <li>{<a href="Javascript:void(0)"> Görüntüleme: @Model.Goruntulenme</a> }</li>
+                @if (Model.KullaniciBegenis.Any(x => x.Kullanici.Nick.ToLower() == User.Identity.Name.ToLower()))
+                {
+                    <li>{<a class="begen" data-makaleid="@Model.id" href="Javascript:void(0);" style="color:#1abc9c" title="Beğenildi"> Beğen: <label class="likeCount">@Model.KullaniciBegenis.Count</label></a> }</li>
+                }
+                else
+                {
+                    <li>{<a class="begen" data-makaleid="@Model.id" href="Javascript:void(0);" title="Henüz Beğenmediniz">Beğen: <label class="likeCount">@Model.KullaniciBegenis.Count</label></a> }</li>
+                }
+            </ul>
+
+        </header>
+        <div class="text-editor">
+
+            <figure>
+                @if (!string.IsNullOrEmpty(@Model.BuyukResimYol) || @Model.BuyukResimYol != null)
+                {
+                    <img src="@Model.BuyukResimYol" alt="@Model.resimAlt" />
+                }
+                else
+                {
+                    <img src="#" alt="makale" />
+                }
+
+            </figure>
+
+            <div style=" overflow: scroll;max-height: 800px;">
+                @Html.Raw(Model.icerik)
+            </div>
+
+            <div class="author-wrap">
+                <div class="author">
+                    <figure>
+
+                        <a href="/Yazar/Index/@Model.YazarID">
+                            @if (!string.IsNullOrEmpty(@Model.Kullanici.kullaniciResimPath) || @Model.Kullanici.kullaniciResimPath != null)
+                            {
+                                <img src="@Model.Kullanici.kullaniciResimPath" alt="@Model.Kullanici.resimAltText" />
+                            }
+                            else
+                            {
+
+                                <img src="/Content/content/user03.png" alt="Blog-Site" />
+                            }
+
+                        </a>
+                    </figure>
+                    <div class="name">@Model.Kullanici.Nick</div>
+
+                    <div class="description">
+                        @Model.Kullanici.Hakkinda
+                    </div>
+                </div>
+            </div>
+        </div>
+    </article>
+    <div class="comments">
+        <h3>
+            @Model.Yorums.Count() Yorum.
+        </h3>
+        <ul>
+            @foreach (Yorum y in Model.Yorums)
+            {
+                <li class="comment">
+                    <div class="user">
+                        <figure>
+                            <a href="#">
+                                @if (!string.IsNullOrEmpty(y.Kullanici.kullaniciResimPath) || y.Kullanici.kullaniciResimPath != null)
+                                {
+                                    <img src="@y.Kullanici.kullaniciResimPath" alt="@y.Kullanici.resimAltText" />
+                                }
+                                else
+                                {
+
+                                    <img src="~/Content/content/user03.png" alt="blog-site" />
+                                }
+                            </a>
+                        </figure>
+                        <div class="name text-center">
+                            <a href="">@y.Kullanici.Nick</a>
+                        </div>
+                    </div>
+                    <div class="comment-box">
+                        <div class="info">
+                            @TarihTut(@y.EklemeTarihi)
+                        </div>
+                        <div class="text">
+                            @y.icerik
+
+                        </div>
+
+                    </div>
+                </li>
+
+
+            }
+        </ul>
+
+    </div>
+    @if (Session["Kullanici"] == null)
+    {
+
+        <h4> Yorum Yapmak İçin Lütfen Giriş Yapınız.</h4>
+
+    }
+    else
+    {
+        Kullanici kul = (Kullanici)Session["Kullanici"];
+        if (kul.Aktif == false)
+        {
+            <h3>Engellisiniz,Yorum Yapamazsınız.</h3>
+        }
+        else if (@Model.Aktif == false)
+        {
+            <h3>Bu Makale Kilitlenmiştir.</h3>
+        }
+        else
+        {
+            <div class="write-comment">
+
+                <h3>Yorum Yaz.</h3>
+                <div class="user">
+                    <figure>
+                        <a href="javascript:void(0)">
+                            @if (!string.IsNullOrEmpty(kul.kullaniciResimPath) || kul.kullaniciResimPath != null)
+                            {
+                                <img src="@kul.kullaniciResimPath" alt="@kul.resimAltText" />
+                            }
+                            else
+                            {
+
+                                <img src="~/Content/content/user03.png" />
+                            }
+
+                        </a>
+                    </figure>
+                    <div class="name text-center">
+                        <a href="javascript:void(0)">@kul.Nick</a>
+                    </div>
+                </div>
+                <div class="textarea-wrap">
+                    <form action="/Makale/YorumYaz" method="post">
+                        <input type="hidden" name="MakaleID" value="@Model.id" />
+                        <input type="hidden" name="YorumYapanID" value="@kul.id" />
+                        <textarea name="icerik" placeholder="Yorum Yazın..."></textarea>
+                        @Html.ValidationMessage("icerik", "Mesaj alanı boş geçilemez ve en fazla 500 karakter olabilir", new { @style = "color:red" })
+                        <button type="submit" class="send">Gönder</button>
+                    </form>
+                </div>
+                <hr>
+            </div>
+        }
+        
+    }
+</div>
+
+
+@section MakaleDetayYazarBilgileri{
+
+    <link href="https://fonts.googleapis.com/css?family=Roboto:300,400,500" rel="stylesheet">
+
+    <link href="/common-css/Singlestyles.css" rel="stylesheet" />
+
+
+    <div class="sidebar-section about-author center-text">
+        @if (!string.IsNullOrEmpty(Model.Kullanici.kullaniciResimPath) || Model.Kullanici.kullaniciResimPath != null)
+        {
+            <div class="author-image" style="margin-bottom: 30px;">
+                <img style="margin-top: 20px" src="@Model.Kullanici.kullaniciResimPath" width="100" height="100" alt="Author Image" />
+            </div>
+
+        }
+        else
+        {
+            <div style="margin-bottom: 30px;" class="author-image"><img style="margin-top: 20px" src="~/Content/content/user03.png" alt="Autohr Image" /></div>
+
+        }
+
+
+
+        <h4 class="Nick"> @Model.Kullanici.Nick</h4>
+        <h4 class="author-name"><b class="light-color">@Model.Kullanici.Adi @Model.Kullanici.Soyadi</b></h4>
+        <p>
+            @Html.Raw(Model.Kullanici.Hakkinda)
+        </p>
+
+
+
+    </div>
+
+
+}
+<script type="text/javascript" src="~/Content/js/vendor/jquery-1.11.1.min.js"></script>
+<script src="/Scripts/jquery.unobtrusive-ajax.min.js"></script>
+<script type="text/javascript">
+    $(".begen").click(function () {
+        var makaleId = $(this).data("makaleid");
+        $.ajax({
+            url: "/Makale/Begen",
+            type: "Post",
+            data: { id: makaleId },
+            success: function (result) {
+                if (result.id == 1) {
+                    $(".likeCount").html(result.count);
+                    $(".begen").css('color', '#1abc9c');
+
+                }
+                else if (result.id == 2) {
+                    $(".likeCount").html(result.count);
+                    $(".begen").css('color', '#5b7890');
+                }
+            },
+        });
+    });
+</script>

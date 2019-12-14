@@ -33,17 +33,14 @@ namespace BlogSitesi.Models
         [Required(ErrorMessage = "Bu alan zorunludur")]
         [MaxLength(50, ErrorMessage = "En fazla 50 karakter girin")]
         public string googleUrl { get; set; }
-
+        public string emailPassword { get; set; }
         [Required(ErrorMessage = "Bu alan zorunludur")]
         [MaxLength(50, ErrorMessage = "En fazla 50 karakter girin")]
         public string facebookUrl { get; set; }
-
+        [MaxLength(200, ErrorMessage = "En fazla 200 karakter girin")]
+        public string adres { get; set; }
         [Required(ErrorMessage = "Bu alan zorunludur")]
         [MaxLength(50, ErrorMessage = "En fazla 50 karakter girin")]
         public string hakkimizda { get; set; }
-
-        [Required(ErrorMessage = "Bu alan zorunludur")]
-        [MaxLength(200, ErrorMessage = "En fazla 200 karakter girin")]
-        public string adres { get; set; }
     }
 }

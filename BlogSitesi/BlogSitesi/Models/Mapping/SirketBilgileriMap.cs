@@ -20,6 +20,9 @@ namespace BlogSitesi.Models.Mapping
             this.Property(t => t.email)
                 .HasMaxLength(50);
 
+            this.Property(t => t.emailPassword)
+                .HasMaxLength(50);
+
             this.Property(t => t.logoPath)
                 .HasMaxLength(100);
 
@@ -47,6 +50,7 @@ namespace BlogSitesi.Models.Mapping
             this.Property(t => t.siteAdi).HasColumnName("siteAdi");
             this.Property(t => t.telefon).HasColumnName("telefon");
             this.Property(t => t.email).HasColumnName("email");
+            this.Property(t => t.emailPassword).HasColumnName("emailPassword");
             this.Property(t => t.logoPath).HasColumnName("logoPath");
             this.Property(t => t.pinperestUrl).HasColumnName("pinperestUrl");
             this.Property(t => t.twitterUrl).HasColumnName("twitterUrl");

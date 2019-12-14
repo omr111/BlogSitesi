@@ -19,14 +19,14 @@ namespace BlogSitesi.Models
 
         public System.Guid id { get; set; }
         [Required(ErrorMessage = "Bu alan zorunludur")]
-        [MaxLength(50,ErrorMessage = "En fazla 50 karakter girin")]
+        [MaxLength(50, ErrorMessage = "En fazla 50 karakter girin")]
         public string Adi { get; set; }
 
         [Required(ErrorMessage = "Bu alan zorunludur")]
         [MaxLength(50, ErrorMessage = "En fazla 50 karakter girin")]
         public string Soyadi { get; set; }
 
-    
+
         [MaxLength(1000, ErrorMessage = "En fazla 1000 karakter girin")]
         public string Hakkinda { get; set; }
 

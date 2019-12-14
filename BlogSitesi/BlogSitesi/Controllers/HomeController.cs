@@ -15,7 +15,7 @@ namespace BlogSitesi.Controllers
     [AllowAnonymous]
     public class HomeController : Controller
     {
-        BlogContext ctx = new BlogContext();
+        u9139968_blogContext ctx = new u9139968_blogContext();
         //
         // GET: /Home/
         
@@ -84,11 +84,9 @@ namespace BlogSitesi.Controllers
             {
                 if (ModelState.IsValid)
                 {
-                    if (file==null)
-                    {
-                        return Json(new {info=1, message = "Lütfen Makaleniz İçin Bir Resim Seçiniz!"});
-                    }
-                    else
+
+                   SirketBilgileri sirketUpdate= ctx.SirketBilgileris.FirstOrDefault(x => x.id == sirket.id);
+                    if (file != null)
                     {
 
                         if (System.IO.File.Exists(Server.MapPath( sirket.logoPath)))
@@ -116,12 +114,22 @@ namespace BlogSitesi.Controllers
                         logoDraw.Save(Server.MapPath("~/Content/logo/" + newName));
 
 
-                        sirket.logoPath = "/Content/logo/" + newName;
-                        ctx.SirketBilgileris.AddOrUpdate(sirket);
-                        ctx.SaveChanges();
+                        sirketUpdate.logoPath= "/Content/logo/" + newName;
+                        
 
                     }
 
+                    sirketUpdate.adres = sirket.adres;
+                    sirketUpdate.email = sirket.email;
+                    sirketUpdate.facebookUrl = sirket.facebookUrl;
+                    sirketUpdate.googleUrl = sirket.googleUrl;
+                    sirketUpdate.hakkimizda = sirket.hakkimizda;
+                    sirketUpdate.telefon = sirket.telefon;
+                    sirketUpdate.siteAdi = sirket.siteAdi;
+                    sirketUpdate.pinperestUrl = sirket.pinperestUrl;
+
+                    ctx.SirketBilgileris.AddOrUpdate(sirketUpdate);
+                    ctx.SaveChanges();
                     return RedirectToAction("sirketBilgileri");
                 }
                 else

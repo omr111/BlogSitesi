@@ -7,11 +7,10 @@ using System.Web.Mvc;
 using System.Web.Security;
 namespace BlogSitesi.Controllers
 {
-    [Authorize(Roles = "Admin")]
-    [Authorize(Roles = "Moderator")]
+    [Authorize(Roles = "Admin,Moderator")]
     public class RollerController : Controller
     {
-        BlogContext ctx = new BlogContext();
+        u9139968_blogContext ctx = new u9139968_blogContext();
         //
         // GET: /Roller/
         public ActionResult Index()
