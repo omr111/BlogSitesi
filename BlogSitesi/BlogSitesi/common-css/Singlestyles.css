@@ -341,7 +341,7 @@ header .main-menu li.drop-down a.mouseover + ul.drop-down-menu{ display: block;
 
 /* ABOUT AUTHOR */
 
-.about-author{ margin-top: 30px; padding: 0 30px 30px; box-shadow: 010px 40px rgba(26,188,156,.1);}
+.about-author{ margin-top: 30px; padding: 0 30px 30px; box-shadow: 010px 40px rgba(26,188,156,);}
 
     /*.about-author .author-image {
         max-width: 150px;

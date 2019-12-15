@@ -176,8 +176,8 @@ namespace BlogSitesi.Controllers
             }
             else
             {
-                ViewBag.Mesaj = "Kullanıcı Adı veya Parola Yanlış !";
-                return RedirectToAction("login");
+                ViewData["login"] = "Kullanıcı Adı veya Parola Yanlış !";
+                return View("login");
             }
         }
 

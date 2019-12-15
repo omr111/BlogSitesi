@@ -10,10 +10,10 @@ by editing this MSBuild file. In order to learn more about this please visit htt
   </PropertyGroup>
   <ItemGroup>
     <File Include="bin/BlogSitesi.dll">
-      <publishTime>12/14/2019 03:43:00</publishTime>
+      <publishTime>12/14/2019 19:58:00</publishTime>
     </File>
     <File Include="bin/BlogSitesi.pdb">
-      <publishTime>12/14/2019 03:43:00</publishTime>
+      <publishTime>12/14/2019 19:58:00</publishTime>
     </File>
     <File Include="bin/CKFinder.dll">
       <publishTime>12/09/2019 04:26:13</publishTime>
@@ -3097,7 +3097,7 @@ by editing this MSBuild file. In order to learn more about this please visit htt
       <publishTime>12/09/2019 04:26:13</publishTime>
     </File>
     <File Include="common-css/Singlestyles.css">
-      <publishTime>12/09/2019 04:26:13</publishTime>
+      <publishTime>12/14/2019 20:26:49</publishTime>
     </File>
     <File Include="common-css/styles.css">
       <publishTime>12/09/2019 04:26:13</publishTime>
@@ -3454,10 +3454,10 @@ by editing this MSBuild file. In order to learn more about this please visit htt
       <publishTime>12/13/2019 06:23:12</publishTime>
     </File>
     <File Include="Views/Kategori/Index.cshtml">
-      <publishTime>12/09/2019 04:26:12</publishTime>
+      <publishTime>12/14/2019 16:59:50</publishTime>
     </File>
     <File Include="Views/Kategori/KategoriWidget.cshtml">
-      <publishTime>12/09/2019 04:26:12</publishTime>
+      <publishTime>12/14/2019 17:01:00</publishTime>
     </File>
     <File Include="Views/Kullanici/Index.cshtml">
       <publishTime>12/09/2019 04:26:12</publishTime>
@@ -3466,7 +3466,7 @@ by editing this MSBuild file. In order to learn more about this please visit htt
       <publishTime>12/14/2019 03:38:28</publishTime>
     </File>
     <File Include="Views/Kullanici/login.cshtml">
-      <publishTime>12/14/2019 03:38:13</publishTime>
+      <publishTime>12/14/2019 20:00:34</publishTime>
     </File>
     <File Include="Views/Kullanici/userProfile.cshtml">
       <publishTime>12/14/2019 03:39:16</publishTime>
@@ -3487,10 +3487,10 @@ by editing this MSBuild file. In order to learn more about this please visit htt
       <publishTime>12/09/2019 04:26:12</publishTime>
     </File>
     <File Include="Views/Post/Index.cshtml">
-      <publishTime>12/09/2019 04:26:12</publishTime>
+      <publishTime>12/14/2019 17:02:16</publishTime>
     </File>
     <File Include="Views/Post/_PostGetir.cshtml">
-      <publishTime>12/09/2019 04:26:12</publishTime>
+      <publishTime>12/14/2019 17:02:14</publishTime>
     </File>
     <File Include="Views/Roller/Ekle.cshtml">
       <publishTime>12/09/2019 04:26:12</publishTime>
@@ -3499,7 +3499,7 @@ by editing this MSBuild file. In order to learn more about this please visit htt
       <publishTime>12/10/2019 05:19:38</publishTime>
     </File>
     <File Include="Views/Shared/_Layout.cshtml">
-      <publishTime>12/14/2019 03:40:15</publishTime>
+      <publishTime>12/14/2019 19:16:37</publishTime>
     </File>
     <File Include="Views/Shared/_MakaleListele.cshtml">
       <publishTime>12/09/2019 04:26:12</publishTime>
