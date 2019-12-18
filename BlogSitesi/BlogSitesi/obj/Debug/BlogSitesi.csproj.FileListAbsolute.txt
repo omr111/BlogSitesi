@@ -50,3 +50,9 @@ D:\omr111-GitHub\BlogSitesi\BlogSitesi\BlogSitesi\obj\Debug\BlogSitesi.pdb
 D:\omr111-GitHub\BlogSitesi\BlogSitesi\BlogSitesi\bin\Microsoft.Web.Infrastructure.dll
 D:\omr111-GitHub\BlogSitesi\BlogSitesi\BlogSitesi\bin\System.Web.Mvc.dll
 D:\omr111-GitHub\BlogSitesi\BlogSitesi\BlogSitesi\bin\System.Web.Mvc.xml
+D:\omr111-GitHub\BlogSitesi\BlogSitesi\BlogSitesi\bin\ImageResizer.dll
+D:\omr111-GitHub\BlogSitesi\BlogSitesi\BlogSitesi\bin\ImageResizer.Plugins.DiskCache.dll
+D:\omr111-GitHub\BlogSitesi\BlogSitesi\BlogSitesi\bin\ImageResizer.Plugins.PrettyGifs.dll
+D:\omr111-GitHub\BlogSitesi\BlogSitesi\BlogSitesi\bin\ImageResizer.xml
+D:\omr111-GitHub\BlogSitesi\BlogSitesi\BlogSitesi\bin\ImageResizer.Plugins.DiskCache.xml
+D:\omr111-GitHub\BlogSitesi\BlogSitesi\BlogSitesi\bin\ImageResizer.Plugins.PrettyGifs.xml

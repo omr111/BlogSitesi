@@ -60,23 +60,26 @@ namespace BlogSitesi.Controllers
                         k.KayitTarihi = DateTime.Now;
                         Session["Kullanici"] = k;
                         k.YazarMi = false;
+                        k.Aktif = true;
                         ctx.Kullanicis.Add(k);
                         ctx.SaveChanges();
                         Roles.AddUserToRole(k.Nick, "Uye");
 
                         //resim kaydet
-                        string extention = Resim.ContentType.Split('/')[1];
-                        string fileName = "f_" + Guid.NewGuid() + "." + extention;
-                        Image orjImage = Image.FromStream(Resim.InputStream);
-                        Bitmap paintBitmap = new Bitmap(orjImage, Setttings.KullaniciResim.Width, Setttings.KullaniciResim.Height);
-                        paintBitmap.Save(Server.MapPath("~/Content/kullaniciResim/" + fileName));
-                        Kullanici kullanici = ctx.Kullanicis.FirstOrDefault(x => x.id == k.id);
-                        kullanici.kullaniciResimPath = "/Content/kullaniciResim/" + fileName;
-                        ctx.Entry(kullanici).State = EntityState.Modified;
-                        ctx.SaveChanges();
+                        if (Resim != null)
+                        {
+                            string extention = Resim.ContentType.Split('/')[1];
+                            string fileName = "f_" + Guid.NewGuid() + "." + extention;
+                            Image orjImage = Image.FromStream(Resim.InputStream);
+                            Bitmap paintBitmap = new Bitmap(orjImage, Setttings.KullaniciResim.Width, Setttings.KullaniciResim.Height);
+                            paintBitmap.Save(Server.MapPath("~/Content/kullaniciResim/" + fileName));
+                            Kullanici kullanici = ctx.Kullanicis.FirstOrDefault(x => x.id == k.id);
+                            kullanici.kullaniciResimPath = "/Content/kullaniciResim/" + fileName;
+                            ctx.Entry(kullanici).State = EntityState.Modified;
+                            ctx.SaveChanges();
+                        }
                         //resim kaydet bitti.
-                        FormsAuthentication.RedirectFromLoginPage(k.Adi, true);
-                        Session["Kullanici"] = k;
+                        
                         return RedirectToAction("login", "Kullanici");
                     }
                     else

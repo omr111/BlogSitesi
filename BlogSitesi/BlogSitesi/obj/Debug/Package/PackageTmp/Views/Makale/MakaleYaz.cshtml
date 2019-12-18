@@ -88,7 +88,13 @@
         </tr>
         <tr>
             <td><label>Resim</label></td>
-            <td><input class="form-control" required="required" type="file" name="Resim" value="" /></td>
+            <td>
+                <input class="form-control" required="required" type="file" name="Resim" value="" />
+                @if (ViewData["resim"] != null)
+                {
+                    <h2 style="color: red">@ViewData["resim"].ToString()</h2>
+                }
+            </td>
         </tr>
         <tr>
             <td><label>İçerik</label></td>

@@ -142,7 +142,7 @@
     @if (Session["Kullanici"] == null)
     {
 
-        <h4> Yorum Yapmak İçin Lütfen Giriş Yapınız.</h4>
+        <h4 style="color:coral;text-align: center"> Yorum Yapmak İçin Lütfen Giriş Yapınız.</h4>
 
     }
     else
@@ -150,11 +150,11 @@
         Kullanici kul = (Kullanici)Session["Kullanici"];
         if (kul.Aktif == false)
         {
-            <h3>Engellisiniz,Yorum Yapamazsınız.</h3>
+            <h3 style="color:coral;text-align: center">Engellisiniz,Yorum Yapamazsınız.</h3>
         }
         else if (@Model.Aktif == false)
         {
-            <h3>Bu Makale Kilitlenmiştir.</h3>
+            <h3 style="color:coral;text-align: center">Bu Makale Kilitlenmiştir.</h3>
         }
         else
         {

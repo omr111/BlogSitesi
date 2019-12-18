@@ -10,10 +10,10 @@ by editing this MSBuild file. In order to learn more about this please visit htt
   </PropertyGroup>
   <ItemGroup>
     <File Include="bin/BlogSitesi.dll">
-      <publishTime>12/14/2019 19:58:00</publishTime>
+      <publishTime>12/14/2019 21:56:49</publishTime>
     </File>
     <File Include="bin/BlogSitesi.pdb">
-      <publishTime>12/14/2019 19:58:00</publishTime>
+      <publishTime>12/14/2019 21:56:49</publishTime>
     </File>
     <File Include="bin/CKFinder.dll">
       <publishTime>12/09/2019 04:26:13</publishTime>
@@ -35,6 +35,15 @@ by editing this MSBuild file. In order to learn more about this please visit htt
     </File>
     <File Include="bin/EntityFramework.SqlServerCompact.dll">
       <publishTime>12/09/2019 04:26:13</publishTime>
+    </File>
+    <File Include="bin/ImageResizer.dll">
+      <publishTime>12/14/2019 20:58:42</publishTime>
+    </File>
+    <File Include="bin/ImageResizer.Plugins.DiskCache.dll">
+      <publishTime>12/14/2019 20:58:58</publishTime>
+    </File>
+    <File Include="bin/ImageResizer.Plugins.PrettyGifs.dll">
+      <publishTime>12/14/2019 20:59:10</publishTime>
     </File>
     <File Include="bin/Microsoft.Web.Infrastructure.dll">
       <publishTime>12/13/2019 23:45:29</publishTime>
@@ -3367,7 +3376,7 @@ by editing this MSBuild file. In order to learn more about this please visit htt
       <publishTime>12/09/2019 04:26:13</publishTime>
     </File>
     <File Include="packages.config">
-      <publishTime>12/13/2019 23:46:23</publishTime>
+      <publishTime>12/14/2019 20:59:11</publishTime>
     </File>
     <File Include="Scripts/jquery-3.4.1.js">
       <publishTime>12/09/2019 04:26:12</publishTime>
@@ -3451,7 +3460,7 @@ by editing this MSBuild file. In order to learn more about this please visit htt
       <publishTime>12/09/2019 04:26:12</publishTime>
     </File>
     <File Include="Views/Home/sirketBilgileri.cshtml">
-      <publishTime>12/13/2019 06:23:12</publishTime>
+      <publishTime>12/15/2019 20:20:53</publishTime>
     </File>
     <File Include="Views/Kategori/Index.cshtml">
       <publishTime>12/14/2019 16:59:50</publishTime>
@@ -3472,16 +3481,16 @@ by editing this MSBuild file. In order to learn more about this please visit htt
       <publishTime>12/14/2019 03:39:16</publishTime>
     </File>
     <File Include="Views/Kullanici/YazarOl.cshtml">
-      <publishTime>12/09/2019 04:26:12</publishTime>
+      <publishTime>12/15/2019 20:57:42</publishTime>
     </File>
     <File Include="Views/Makale/Detay.cshtml">
-      <publishTime>12/10/2019 05:01:10</publishTime>
+      <publishTime>12/14/2019 21:20:09</publishTime>
     </File>
     <File Include="Views/Makale/MakaleDuzenle.cshtml">
       <publishTime>12/10/2019 02:26:13</publishTime>
     </File>
     <File Include="Views/Makale/MakaleYaz.cshtml">
-      <publishTime>12/10/2019 02:25:54</publishTime>
+      <publishTime>12/14/2019 21:55:38</publishTime>
     </File>
     <File Include="Views/Makale/TariheGoreListe.cshtml">
       <publishTime>12/09/2019 04:26:12</publishTime>
@@ -3502,7 +3511,7 @@ by editing this MSBuild file. In order to learn more about this please visit htt
       <publishTime>12/14/2019 19:16:37</publishTime>
     </File>
     <File Include="Views/Shared/_MakaleListele.cshtml">
-      <publishTime>12/09/2019 04:26:12</publishTime>
+      <publishTime>12/14/2019 21:17:50</publishTime>
     </File>
     <File Include="Views/web.config">
       <publishTime>12/09/2019 04:26:12</publishTime>
@@ -3511,13 +3520,13 @@ by editing this MSBuild file. In order to learn more about this please visit htt
       <publishTime>12/09/2019 04:26:12</publishTime>
     </File>
     <File Include="Views/Yazar/YazarinMakaleleri.cshtml">
-      <publishTime>12/09/2019 04:26:12</publishTime>
+      <publishTime>12/14/2019 21:49:12</publishTime>
     </File>
     <File Include="Views/_ViewStart.cshtml">
       <publishTime>12/09/2019 04:26:12</publishTime>
     </File>
     <File Include="Web.config">
-      <publishTime>12/13/2019 23:48:32</publishTime>
+      <publishTime>12/14/2019 21:18:11</publishTime>
     </File>
   </ItemGroup>
 </Project>

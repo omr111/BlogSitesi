@@ -12,7 +12,7 @@
       LicenseName = "";
     LicenseKey = "";
     BaseUrl = "/Content/editorResim/";
-    BaseDir = HttpContext.Current.Server.MapPath("/Content/editorResim/");
+    BaseDir = HttpContext.Current.Server.MapPath("~/Content/editorResim/");
     Plugins = new string[] {
     };
     PluginSettings = new Hashtable();

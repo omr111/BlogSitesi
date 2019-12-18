@@ -30,10 +30,18 @@ namespace BlogSitesi.Controllers
         [AllowAnonymous]
         public ActionResult TariheGoreListe(int yil,int ay)
         {
-            ViewBag.yil = yil;
-            ViewBag.ay = ay;
-      
-            return View();
+            if (yil == null || ay == null)
+            {
+                return RedirectToAction("Index", "Home");
+            }
+            else
+            {
+                ViewBag.yil = yil;
+                ViewBag.ay = ay;
+
+                return View();
+            }
+           
         }
         [AllowAnonymous]
         public ActionResult MakaleListele(int yil, int ay,int? page)
@@ -69,13 +77,20 @@ namespace BlogSitesi.Controllers
         [AllowAnonymous]
         public ActionResult Detay(int id)
         {  
-            ViewBag.kullanici = Session["Kullanici"];
-            var data = ctx.Makales.FirstOrDefault(x=>x.id==id);
-            data.Goruntulenme++;
-            ctx.SaveChanges();
-         
-
-            return View(data);
+            if (id == null)
+            {
+                return RedirectToAction("Index", "Home");
+            }
+            else
+            {
+                ViewBag.kullanici = Session["Kullanici"];
+                var data = ctx.Makales.FirstOrDefault(x=>x.id==id);
+                data.Goruntulenme++;
+                ctx.SaveChanges();
+                return View(data); 
+            }
+          
+           
         }
         [Authorize]
         [HttpPost]
@@ -179,7 +194,9 @@ namespace BlogSitesi.Controllers
                         }
                         else
                         {
-                            return View(Json("Lütfen Bir Resim Ekleyiniz", JsonRequestBehavior.AllowGet));
+                            ViewData["resim"] = "Lütfen Bir Resim Ekleyiniz";
+                            ViewBag.kategori = ctx.Kategoris.ToList();
+                            return View("MakaleYaz");
                         }
            
           
@@ -236,26 +253,33 @@ namespace BlogSitesi.Controllers
         [ValidateInput(false)]
         public ActionResult MakaleDuzenle(int id)
         {
-            u9139968_blogContext ctx = new u9139968_blogContext();
-            //List<MakaleEtiket> makaleEtiketleri=ctx.MakaleEtikets.Where(x => x.MakaleID == id).ToList();
-            Makale makale = ctx.Makales.FirstOrDefault(x => x.id == id);
-            ViewBag.kategori=ctx.Kategoris.ToList();
-            string etiketAdi = "";
-            if (makale.MakaleEtikets.Count>0)
+            if (id == null)
             {
-                foreach (var etiket in makale.MakaleEtikets)
+                return RedirectToAction("Index", "Home");
+            }
+            else
+            {
+                u9139968_blogContext ctx = new u9139968_blogContext();
+                //List<MakaleEtiket> makaleEtiketleri=ctx.MakaleEtikets.Where(x => x.MakaleID == id).ToList();
+                Makale makale = ctx.Makales.FirstOrDefault(x => x.id == id);
+                ViewBag.kategori = ctx.Kategoris.ToList();
+                string etiketAdi = "";
+                if (makale.MakaleEtikets.Count > 0)
+                {
+                    foreach (var etiket in makale.MakaleEtikets)
                     {
-                        
+
                         etiketAdi += etiket.Etiket.Adi + ",";
                     }
-            }
+                }
 
-            
-           
-            int count = etiketAdi.Length - 1;
-           var virgulSil=etiketAdi.Remove((int)count, 1);
-           ViewBag.etiketler = virgulSil;
-            return View("MakaleDuzenle", makale);
+
+
+                int count = etiketAdi.Length - 1;
+                var virgulSil = etiketAdi.Remove((int)count, 1);
+                ViewBag.etiketler = virgulSil;
+                return View("MakaleDuzenle", makale);
+            }
         }
         [Authorize(Roles = "Admin,Moderator,Yazar")]
        
@@ -408,16 +432,22 @@ namespace BlogSitesi.Controllers
         [HttpPost]
        public JsonResult MakaleSil(int id)
        {
-           try
+           if (id == null)
            {
-               Makale makale = ctx.Makales.FirstOrDefault(x => x.id == id);
+               return Json(new { isOK = 0, message = "Silinmek İstenilen Makale Bulunamadı!" });
+           }
+           else
+           {
+               try
+               {
+                   Makale makale = ctx.Makales.FirstOrDefault(x => x.id == id);
 
-               if (makale != null)
+                   if (makale != null)
                    {
                        if (System.IO.File.Exists(Server.MapPath(makale.BuyukResimYol)))
                        {
                            System.IO.File.Delete(Server.MapPath(makale.BuyukResimYol));
-                   
+
                        }
                        if (System.IO.File.Exists(Server.MapPath(makale.kucukResimYol)))
                        {
@@ -425,59 +455,60 @@ namespace BlogSitesi.Controllers
                        }
                    }
 
-                 
 
-                  List<MakaleEtiket> etikets= ctx.MakaleEtikets.Where(x => x.MakaleID==id).ToList();
-                  if (etikets.Count>0)
-                  {
-                      foreach (var etiket in etikets)
-                      {
-                          ctx.Entry(etiket).State = EntityState.Deleted;
-                      }
 
-                      ctx.SaveChanges();
-                  }
+                   List<MakaleEtiket> etikets = ctx.MakaleEtikets.Where(x => x.MakaleID == id).ToList();
+                   if (etikets.Count > 0)
+                   {
+                       foreach (var etiket in etikets)
+                       {
+                           ctx.Entry(etiket).State = EntityState.Deleted;
+                       }
 
-                  List<Yorum> yorums = ctx.Yorums.Where(x => x.MakaleID == id).ToList();
-                  if (yorums.Count>0)
-                  {
-                      foreach (var yorum in yorums)
-                      {
-                          ctx.Entry(yorum).State = EntityState.Deleted;
-                      }
+                       ctx.SaveChanges();
+                   }
 
-                      ctx.SaveChanges();
-                  }
+                   List<Yorum> yorums = ctx.Yorums.Where(x => x.MakaleID == id).ToList();
+                   if (yorums.Count > 0)
+                   {
+                       foreach (var yorum in yorums)
+                       {
+                           ctx.Entry(yorum).State = EntityState.Deleted;
+                       }
 
-                  List<KullaniciBegeni> begenis = ctx.KullaniciBegenis.Where(x => x.MakaleID == id).ToList();
+                       ctx.SaveChanges();
+                   }
 
-                  if (begenis.Count>0  )
-                  {
-                      foreach (var kullanici in begenis)
-                      {
-                          ctx.Entry(begenis).State = EntityState.Deleted;
-                      }
+                   List<KullaniciBegeni> begenis = ctx.KullaniciBegenis.Where(x => x.MakaleID == id).ToList();
 
-                      ctx.SaveChanges();
-                  }
-                  
+                   if (begenis.Count > 0)
+                   {
+                       foreach (var kullanici in begenis)
+                       {
+                           ctx.Entry(begenis).State = EntityState.Deleted;
+                       }
+
+                       ctx.SaveChanges();
+                   }
+
                    ctx.Entry(makale).State = EntityState.Deleted;
                    int result = ctx.SaveChanges();
-                   if (result>0)
+                   if (result > 0)
                    {
-                       return Json(new {isOK = 1, message = "Silme İşlemi Başarılı"});
+                       return Json(new { isOK = 1, message = "Silme İşlemi Başarılı" });
                    }
                    else
                    {
                        return Json(new { isOK = 0, message = "Silme İşlemi Sırasında Bir Hata Meydana Geldi !" });
                    }
-              
-               
-           }
-           
-           catch (Exception e)
-           {
-               return Json(new { isOK = 0, message = e.Message });
+
+
+               }
+
+               catch (Exception e)
+               {
+                   return Json(new { isOK = 0, message = e.Message });
+               }
            }
        }
 	}

@@ -32,7 +32,7 @@
                                 <th>Ekleme Tarihi</th>
                                 <th>Detay</th>
                                 <th>Güncelle</th>
-                                <th>Sil</th>
+                                <th>Kilitle</th>
                            
                             </tr>
                         </thead>
@@ -54,19 +54,16 @@
                                     </td>
               
 
-
-                                    <!--Normalde bir silme butonuna tıklandığında silmek için oluşturduğumuz view silme
-                                        sayfasının linkini id ile birlikte gönderiyorduk
-                                        falat ajax ile yazdığımızda yeni bir view sayfası oluşturmamıza gerek yok
-                                        mevcut kategori sayfasında tüm işlemleri yapacağız
-                                        bu yüzden de href'e hiç bir yere gitmemesi için # koyduk
-                                        Daha sonra bu butona daha sonra kullanmak üzere bir ktgsil class'ı oluşturduk
-                                        en son olarak her html etiketinin sahip olduğu data- özelliğini kullanarak
-                                        tıklandığı ürünün id'sini aldık bu data- Csharp'ta Tag üzelliğine denk gelmekte-->
-                                    <td>
-                                        <a href="/Makale/MakaleSil/@m.id" class="btn btn-danger kulname btn-sm" data-toggle="modal" data-target="#small-modal" data-kulname="@m.id">
-
-                                            <span class="glyphicon glyphicon-trash " title="Sil"></span>
+                                    <td scope="col">
+                                        <a href="/Yazar/MakaleKilitle/@m.id" class="btn btn-warning kulname btn-sm">
+                                            @if (m.Aktif)
+                                            {
+                                                <span class="fa fa-unlock" title="Kilitle"></span>
+                                            }
+                                            else
+                                            {
+                                                <span class="fa fa-lock" title="Kilidi Aç"></span>
+                                            }
                                         </a>
                                     </td>
 
